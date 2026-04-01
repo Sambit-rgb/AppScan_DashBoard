@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AppScan 360° — Unified Security Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --bg2: #12151c;
+    --bg3: #181c25;
+    --card: #1a1e29;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e2e4ed;
+    --muted: #7a7f94;
+    --accent: #4f9cf9;
+    --accent2: #00c896;
+    --warn: #f5a623;
+    --danger: #e84545;
+    --crit: #c026d3;
+    --high: #e84545;
+    --medium: #f5a623;
+    --low: #4f9cf9;
+    --info: #00c896;
+    --sast: #7c6af7;
+    --dast: #f97316;
+    --iast: #06b6d4;
+    --sca: #22c55e;
+    --font: 'IBM Plex Sans', sans-serif;
+    --mono: 'IBM Plex Mono', monospace;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  .nav {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 0 28px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+  .nav-logo {
+    width: 28px; height: 28px;
+    background: linear-gradient(135deg, var(--sast), var(--iast));
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #fff;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .project-select {
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 6px 12px;
+    border-radius: 7px;
+    cursor: pointer;
+    outline: none;
+  }
+  .live-badge {
+    background: rgba(0,200,150,0.12);
+    color: var(--info);
+    border: 1px solid rgba(0,200,150,0.25);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--info);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+  /* LAYOUT */
+  .container { max-width: 1360px; margin: 0 auto; padding: 24px 28px; }
+
+  /* PAGE HEADER */
+  .page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .page-header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.4px;
+    margin-bottom: 4px;
+  }
+  .page-header p {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .last-sync {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    text-align: right;
+  }
+
+  /* SCAN TYPE TABS */
+  .scan-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 24px;
+    width: fit-content;
+  }
+  .scan-tab {
+    padding: 7px 18px;
+    border-radius: 7px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+    border: none;
+    background: transparent;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .scan-tab.active { background: var(--card); color: var(--text); }
+  .scan-tab .dot {
+    width: 8px; height: 8px; border-radius: 50%;
+  }
+  .dot-sast { background: var(--sast); }
+  .dot-dast { background: var(--dast); }
+  .dot-iast { background: var(--iast); }
+  .dot-all { background: linear-gradient(135deg, var(--sast), var(--iast)); }
+  .dot-sca { background: var(--sca); }
+
+  /* METRIC CARDS */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .metric-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .metric-card:hover { border-color: var(--border2); }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+  }
+  .mc-crit::before { background: var(--crit); }
+  .mc-high::before { background: var(--high); }
+  .mc-medium::before { background: var(--medium); }
+  .mc-low::before { background: var(--low); }
+  .mc-total::before { background: linear-gradient(90deg, var(--sast), var(--iast)); }
+  .metric-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    font-weight: 500;
+  }
+  .metric-value {
+    font-size: 30px;
+    font-weight: 600;
+    font-family: var(--mono);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .metric-delta {
+    font-size: 12px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .delta-up { color: var(--danger); }
+  .delta-down { color: var(--info); }
+
+  /* CHARTS GRID */
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .chart-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+  .chart-card.span2 { grid-column: span 2; }
+  .chart-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    letter-spacing: -0.2px;
+  }
+  .chart-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .chart-wrap { position: relative; }
+  .legend-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin-top: 12px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .legend-dot {
+    width: 9px; height: 9px; border-radius: 2px; flex-shrink: 0;
+  }
+
+  /* SCAN TYPE BREAKDOWN */
+  .breakdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .breakdown-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+  .breakdown-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .scan-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+  }
+  .badge-sast { background: rgba(124,106,247,0.15); color: var(--sast); border: 1px solid rgba(124,106,247,0.25); }
+  .badge-dast { background: rgba(249,115,22,0.15); color: var(--dast); border: 1px solid rgba(249,115,22,0.25); }
+  .badge-iast { background: rgba(6,182,212,0.15); color: var(--iast); border: 1px solid rgba(6,182,212,0.25); }
+  .badge-sca { background: rgba(34,197,85,0.15); color: var(--sca); border: 1px solid rgba(34,197,85,0.25); }
+  .breakdown-total {
+    font-size: 36px;
+    font-weight: 600;
+    font-family: var(--mono);
+    letter-spacing: -1px;
+    margin-bottom: 2px;
+  }
+  .breakdown-label { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
+  .sev-bar { margin-bottom: 8px; }
+  .sev-bar-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .sev-bar-track {
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    height: 5px;
+    overflow: hidden;
+  }
+  .sev-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
+  }
+  .fill-crit { background: var(--crit); }
+  .fill-high { background: var(--high); }
+  .fill-medium { background: var(--medium); }
+  .fill-low { background: var(--low); }
+
+  /* ISSUES TABLE */
+  .issues-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .issues-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .issues-filters {
+    display: flex;
+    gap: 8px;
+  }
+  .filter-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn.active {
+    background: rgba(79,156,249,0.1);
+    border-color: rgba(79,156,249,0.3);
+    color: var(--accent);
+  }
+  .filter-btn:hover { border-color: var(--border2); color: var(--text); }
+  table { width: 100%; border-collapse: collapse; }
+  th {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    font-weight: 500;
+    padding: 10px 20px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 12px 20px;
+    font-size: 13px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr.issue-row { cursor: pointer; transition: background 0.15s; }
+  tr.issue-row:hover { background: rgba(255,255,255,0.03); }
+  .sev-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+  }
+  .sev-critical { background: rgba(192,38,211,0.15); color: var(--crit); border: 1px solid rgba(192,38,211,0.25); }
+  .sev-high { background: rgba(232,69,69,0.15); color: var(--high); border: 1px solid rgba(232,69,69,0.25); }
+  .sev-medium { background: rgba(245,166,35,0.15); color: var(--medium); border: 1px solid rgba(245,166,35,0.25); }
+  .sev-low { background: rgba(79,156,249,0.15); color: var(--low); border: 1px solid rgba(79,156,249,0.25); }
+  .issue-name { font-weight: 500; color: var(--text); margin-bottom: 2px; }
+  .issue-loc { font-size: 11px; color: var(--muted); font-family: var(--mono); }
+  .type-chip {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.4px;
+  }
+  .chip-sast { background: rgba(124,106,247,0.12); color: var(--sast); }
+  .chip-dast { background: rgba(249,115,22,0.12); color: var(--dast); }
+  .chip-iast { background: rgba(6,182,212,0.12); color: var(--iast); }
+  .chip-sca { background: rgba(34,197,85,0.12); color: var(--sca); }
+  .ai-fix-btn {
+    background: rgba(79,156,249,0.1);
+    border: 1px solid rgba(79,156,249,0.2);
+    color: var(--accent);
+    font-family: var(--font);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; align-items: center; gap: 5px;
+    white-space: nowrap;
+  }
+  .ai-fix-btn:hover {
+    background: rgba(79,156,249,0.18);
+    border-color: rgba(79,156,249,0.4);
+  }
+
+  /* AI ADVISOR PANEL */
+  .ai-panel {
+    background: var(--card);
+    border: 1px solid rgba(79,156,249,0.2);
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    overflow: hidden;
+    display: none;
+  }
+  .ai-panel.visible { display: block; }
+  .ai-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    background: rgba(79,156,249,0.05);
+    border-bottom: 1px solid rgba(79,156,249,0.15);
+  }
+  .ai-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600;
+  }
+  .ai-icon {
+    width: 22px; height: 22px;
+    background: linear-gradient(135deg, #4f9cf9, #7c6af7);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; color: #fff; font-weight: 700;
+  }
+  .close-btn {
+    background: transparent; border: none; color: var(--muted);
+    cursor: pointer; font-size: 18px; line-height: 1;
+    padding: 0 4px;
+  }
+  .ai-panel-body { padding: 20px; }
+  .ai-issue-context {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--muted);
+  }
+  .ai-response {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    min-height: 80px;
+  }
+  .ai-response.loading::after {
+    content: '...';
+    animation: dots 1.2s steps(4, end) infinite;
+  }
+  @keyframes dots { 0%,20%{content:'.'} 40%,60%{content:'..'} 80%,100%{content:'...'} }
+  .ai-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+  .ai-action-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .ai-action-btn:hover { color: var(--text); border-color: var(--border2); }
+  .ai-action-btn.primary {
+    background: rgba(79,156,249,0.12);
+    border-color: rgba(79,156,249,0.3);
+    color: var(--accent);
+  }
+
+  /* OWASP CHART SECTION */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  /* RISK SCORE */
+  .risk-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+  .risk-score-wrap {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 16px;
+  }
+  .risk-score-circle {
+    width: 90px; height: 90px;
+    border-radius: 50%;
+    background: conic-gradient(var(--danger) 0%, var(--danger) 72%, rgba(255,255,255,0.05) 72%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .risk-inner {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    background: var(--card);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .risk-num { font-size: 20px; font-weight: 600; font-family: var(--mono); color: var(--danger); }
+  .risk-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+  .risk-details h3 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .risk-details p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .compliance-list { margin-top: 12px; }
+  .compliance-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .compliance-item:last-child { border-bottom: none; }
+  .status-pass { color: var(--info); font-size: 11px; font-weight: 600; }
+  .status-fail { color: var(--danger); font-size: 11px; font-weight: 600; }
+  .status-warn { color: var(--warn); font-size: 11px; font-weight: 600; }
+
+  /* FOOTER */
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  /* API CONFIG */
+  .api-banner {
+    background: rgba(79,156,249,0.05);
+    border: 1px dashed rgba(79,156,249,0.25);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .api-banner label { color: var(--accent); font-weight: 500; white-space: nowrap; }
+  .api-input {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    outline: none;
+  }
+  .api-input::placeholder { color: var(--muted); }
+  .api-input:focus { border-color: rgba(79,156,249,0.4); }
+  .appscan-url-input {
+    flex: 1.5;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    outline: none;
+  }
+
+  /* AI PROVIDER CONFIG */
+  .ai-config-section {
+    background: rgba(79,156,249,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+  }
+  .ai-config-title {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ai-config-title .ai-icon {
+    width: 20px; height: 20px;
+    background: linear-gradient(135deg, #4f9cf9, #7c6af7);
+    border-radius: 5px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; color: #fff; font-weight: 700;
+  }
+  .provider-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 3px;
+    margin-bottom: 12px;
+    width: fit-content;
+  }
+  .provider-tab {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--muted);
+    border: none;
+    background: transparent;
+  }
+  .provider-tab.active { background: var(--card); color: var(--text); }
+  .provider-tab .prov-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+  .prov-claude { background: #c084fc; }
+  .prov-local { background: #22c55e; }
+  .prov-openai { background: #10b981; }
+  .provider-config {
+    display: none;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .provider-config.active { display: flex; }
+  .provider-config label { color: var(--accent); font-weight: 500; white-space: nowrap; }
+  .provider-config input, .provider-config select {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    outline: none;
+  }
+  .provider-config input { flex: 1; }
+  .provider-config input:focus { border-color: rgba(79,156,249,0.4); }
+  .provider-config select {
+    font-family: var(--font);
+    cursor: pointer;
+  }
+  .provider-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.5;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .provider-note .note-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .conn-status {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    margin-left: 8px;
+  }
+  .conn-ok { background: rgba(0,200,150,0.12); color: var(--info); border: 1px solid rgba(0,200,150,0.25); }
+  .conn-err { background: rgba(232,69,69,0.12); color: var(--danger); border: 1px solid rgba(232,69,69,0.25); }
+  .conn-unk { background: rgba(122,127,148,0.12); color: var(--muted); border: 1px solid rgba(122,127,148,0.25); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">AS</div>
+    AppScan 360° Unified Dashboard
+  </div>
+  <div class="nav-right">
+    <select class="project-select" onchange="loadProject(this.value)">
+      <option value="ecommerce">Project: E-Commerce Platform</option>
+      <option value="banking">Project: Banking API</option>
+      <option value="mobile">Project: Mobile Backend</option>
+    </select>
+    <div class="live-badge">
+      <div class="live-dot"></div>
+      Live data
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div>
+      <h1>Security Issue Aggregator</h1>
+      <p>SAST + DAST + IAST + SCA unified findings for selected project artifact</p>
+    </div>
+    <div class="last-sync">
+      Last synced: <span id="sync-time">2026-04-01 08:42 UTC</span><br>
+      App ID: <span style="color:var(--accent)">a7b2c9d1-3e4f-5a6b</span>
+    </div>
+  </div>
+
+  <!-- API CONFIG BANNER -->
+  <div class="api-banner">
+    <label>AppScan URL</label>
+    <input class="appscan-url-input" id="appscan-url" placeholder="https://your-appscan360.company.com" value="https://appscan360.acmecorp.com">
+    <label>API Key</label>
+    <input class="api-input" id="api-key-input" type="password" placeholder="Enter AppScan 360 API key to fetch live data">
+    <button class="filter-btn active" onclick="syncData()">⟳ Sync Now</button>
+  </div>
+
+  <!-- AI PROVIDER CONFIG -->
+  <div class="ai-config-section">
+    <div class="ai-config-title">
+      <div class="ai-icon">AI</div>
+      AI Remediation Engine
+      <span class="conn-status conn-unk" id="conn-status">Not tested</span>
+    </div>
+    <div class="provider-tabs">
+      <button class="provider-tab active" onclick="setProvider('claude', this)">
+        <span class="prov-dot prov-claude"></span>Claude API
+      </button>
+      <button class="provider-tab" onclick="setProvider('local', this)">
+        <span class="prov-dot prov-local"></span>Local LLM (Ollama / vLLM)
+      </button>
+      <button class="provider-tab" onclick="setProvider('openai', this)">
+        <span class="prov-dot prov-openai"></span>OpenAI-Compatible
+      </button>
+    </div>
+
+    <!-- Claude Config -->
+    <div class="provider-config active" id="config-claude">
+      <label>API Key</label>
+      <input id="claude-key-input" type="password" placeholder="sk-ant-... (Anthropic API key)">
+      <label>Model</label>
+      <select id="claude-model">
+        <option value="claude-sonnet-4-20250514">claude-sonnet-4 (recommended)</option>
+        <option value="claude-3-5-haiku-20241022">claude-3.5-haiku (faster/cheaper)</option>
+        <option value="claude-opus-4-20250514">claude-opus-4 (most capable)</option>
+      </select>
+      <button class="filter-btn" onclick="testConnection()">Test</button>
+    </div>
+
+    <!-- Local LLM Config -->
+    <div class="provider-config" id="config-local">
+      <label>Endpoint</label>
+      <input id="local-url" placeholder="http://localhost:11434/api/generate" value="http://localhost:11434/api/generate">
+      <label>Model</label>
+      <input id="local-model" placeholder="llama3:8b, codellama:13b, mistral:7b" value="llama3:8b">
+      <button class="filter-btn" onclick="testConnection()">Test</button>
+    </div>
+
+    <!-- OpenAI-Compatible Config -->
+    <div class="provider-config" id="config-openai">
+      <label>Endpoint</label>
+      <input id="openai-url" placeholder="https://api.openai.com/v1/chat/completions" value="https://api.openai.com/v1/chat/completions">
+      <label>API Key</label>
+      <input id="openai-key" type="password" placeholder="sk-... or token for Azure/vLLM/LM Studio">
+      <label>Model</label>
+      <input id="openai-model" placeholder="gpt-4o, gpt-4o-mini, or local model name" value="gpt-4o">
+      <button class="filter-btn" onclick="testConnection()">Test</button>
+    </div>
+
+    <div class="provider-note" id="provider-note">
+      <span class="note-icon">💡</span>
+      <span id="provider-note-text">Claude API requires a paid Anthropic license (~$3/M input tokens for Sonnet). Best quality for security remediation. Data is sent to Anthropic servers.</span>
+    </div>
+  </div>
+
+  <!-- SCAN TYPE TABS -->
+  <div class="scan-tabs">
+    <button class="scan-tab active" onclick="setTab('all', this)">
+      <span class="dot dot-all"></span> All Scan Types
+    </button>
+    <button class="scan-tab" onclick="setTab('sast', this)">
+      <span class="dot dot-sast"></span> SAST
+    </button>
+    <button class="scan-tab" onclick="setTab('dast', this)">
+      <span class="dot dot-dast"></span> DAST
+    </button>
+    <button class="scan-tab" onclick="setTab('iast', this)">
+      <span class="dot dot-iast"></span> IAST
+    </button>
+    <button class="scan-tab" onclick="setTab('sca', this)">
+      <span class="dot dot-sca"></span> SCA
+    </button>
+  </div>
+
+  <!-- METRIC CARDS -->
+  <div class="metric-grid" id="metric-grid">
+    <div class="metric-card mc-total">
+      <div class="metric-label">Total Issues</div>
+      <div class="metric-value" id="m-total">289</div>
+      <div class="metric-delta delta-up">↑ 18 from last scan</div>
+    </div>
+    <div class="metric-card mc-crit">
+      <div class="metric-label">Critical</div>
+      <div class="metric-value" id="m-crit" style="color:var(--crit)">22</div>
+      <div class="metric-delta delta-up">↑ 6 new</div>
+    </div>
+    <div class="metric-card mc-high">
+      <div class="metric-label">High</div>
+      <div class="metric-value" id="m-high" style="color:var(--high)">62</div>
+      <div class="metric-delta delta-up">↑ 8 new</div>
+    </div>
+    <div class="metric-card mc-medium">
+      <div class="metric-label">Medium</div>
+      <div class="metric-value" id="m-medium" style="color:var(--medium)">117</div>
+      <div class="metric-delta delta-down">↓ 6 fixed</div>
+    </div>
+    <div class="metric-card mc-low">
+      <div class="metric-label">Low / Info</div>
+      <div class="metric-value" id="m-low" style="color:var(--low)">88</div>
+      <div class="metric-delta delta-down">↓ 4 fixed</div>
+    </div>
+  </div>
+
+  <!-- BREAKDOWN PER SCAN TYPE -->
+  <div class="breakdown-grid">
+    <!-- SAST -->
+    <div class="breakdown-card">
+      <div class="breakdown-header">
+        <div>
+          <div class="breakdown-total" style="color:var(--sast)">89</div>
+          <div class="breakdown-label">SAST Issues</div>
+        </div>
+        <span class="scan-badge badge-sast">SAST</span>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Critical</span><span style="color:var(--crit)">7</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-crit" style="width:7.9%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>High</span><span style="color:var(--high)">24</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-high" style="width:27%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Medium</span><span style="color:var(--medium)">41</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-medium" style="width:46%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Low</span><span style="color:var(--low)">17</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-low" style="width:19%"></div></div>
+      </div>
+    </div>
+    <!-- DAST -->
+    <div class="breakdown-card">
+      <div class="breakdown-header">
+        <div>
+          <div class="breakdown-total" style="color:var(--dast)">112</div>
+          <div class="breakdown-label">DAST Issues</div>
+        </div>
+        <span class="scan-badge badge-dast">DAST</span>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Critical</span><span style="color:var(--crit)">8</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-crit" style="width:7.1%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>High</span><span style="color:var(--high)">21</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-high" style="width:18.7%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Medium</span><span style="color:var(--medium)">52</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-medium" style="width:46.4%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Low</span><span style="color:var(--low)">31</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-low" style="width:27.7%"></div></div>
+      </div>
+    </div>
+    <!-- IAST -->
+    <div class="breakdown-card">
+      <div class="breakdown-header">
+        <div>
+          <div class="breakdown-total" style="color:var(--iast)">46</div>
+          <div class="breakdown-label">IAST Issues</div>
+        </div>
+        <span class="scan-badge badge-iast">IAST</span>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Critical</span><span style="color:var(--crit)">3</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-crit" style="width:6.5%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>High</span><span style="color:var(--high)">11</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-high" style="width:23.9%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Medium</span><span style="color:var(--medium)">10</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-medium" style="width:21.7%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Low</span><span style="color:var(--low)">22</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-low" style="width:47.8%"></div></div>
+      </div>
+    </div>
+    <!-- SCA -->
+    <div class="breakdown-card">
+      <div class="breakdown-header">
+        <div>
+          <div class="breakdown-total" style="color:var(--sca)">42</div>
+          <div class="breakdown-label">SCA Issues</div>
+        </div>
+        <span class="scan-badge badge-sca">SCA</span>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Critical</span><span style="color:var(--crit)">4</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-crit" style="width:9.5%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>High</span><span style="color:var(--high)">6</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-high" style="width:14.3%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Medium</span><span style="color:var(--medium)">14</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-medium" style="width:33.3%"></div></div>
+      </div>
+      <div class="sev-bar">
+        <div class="sev-bar-row"><span>Low</span><span style="color:var(--low)">18</span></div>
+        <div class="sev-bar-track"><div class="sev-bar-fill fill-low" style="width:42.9%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TREND + DONUT CHARTS -->
+  <div class="charts-grid">
+    <div class="chart-card span2">
+      <div class="chart-title">Issue Trend — Last 8 Scans</div>
+      <div class="chart-sub">Combined SAST + DAST + IAST + SCA findings over recent scan history</div>
+      <div class="chart-wrap" style="height:200px">
+        <canvas id="trendChart"></canvas>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--sast)"></div>SAST</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--dast)"></div>DAST</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--iast)"></div>IAST</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--sca)"></div>SCA</div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">Severity Distribution</div>
+      <div class="chart-sub">All scan types combined</div>
+      <div class="chart-wrap" style="height:160px">
+        <canvas id="donutChart"></canvas>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--crit)"></div>Critical 22</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--high)"></div>High 62</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--medium)"></div>Medium 117</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--low)"></div>Low 88</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM: OWASP + RISK -->
+  <div class="bottom-grid">
+    <div class="chart-card">
+      <div class="chart-title">OWASP Top 10 Breakdown</div>
+      <div class="chart-sub">Issue count per OWASP category across all scan types</div>
+      <div class="chart-wrap" style="height:260px">
+        <canvas id="owaspChart"></canvas>
+      </div>
+    </div>
+    <div class="risk-card">
+      <div class="chart-title" style="margin-bottom:16px">Risk & Compliance</div>
+      <div class="risk-score-wrap">
+        <div class="risk-score-circle">
+          <div class="risk-inner">
+            <div class="risk-num">72</div>
+            <div class="risk-label">Risk Score</div>
+          </div>
+        </div>
+        <div class="risk-details">
+          <h3 style="color:var(--danger)">High Risk</h3>
+          <p>18 critical issues require immediate remediation before next release gate.</p>
+        </div>
+      </div>
+      <div class="compliance-list">
+        <div class="compliance-item">
+          <span>OWASP Top 10 2021</span>
+          <span class="status-fail">FAIL</span>
+        </div>
+        <div class="compliance-item">
+          <span>PCI-DSS v4.0</span>
+          <span class="status-warn">WARN</span>
+        </div>
+        <div class="compliance-item">
+          <span>NIST SP 800-53</span>
+          <span class="status-warn">WARN</span>
+        </div>
+        <div class="compliance-item">
+          <span>CWE/SANS Top 25</span>
+          <span class="status-fail">FAIL</span>
+        </div>
+        <div class="compliance-item">
+          <span>SOC 2 Type II</span>
+          <span class="status-pass">PASS</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI ADVISOR PANEL -->
+  <div class="ai-panel" id="ai-panel">
+    <div class="ai-panel-header">
+      <div class="ai-title">
+        <div class="ai-icon">AI</div>
+        <span id="ai-provider-label">Claude AI</span> — Security Fix Advisor
+        <span id="ai-issue-badge" class="sev-pill"></span>
+      </div>
+      <button class="close-btn" onclick="closeAIPanel()">×</button>
+    </div>
+    <div class="ai-panel-body">
+      <div class="ai-issue-context" id="ai-context"></div>
+      <div class="ai-response" id="ai-response"></div>
+      <div class="ai-actions">
+        <button class="ai-action-btn primary" onclick="askAI('generate_fix')">Generate Code Fix</button>
+        <button class="ai-action-btn" onclick="askAI('explain')">Explain Vulnerability</button>
+        <button class="ai-action-btn" onclick="askAI('owasp')">OWASP Reference</button>
+        <button class="ai-action-btn" onclick="askAI('impact')">Business Impact</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ISSUES TABLE -->
+  <div class="issues-section">
+    <div class="issues-header">
+      <div style="font-size:13px;font-weight:600;">
+        Security Issues
+        <span style="color:var(--muted);font-weight:400;margin-left:8px;font-size:12px;">289 total — click a row for AI fix advice</span>
+      </div>
+      <div class="issues-filters">
+        <button class="filter-btn active" onclick="filterIssues('all', this)">All</button>
+        <button class="filter-btn" onclick="filterIssues('critical', this)">Critical</button>
+        <button class="filter-btn" onclick="filterIssues('high', this)">High</button>
+        <button class="filter-btn" onclick="filterIssues('sast', this)">SAST</button>
+        <button class="filter-btn" onclick="filterIssues('dast', this)">DAST</button>
+        <button class="filter-btn" onclick="filterIssues('iast', this)">IAST</button>
+        <button class="filter-btn" onclick="filterIssues('sca', this)">SCA</button>
+      </div>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Issue / Location</th>
+          <th>Scan Type</th>
+          <th>Severity</th>
+          <th>OWASP</th>
+          <th>Status</th>
+          <th>AI Fix</th>
+        </tr>
+      </thead>
+      <tbody id="issues-table-body"></tbody>
+    </table>
+  </div>
+
+  <div class="footer">
+    <span>HCL AppScan 360° Unified Dashboard (SAST · DAST · IAST · SCA) — AI-Powered by Claude</span>
+    <span>Data pulled via AppScan 360 REST API v4 &nbsp;|&nbsp; <a href="https://help.hcl-software.com/appscan/360/2.0.0/index.html" style="color:var(--accent);text-decoration:none;">Docs ↗</a></span>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+//  MOCK DATA (replace with AppScan REST API calls)
+// ─────────────────────────────────────────────
+const ISSUES = [
+  { id:1, name:'SQL Injection', loc:'/api/users/search?q=', type:'DAST', sev:'critical', owasp:'A03:2021', status:'Open', cwe:'CWE-89', desc:'Unsanitized user input passed directly to SQL query via GET parameter. Attacker can exfiltrate entire database.' },
+  { id:2, name:'Hardcoded Credentials', loc:'src/config/database.js:42', type:'SAST', sev:'critical', owasp:'A07:2021', status:'Open', cwe:'CWE-798', desc:'AWS RDS password found hardcoded in source file. Exposed in version control history.' },
+  { id:3, name:'XXE — XML External Entities', loc:'/api/invoice/parse', type:'IAST', sev:'critical', owasp:'A05:2021', status:'Open', cwe:'CWE-611', desc:'XML parser accepts external entity references. Runtime IAST agent confirmed this is reachable and exploitable.' },
+  { id:4, name:'Broken Access Control — IDOR', loc:'/api/orders/{id}', type:'DAST', sev:'high', owasp:'A01:2021', status:'Open', cwe:'CWE-284', desc:'Authenticated users can access any order by changing the numeric ID parameter.' },
+  { id:5, name:'Reflected XSS', loc:'/search?term=', type:'DAST', sev:'high', owasp:'A03:2021', status:'In Review', cwe:'CWE-79', desc:'Search term reflected in HTML response without escaping. DOM-based XSS confirmed.' },
+  { id:6, name:'Insecure Deserialization', loc:'src/middleware/session.js:88', type:'SAST', sev:'high', owasp:'A08:2021', status:'Open', cwe:'CWE-502', desc:'Node.js deserialize() called with untrusted input — remote code execution risk.' },
+  { id:7, name:'JWT None Algorithm', loc:'/auth/token/verify', type:'IAST', sev:'high', owasp:'A02:2021', status:'Open', cwe:'CWE-327', desc:'IAST agent detected jwt.verify() accepts "none" algorithm, allowing signature bypass.' },
+  { id:8, name:'Sensitive Data in URL', loc:'/password/reset?token=', type:'DAST', sev:'medium', owasp:'A02:2021', status:'Fixed', cwe:'CWE-200', desc:'Password reset token transmitted in URL — appears in server access logs and browser history.' },
+  { id:9, name:'Missing CSRF Protection', loc:'/account/settings (POST)', type:'DAST', sev:'medium', owasp:'A01:2021', status:'Open', cwe:'CWE-352', desc:'State-changing endpoints lack CSRF tokens.' },
+  { id:10, name:'Unvalidated Redirect', loc:'src/routes/auth.js:201', type:'SAST', sev:'medium', owasp:'A10:2021', status:'In Review', cwe:'CWE-601', desc:'Redirect target derived from user-controlled "next" parameter without validation.' },
+  { id:11, name:'Insecure Cookie Flags', loc:'/api (all endpoints)', type:'DAST', sev:'medium', owasp:'A02:2021', status:'Open', cwe:'CWE-614', desc:'Session cookie missing Secure and HttpOnly flags.' },
+  { id:12, name:'Dependency: lodash 4.17.4', loc:'package.json', type:'SAST', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-1321', desc:'Prototype pollution vulnerability in lodash < 4.17.21.' },
+  { id:13, name:'CVE-2024-29041 — express', loc:'package.json → express@4.17.1', type:'SCA', sev:'critical', owasp:'A06:2021', status:'Open', cwe:'CWE-1035', desc:'Open redirect vulnerability in Express < 4.19.2. Attackers can craft URLs that redirect users to malicious sites.' },
+  { id:14, name:'CVE-2023-44270 — postcss', loc:'package-lock.json → postcss@8.4.21', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-74', desc:'PostCSS line return parsing vulnerability allows injection of malicious CSS via external input.' },
+  { id:15, name:'CVE-2023-26159 — follow-redirects', loc:'package-lock.json → follow-redirects@1.15.2', type:'SCA', sev:'high', owasp:'A06:2021', status:'In Review', cwe:'CWE-601', desc:'Improper URL handling in follow-redirects < 1.15.4 allows credential leakage to third-party hosts.' },
+  { id:16, name:'CVE-2024-4068 — braces', loc:'package-lock.json → braces@3.0.2', type:'SCA', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-1333', desc:'Uncontrolled resource consumption in braces < 3.0.3 via crafted glob patterns causes ReDoS.' },
+  { id:17, name:'CVE-2024-28849 — follow-redirects', loc:'package-lock.json → follow-redirects@1.15.2', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-200', desc:'Authorization header leak on cross-origin redirects in follow-redirects < 1.15.6.' },
+  { id:18, name:'License Risk — GPL-3.0', loc:'package.json → chart-utils@2.1.0', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'N/A', desc:'Dependency uses GPL-3.0 license which is copyleft — may conflict with proprietary licensing terms.' },
+  { id:19, name:'CVE-2023-45133 — @babel/traverse', loc:'package-lock.json → @babel/traverse@7.20.5', type:'SCA', sev:'critical', owasp:'A06:2021', status:'Open', cwe:'CWE-184', desc:'Incomplete blocklist in @babel/traverse < 7.23.2 allows arbitrary code execution during compilation.' },
+  { id:20, name:'CVE-2023-44487 — undici', loc:'package-lock.json → undici@5.22.0', type:'SCA', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-400', desc:'HTTP/2 Rapid Reset denial-of-service vulnerability in undici < 5.26.2.' },
+  { id:21, name:'Outdated: jsonwebtoken 8.5.1', loc:'package.json → jsonwebtoken@8.5.1', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-327', desc:'jsonwebtoken < 9.0.0 vulnerable to key confusion attacks when using asymmetric algorithms.' },
+  { id:22, name:'CVE-2024-21538 — cross-spawn', loc:'package-lock.json → cross-spawn@7.0.3', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-1333', desc:'Regular expression denial of service in cross-spawn < 7.0.5 via crafted command arguments.' },
+];
+
+let currentIssues = [...ISSUES];
+let selectedIssue = null;
+let currentAction = 'generate_fix';
+
+// ─────────────────────────────────────────────
+//  CHARTS
+// ─────────────────────────────────────────────
+const CHART_COLORS = {
+  sast: '#7c6af7', dast: '#f97316', iast: '#06b6d4', sca: '#22c55e',
+  crit: '#c026d3', high: '#e84545', medium: '#f5a623', low: '#4f9cf9',
+};
+
+function initCharts() {
+  // Trend Chart
+  const trendCtx = document.getElementById('trendChart').getContext('2d');
+  new Chart(trendCtx, {
+    type: 'line',
+    data: {
+      labels: ['Scan 1','Scan 2','Scan 3','Scan 4','Scan 5','Scan 6','Scan 7','Scan 8'],
+      datasets: [
+        { label:'SAST', data:[102,98,95,91,88,90,87,89], borderColor:'#7c6af7', backgroundColor:'rgba(124,106,247,0.06)', tension:0.4, borderWidth:2, pointRadius:3, pointBackgroundColor:'#7c6af7', fill:true },
+        { label:'DAST', data:[120,118,115,117,110,113,111,112], borderColor:'#f97316', backgroundColor:'rgba(249,115,22,0.06)', tension:0.4, borderWidth:2, pointRadius:3, pointBackgroundColor:'#f97316', fill:true },
+        { label:'IAST', data:[38,40,42,44,43,45,44,46], borderColor:'#06b6d4', backgroundColor:'rgba(6,182,212,0.06)', tension:0.4, borderWidth:2, pointRadius:3, pointBackgroundColor:'#06b6d4', fill:true },
+        { label:'SCA', data:[28,30,32,34,36,38,40,42], borderColor:'#22c55e', backgroundColor:'rgba(34,197,85,0.06)', tension:0.4, borderWidth:2, pointRadius:3, pointBackgroundColor:'#22c55e', fill:true },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#7a7f94',font:{size:11}} },
+        y:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#7a7f94',font:{size:11}}, beginAtZero:false }
+      }
+    }
+  });
+
+  // Donut
+  const donutCtx = document.getElementById('donutChart').getContext('2d');
+  new Chart(donutCtx, {
+    type: 'doughnut',
+    data: {
+      labels:['Critical','High','Medium','Low'],
+      datasets:[{ data:[22,62,117,88], backgroundColor:['#c026d3','#e84545','#f5a623','#4f9cf9'], borderWidth:0, hoverBorderWidth:2, hoverBorderColor:'#fff' }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false, cutout:'68%',
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx => ` ${ctx.label}: ${ctx.raw} issues` } } }
+    }
+  });
+
+  // OWASP Chart
+  const owaspCtx = document.getElementById('owaspChart').getContext('2d');
+  new Chart(owaspCtx, {
+    type: 'bar',
+    data: {
+      labels:['A01:Broken Access','A02:Crypto Fail','A03:Injection','A04:Insecure Design','A05:Misconfig','A06:Components','A07:Auth Fail','A08:Integrity','A09:Logging','A10:SSRF'],
+      datasets:[
+        { label:'SAST', data:[8,14,22,5,9,18,7,12,2,3], backgroundColor:'rgba(124,106,247,0.7)', borderRadius:3 },
+        { label:'DAST', data:[19,11,31,6,14,7,9,5,4,6], backgroundColor:'rgba(249,115,22,0.7)', borderRadius:3 },
+        { label:'IAST', data:[6,8,12,2,6,3,4,2,1,2], backgroundColor:'rgba(6,182,212,0.7)', borderRadius:3 },
+        { label:'SCA', data:[2,3,1,0,1,28,2,4,0,1], backgroundColor:'rgba(34,197,85,0.7)', borderRadius:3 },
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ stacked:true, grid:{display:false}, ticks:{color:'#7a7f94',font:{size:9}, maxRotation:30} },
+        y:{ stacked:true, grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#7a7f94',font:{size:11}} }
+      }
+    }
+  });
+}
+
+// ─────────────────────────────────────────────
+//  ISSUES TABLE
+// ─────────────────────────────────────────────
+function renderIssues(issues) {
+  const tbody = document.getElementById('issues-table-body');
+  tbody.innerHTML = '';
+  issues.forEach(issue => {
+    const sevClass = `sev-${issue.sev}`;
+    const chipClass = `chip-${issue.type.toLowerCase()}`;
+    const statusColor = issue.status === 'Fixed' ? 'var(--info)' : issue.status === 'In Review' ? 'var(--warn)' : 'var(--muted)';
+    const tr = document.createElement('tr');
+    tr.className = 'issue-row';
+    tr.dataset.id = issue.id;
+    tr.innerHTML = `
+      <td>
+        <div class="issue-name">${issue.name}</div>
+        <div class="issue-loc">${issue.loc}</div>
+      </td>
+      <td><span class="type-chip ${chipClass}">${issue.type}</span></td>
+      <td><span class="sev-pill ${sevClass}">${issue.sev}</span></td>
+      <td style="font-size:11px;font-family:var(--mono);color:var(--muted)">${issue.owasp}</td>
+      <td style="font-size:12px;color:${statusColor}">${issue.status}</td>
+      <td><button class="ai-fix-btn" onclick="openAIPanel(${issue.id}, event)">✦ AI Fix</button></td>
+    `;
+    tr.addEventListener('click', (e) => {
+      if (!e.target.classList.contains('ai-fix-btn')) openAIPanel(issue.id, e);
+    });
+    tbody.appendChild(tr);
+  });
+}
+
+function filterIssues(filter, btn) {
+  document.querySelectorAll('.issues-filters .filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (filter === 'all') { currentIssues = [...ISSUES]; }
+  else if (['sast','dast','iast','sca'].includes(filter)) { currentIssues = ISSUES.filter(i => i.type.toLowerCase() === filter); }
+  else { currentIssues = ISSUES.filter(i => i.sev === filter); }
+  renderIssues(currentIssues);
+}
+
+// ─────────────────────────────────────────────
+//  AI PROVIDER MANAGEMENT
+// ─────────────────────────────────────────────
+let aiProvider = 'claude'; // 'claude' | 'local' | 'openai'
+
+const PROVIDER_NOTES = {
+  claude: '💡 Claude API requires a paid Anthropic license (~$3/M input tokens for Sonnet). Best quality for security remediation. Data is sent to Anthropic servers.',
+  local: '💡 Local LLM (Ollama, vLLM, LM Studio) runs entirely on your infrastructure — zero data leaves your network. Requires a GPU server. Install Ollama: <code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:11px">curl -fsSL https://ollama.com/install.sh | sh && ollama pull llama3:8b</code>',
+  openai: '💡 OpenAI-compatible endpoint works with OpenAI, Azure OpenAI, vLLM (--api-key token), LM Studio, or any server exposing /v1/chat/completions. Useful for enterprises with existing OpenAI contracts.'
+};
+
+const PROVIDER_LABELS = {
+  claude: 'Claude AI',
+  local: 'Local LLM',
+  openai: 'OpenAI'
+};
+
+function setProvider(provider, btn) {
+  aiProvider = provider;
+  document.querySelectorAll('.provider-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.provider-config').forEach(c => c.classList.remove('active'));
+  document.getElementById('config-' + provider).classList.add('active');
+  document.getElementById('provider-note-text').innerHTML = PROVIDER_NOTES[provider];
+  document.getElementById('ai-provider-label').textContent = PROVIDER_LABELS[provider];
+  document.getElementById('conn-status').textContent = 'Not tested';
+  document.getElementById('conn-status').className = 'conn-status conn-unk';
+}
+
+async function testConnection() {
+  const status = document.getElementById('conn-status');
+  status.textContent = 'Testing...';
+  status.className = 'conn-status conn-unk';
+
+  try {
+    if (aiProvider === 'claude') {
+      const key = document.getElementById('claude-key-input').value.trim();
+      if (!key) { status.textContent = 'No key'; status.className = 'conn-status conn-err'; return; }
+      const r = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+        body: JSON.stringify({ model: document.getElementById('claude-model').value, max_tokens: 10, messages: [{ role: 'user', content: 'ping' }] })
+      });
+      if (r.ok) { status.textContent = 'Connected'; status.className = 'conn-status conn-ok'; }
+      else { const d = await r.json(); status.textContent = d.error?.message?.slice(0,30) || 'Error ' + r.status; status.className = 'conn-status conn-err'; }
+
+    } else if (aiProvider === 'local') {
+      const url = document.getElementById('local-url').value.trim();
+      const model = document.getElementById('local-model').value.trim();
+      // Detect Ollama vs generic OpenAI-compatible
+      const isOllama = url.includes('/api/generate') || url.includes(':11434');
+      const body = isOllama
+        ? JSON.stringify({ model, prompt: 'ping', stream: false, options: { num_predict: 5 } })
+        : JSON.stringify({ model, messages: [{ role: 'user', content: 'ping' }], max_tokens: 5 });
+      const r = await fetch(isOllama ? url : url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+      if (r.ok) { status.textContent = 'Connected (' + model + ')'; status.className = 'conn-status conn-ok'; }
+      else { status.textContent = 'Error ' + r.status; status.className = 'conn-status conn-err'; }
+
+    } else if (aiProvider === 'openai') {
+      const url = document.getElementById('openai-url').value.trim();
+      const key = document.getElementById('openai-key').value.trim();
+      const model = document.getElementById('openai-model').value.trim();
+      const headers = { 'Content-Type': 'application/json' };
+      if (key) headers['Authorization'] = 'Bearer ' + key;
+      const r = await fetch(url, {
+        method: 'POST', headers,
+        body: JSON.stringify({ model, messages: [{ role: 'user', content: 'ping' }], max_tokens: 5 })
+      });
+      if (r.ok) { status.textContent = 'Connected'; status.className = 'conn-status conn-ok'; }
+      else { const d = await r.json().catch(() => ({})); status.textContent = d.error?.message?.slice(0,30) || 'Error ' + r.status; status.className = 'conn-status conn-err'; }
+    }
+  } catch (err) {
+    status.textContent = err.message.includes('Failed to fetch') ? 'Unreachable' : err.message.slice(0, 25);
+    status.className = 'conn-status conn-err';
+  }
+}
+
+// ─────────────────────────────────────────────
+//  AI ADVISOR
+// ─────────────────────────────────────────────
+function openAIPanel(issueId, event) {
+  event.stopPropagation();
+  selectedIssue = ISSUES.find(i => i.id === issueId);
+  if (!selectedIssue) return;
+
+  const panel = document.getElementById('ai-panel');
+  const badge = document.getElementById('ai-issue-badge');
+  const ctx = document.getElementById('ai-context');
+  const resp = document.getElementById('ai-response');
+
+  badge.className = `sev-pill sev-${selectedIssue.sev}`;
+  badge.textContent = `${selectedIssue.name} — ${selectedIssue.sev.toUpperCase()}`;
+  ctx.textContent = `[${selectedIssue.type}] ${selectedIssue.name}\nLocation: ${selectedIssue.loc}\nCWE: ${selectedIssue.cwe} | ${selectedIssue.owasp}\n\n${selectedIssue.desc}`;
+  resp.textContent = 'Click an action below to get AI-powered remediation advice...';
+  resp.className = 'ai-response';
+  document.getElementById('ai-provider-label').textContent = PROVIDER_LABELS[aiProvider];
+
+  panel.classList.add('visible');
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeAIPanel() {
+  document.getElementById('ai-panel').classList.remove('visible');
+  selectedIssue = null;
+}
+
+function buildPrompt(action) {
+  const prompts = {
+    generate_fix: `You are a security engineer. Generate a concise code fix for this vulnerability found by AppScan 360:
+
+Issue: ${selectedIssue.name}
+Location: ${selectedIssue.loc}
+Type: ${selectedIssue.type}
+CWE: ${selectedIssue.cwe}
+Description: ${selectedIssue.desc}
+
+Provide: 1) Root cause in one sentence 2) A concrete code fix with before/after examples 3) Key security control to add. Be specific and practical. Keep response under 300 words.`,
+
+    explain: `Explain this security vulnerability in plain English for a developer:
+
+Issue: ${selectedIssue.name}
+CWE: ${selectedIssue.cwe} | ${selectedIssue.owasp}
+Description: ${selectedIssue.desc}
+
+Cover: what it is, how attackers exploit it, and real-world impact. Keep it concise and accessible.`,
+
+    owasp: `Map this issue to OWASP standards and provide remediation guidance:
+
+Issue: ${selectedIssue.name} (${selectedIssue.owasp})
+CWE: ${selectedIssue.cwe}
+Description: ${selectedIssue.desc}
+
+Include: OWASP category explanation, applicable OWASP Testing Guide reference, and top 3 preventive controls from OWASP ASVS.`,
+
+    impact: `Assess the business impact and risk of this vulnerability for a production web application:
+
+Issue: ${selectedIssue.name}
+Severity: ${selectedIssue.sev.toUpperCase()}
+CWE: ${selectedIssue.cwe}
+Description: ${selectedIssue.desc}
+
+Cover: potential data/financial impact, regulatory risk (GDPR, PCI-DSS), exploitability score, and recommended SLA for fix.`
+  };
+  return prompts[action];
+}
+
+function formatAIResponse(text) {
+  return text
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code style="background:rgba(255,255,255,0.08);padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:12px">$1</code>')
+    .replace(/\n/g, '<br>');
+}
+
+async function callClaude(prompt) {
+  const key = document.getElementById('claude-key-input').value.trim();
+  if (!key) return null;
+  const model = document.getElementById('claude-model').value;
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
+    body: JSON.stringify({ model, max_tokens: 800, messages: [{ role: 'user', content: prompt }] })
+  });
+  const data = await response.json();
+  if (data.content && data.content[0]) return data.content[0].text;
+  throw new Error(data.error?.message || 'Claude API error');
+}
+
+async function callLocal(prompt) {
+  const url = document.getElementById('local-url').value.trim();
+  const model = document.getElementById('local-model').value.trim();
+  const isOllama = url.includes('/api/generate') || url.includes(':11434');
+
+  if (isOllama) {
+    const endpoint = url.includes('/api/') ? url : url.replace(/\/$/, '') + '/api/generate';
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, prompt, stream: false, options: { num_predict: 800 } })
+    });
+    const data = await response.json();
+    return data.response || data.message?.content || JSON.stringify(data);
+  } else {
+    // Generic local OpenAI-compatible
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model, messages: [{ role: 'user', content: prompt }], max_tokens: 800 })
+    });
+    const data = await response.json();
+    return data.choices?.[0]?.message?.content || JSON.stringify(data);
+  }
+}
+
+async function callOpenAI(prompt) {
+  const url = document.getElementById('openai-url').value.trim();
+  const key = document.getElementById('openai-key').value.trim();
+  const model = document.getElementById('openai-model').value.trim();
+  const headers = { 'Content-Type': 'application/json' };
+  if (key) headers['Authorization'] = 'Bearer ' + key;
+  const response = await fetch(url, {
+    method: 'POST', headers,
+    body: JSON.stringify({ model, messages: [{ role: 'user', content: prompt }], max_tokens: 800 })
+  });
+  const data = await response.json();
+  if (data.choices && data.choices[0]) return data.choices[0].message.content;
+  throw new Error(data.error?.message || 'API error');
+}
+
+async function askAI(action) {
+  if (!selectedIssue) return;
+  currentAction = action;
+
+  const resp = document.getElementById('ai-response');
+  const prompt = buildPrompt(action);
+
+  resp.textContent = `${PROVIDER_LABELS[aiProvider]} is analyzing the vulnerability`;
+  resp.className = 'ai-response loading';
+
+  // Check if any provider is configured
+  const hasConfig = (aiProvider === 'claude' && document.getElementById('claude-key-input').value.trim()) ||
+                    (aiProvider === 'local' && document.getElementById('local-url').value.trim()) ||
+                    (aiProvider === 'openai' && document.getElementById('openai-url').value.trim());
+
+  if (!hasConfig) {
+    // Demo mode — show built-in responses
+    await new Promise(r => setTimeout(r, 1200));
+    resp.className = 'ai-response';
+    const demoResponses = {
+      generate_fix: `**Root cause:** Unsanitized user input flows directly into a security-sensitive operation without validation or encoding.
+
+**Fix (${selectedIssue.type} — ${selectedIssue.name}):**
+\`\`\`
+// ❌ Vulnerable pattern
+${selectedIssue.desc}
+
+// ✅ Apply input validation + parameterization
+// Use framework-level security controls at ${selectedIssue.loc}
+\`\`\`
+
+**Key control:** Apply the principle of least privilege and defense-in-depth. Validate all input at the boundary, encode output for context, and use parameterized APIs.
+
+⚠️ **Demo mode** — configure an AI provider above for real analysis tailored to your code.`,
+      explain: `**${selectedIssue.name}** is a ${selectedIssue.sev}-severity vulnerability detected by ${selectedIssue.type}.\n\n${selectedIssue.desc}\n\nThis maps to ${selectedIssue.owasp} and ${selectedIssue.cwe}.\n\n⚠️ **Demo mode** — configure an AI provider for detailed exploitation scenarios.`,
+      owasp: `**${selectedIssue.owasp} — ${selectedIssue.name}**\n\nThis issue falls under ${selectedIssue.owasp} in the OWASP Top 10 2021.\n\n**ASVS Controls:**\n• V5.3 — Output Encoding and Injection Prevention\n• V14.2 — Dependency Security\n• V13.1 — API Security\n\n⚠️ **Demo mode** — configure an AI provider for full ASVS mapping.`,
+      impact: `**Severity: ${selectedIssue.sev.toUpperCase()}**\n\n**Business Impact:**\n• Data breach exposure risk: ${selectedIssue.sev === 'critical' ? 'CRITICAL' : 'HIGH'}\n• Estimated CVSS: ${selectedIssue.sev === 'critical' ? '9.1-10.0' : selectedIssue.sev === 'high' ? '7.0-8.9' : '4.0-6.9'}\n• Recommended SLA: ${selectedIssue.sev === 'critical' ? '24 hours' : selectedIssue.sev === 'high' ? '72 hours' : 'Next sprint'}\n\n⚠️ **Demo mode** — configure an AI provider for regulatory-specific impact analysis.`
+    };
+    resp.innerHTML = formatAIResponse(demoResponses[action] || '');
+    return;
+  }
+
+  try {
+    let result;
+    if (aiProvider === 'claude') result = await callClaude(prompt);
+    else if (aiProvider === 'local') result = await callLocal(prompt);
+    else if (aiProvider === 'openai') result = await callOpenAI(prompt);
+
+    resp.className = 'ai-response';
+    resp.innerHTML = formatAIResponse(result || 'No response received.');
+  } catch (err) {
+    resp.className = 'ai-response';
+    resp.textContent = `Error from ${PROVIDER_LABELS[aiProvider]}: ${err.message}`;
+  }
+}
+
+// ─────────────────────────────────────────────
+//  TAB & PROJECT SWITCHER
+// ─────────────────────────────────────────────
+function setTab(type, btn) {
+  document.querySelectorAll('.scan-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function loadProject(project) {
+  document.getElementById('sync-time').textContent = new Date().toISOString().slice(0,16).replace('T',' ') + ' UTC';
+}
+
+function syncData() {
+  document.getElementById('sync-time').textContent = new Date().toISOString().slice(0,16).replace('T',' ') + ' UTC';
+  // In production: call AppScan 360 REST API
+  // GET /api/v4/Issues?appId={appId}&scanType=SAST|DAST|IAST
+}
+
+// ─────────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  initCharts();
+  renderIssues(ISSUES);
+});
+</script>
+</body>
+</html>
