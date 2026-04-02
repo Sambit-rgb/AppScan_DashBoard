@@ -369,52 +369,30 @@
   </div>
 </div>
 
-<!-- ═══════════════════ SECTION 1: WHAT APPSCAN HAS ═══════════════════ -->
-<div class="section">
+<!-- ═══════════════════ SECTION 1: CONTEXT ═══════════════════ -->
+<div class="section" style="margin-bottom:12px;">
   <div class="section-header">
     <div class="section-num sn-blue">1</div>
     <div>
-      <div class="section-title">What HCL AppScan 360° Offers Today</div>
-      <div class="section-subtitle">Version 2.0 — Current Platform Capabilities</div>
+      <div class="section-title">Baseline: AppScan 360° v2.1.0</div>
+      <div class="section-subtitle">Acknowledged — the gap analysis below is built on top of these native capabilities</div>
     </div>
   </div>
-  <table>
-    <tr>
-      <th style="width:22%">Capability</th>
-      <th>What It Does</th>
-      <th style="width:13%">Scan Types</th>
-    </tr>
-    <tr>
-      <td><strong>Portfolio Dashboard</strong></td>
-      <td>Org-wide view of active issues, MTTR, risk ratings, compliance status across <em>all</em> applications. Tracks trends by severity over time.</td>
-      <td>All</td>
-    </tr>
-    <tr>
-      <td><strong>Correlation Engine</strong></td>
-      <td>Uses IAST as a bridge to group related SAST/DAST/IAST issues sharing a common root cause. Reduces remediation to a single fix per group.</td>
-      <td>IAST+DAST+SAST</td>
-    </tr>
-    <tr>
-      <td><strong>Scans &amp; Sessions</strong></td>
-      <td>Lists scans under <em>separate</em> DAST, SAST, SCA, IAST tabs. Per-scan results with issue details, CWE/OWASP mapping, fix groups.</td>
-      <td>Per-type tab</td>
-    </tr>
-    <tr>
-      <td><strong>Compliance Policies</strong></td>
-      <td>Predefined and custom policies to filter issues by regulatory standards. Up to 5 policies per application.</td>
-      <td>All</td>
-    </tr>
-    <tr>
-      <td><strong>Reports &amp; Remediation</strong></td>
-      <td>Security, regulatory, industry standard, and open-source license reports. Workflow: Open → In Progress → Fixed.</td>
-      <td>All</td>
-    </tr>
-    <tr>
-      <td><strong>REST API v4</strong></td>
-      <td>Full programmatic access to issues, scans, applications, and correlation groups. Enables custom integrations.</td>
-      <td>All</td>
-    </tr>
-  </table>
+  <div style="background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:10px 16px;">
+    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;">
+      <span style="font-size:9.5px;color:#0c4a6e;font-weight:600;">v2.1.0 Native Capabilities:</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">Dashboard &amp; Charts</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">RapidFix AI (SAST)</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">MCP Server</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">IAST Correlation</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">Fix Groups (SAST)</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">SCA + Malware + EPSS</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">DAST for LLM</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">Compliance Reports</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">API Key Auth</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">Slack / Splunk / Cursor</span>
+    </div>
+  </div>
 </div>
 
 <!-- ═══════════════════ SECTION 2: GAP ANALYSIS ═══════════════════ -->
@@ -422,159 +400,104 @@
   <div class="section-header">
     <div class="section-num sn-orange">2</div>
     <div>
-      <div class="section-title">Gap Analysis — What This Dashboard Solves</div>
-      <div class="section-subtitle">15 capabilities grouped into 5 pillars — each filling a gap in AppScan 360° today</div>
+      <div class="section-title">Capability Gap Analysis</div>
+      <div class="section-subtitle">What AppScan 360° v2.1.0 delivers natively vs. what this dashboard uniquely adds</div>
     </div>
   </div>
 
-  <!-- Insight Bar -->
-  <div style="display:flex;gap:10px;margin-bottom:14px;">
-    <div class="callout callout-blue" style="margin-top:0;flex:1">
-      <strong>Key Insight:</strong> AppScan 360° has the industry's best <em>data engine</em> — Correlation, SCA, SAST, DAST, IAST all in one platform with a rich REST API. But the <mark>presentation layer</mark> forces context-switching between scan-type silos, and there is <mark>no AI remediation</mark> in the workflow.
+  <!-- ── CLEAR COMPARISON TABLE ── -->
+  <table style="margin-bottom:14px;">
+    <tr>
+      <th style="width:24%">Capability Area</th>
+      <th style="width:30%;background:#e0f2fe;color:#0c4a6e;">AppScan 360° v2.1.0 Has</th>
+      <th style="width:22%;background:#fef2f2;color:#991b1b;">v2.1.0 Does Not Have</th>
+      <th style="width:24%;background:#f0fdf4;color:#166534;">This Dashboard Adds</th>
+    </tr>
+    <tr>
+      <td><strong>Visual Analytics</strong></td>
+      <td>Portfolio-level line graphs (Active Issues, MTTR by severity), Risk Rating bars, Compliance pie chart, Top 5 apps</td>
+      <td style="color:#991b1b;">Per-scan-type breakdown, OWASP stacked view, EPSS visualization, attack path graphs, velocity charts</td>
+      <td style="color:#166534;font-weight:500;">SAST/DAST/IAST/SCA severity donut, OWASP stacked bars, EPSS bubble chart, velocity chart, security debt trend, attack path graphs</td>
+    </tr>
+    <tr>
+      <td><strong>AI Remediation</strong></td>
+      <td>RapidFix AI (SAST only, paid add-on), MCP Server for IDE-based LLM triage across all scan types</td>
+      <td style="color:#991b1b;">AI remediation for DAST/IAST/SCA findings, fix simulation, impact preview before fixing</td>
+      <td style="color:#166534;font-weight:500;">Multi-LLM (Claude / Ollama / OpenAI) for <em>all</em> scan types + fix simulation + business impact analysis</td>
+    </tr>
+    <tr>
+      <td><strong>CI/CD Governance</strong></td>
+      <td>Policy-based compliance checks, scan status pass/fail</td>
+      <td style="color:#991b1b;">Deployment gate visualization, override workflows with audit trail, pre-production risk prediction</td>
+      <td style="color:#166534;font-weight:500;">3-tier gates (Prod/Stage/Dev) + override modal + audit trail + AI-powered pre-prod fail forecasting</td>
+    </tr>
+    <tr>
+      <td><strong>Attack Paths</strong></td>
+      <td>—</td>
+      <td style="color:#991b1b;">Vulnerability chain visualization, entry point → exploit → crown jewel mapping</td>
+      <td style="color:#166534;font-weight:500;">Dynamic CWE-based attack paths built from actual findings — each step links to its source issue (SAST/DAST/SCA/IAST)</td>
+    </tr>
+    <tr>
+      <td><strong>Issue Clustering</strong></td>
+      <td>Fix Groups for SAST (Common Fix Point, Common API, Common Open Source). SAST only.</td>
+      <td style="color:#991b1b;">Cross-scan-type clustering, CWE-family grouping across DAST/IAST/SCA</td>
+      <td style="color:#166534;font-weight:500;">Cross-scan CWE-family clusters across all scan types — no IAST subscription required</td>
+    </tr>
+    <tr>
+      <td><strong>Risk Scoring</strong></td>
+      <td>EPSS score + percentile in SCA issue details pane, severity-based risk rating per app</td>
+      <td style="color:#991b1b;">Weighted multi-factor priority scoring, exploit intel enrichment (ExploitDB, Metasploit, in-the-wild)</td>
+      <td style="color:#166534;font-weight:500;">5-factor priority score (Severity×40% + EPSS×25% + Asset×20% + Exposure×10% + Data×5%) + exploit intel table</td>
+    </tr>
+    <tr>
+      <td><strong>Security Debt</strong></td>
+      <td>—</td>
+      <td style="color:#991b1b;">Security debt metric, SLA aging, 6-month debt trend tracking</td>
+      <td style="color:#166534;font-weight:500;">Security debt score (Issues × Severity × Age) + SLA badges + 6-month trend chart</td>
+    </tr>
+    <tr>
+      <td><strong>Operational KPIs</strong></td>
+      <td>MTTR and Active Issues at portfolio level with trend %</td>
+      <td style="color:#991b1b;">Per-artifact KPIs, regression tracking, remediation velocity (opened vs fixed)</td>
+      <td style="color:#166534;font-weight:500;">Per-artifact MTTR/Fix Rate/SLA %, velocity chart, regression alerts, developer ownership</td>
+    </tr>
+    <tr>
+      <td><strong>Correlation</strong></td>
+      <td>IAST-based correlation across SAST/DAST/IAST (requires active IAST subscription)</td>
+      <td style="color:#991b1b;">CWE-based correlation without IAST dependency</td>
+      <td style="color:#166534;font-weight:500;">CWE-based cross-tool grouping — works across all scan types, zero IAST dependency</td>
+    </tr>
+    <tr>
+      <td><strong>API Security</strong></td>
+      <td>DAST API scanning (OpenAPI, Postman, traffic recording)</td>
+      <td style="color:#991b1b;">Endpoint-level risk scoring view, auth issue tracking, data exposure mapping</td>
+      <td style="color:#166534;font-weight:500;">6-endpoint API security deep view with per-endpoint risk scores, auth gaps, data exposure tracking</td>
+    </tr>
+    <tr>
+      <td><strong>Export &amp; Reporting</strong></td>
+      <td>Security/compliance/license reports (PDF), CSV export with custom fields</td>
+      <td style="color:#991b1b;">One-click filtered export, JSON export, print-ready PDF from dashboard view</td>
+      <td style="color:#166534;font-weight:500;">One-click CSV, JSON, Print/PDF directly from any filtered dashboard view</td>
+    </tr>
+  </table>
+
+  <!-- ── SUMMARY STRIP ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px;">
+    <div style="background:#0c4a6e;color:#fff;border-radius:8px;padding:10px 14px;text-align:center;">
+      <div style="font-size:22px;font-weight:800;color:#7dd3fc;">11</div>
+      <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.8);">Capability Areas Assessed</div>
     </div>
-    <div class="callout callout-green" style="margin-top:0;flex:1">
-      <strong>Our Value Add:</strong> A <em>complementary overlay</em> consuming AppScan's own REST API to create the unified view customers want, with AI remediation intelligence, CI/CD governance, and EPSS-driven prioritization layered on top.
+    <div style="background:#991b1b;color:#fff;border-radius:8px;padding:10px 14px;text-align:center;">
+      <div style="font-size:22px;font-weight:800;color:#fecaca;">11</div>
+      <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.8);">Gaps Identified in v2.1.0</div>
     </div>
-  </div>
-
-  <!-- Gap Category Cards -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
-
-    <!-- PILLAR 1: Unified Visualization -->
-    <div class="gap-pillar" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;border-top:3px solid #2563eb;">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-        <span style="font-size:16px;">📊</span>
-        <span style="font-size:11px;font-weight:700;color:#1e40af;">Unified Visualization</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:5px;">
-        <div style="display:flex;align-items:flex-start;gap:6px;">
-          <span style="color:#dc2626;font-size:10px;flex-shrink:0;margin-top:1px;">✗ Today</span>
-          <span style="font-size:9.5px;color:#64748b;">Separate SAST/DAST/IAST/SCA tabs — no single-pane view per artifact</span>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:6px;">
-          <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓ Added</span>
-          <span style="font-size:9.5px;color:#334155;"><strong>Unified dashboard</strong> with severity donut, scan-type bars, OWASP stacked chart, and multi-line cross-scan trend overlay</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- PILLAR 2: AI Remediation -->
-    <div class="gap-pillar" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;border-top:3px solid #7c3aed;">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-        <span style="font-size:16px;">🤖</span>
-        <span style="font-size:11px;font-weight:700;color:#6b21a8;">AI Remediation Intelligence</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:5px;">
-        <div style="display:flex;align-items:flex-start;gap:6px;">
-          <span style="color:#dc2626;font-size:10px;flex-shrink:0;margin-top:1px;">✗ Today</span>
-          <span style="font-size:9.5px;color:#64748b;">No AI-powered fix generation, no vulnerability explanations, no business impact analysis</span>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:6px;">
-          <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓ Added</span>
-          <span style="font-size:9.5px;color:#334155;"><strong>Multi-LLM engine</strong> (Claude / Ollama / OpenAI) — code fix generation, plain-English explanations, OWASP reference, business impact per issue</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- PILLAR 3: CI/CD Governance -->
-    <div class="gap-pillar" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;border-top:3px solid #d97706;">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
-        <span style="font-size:16px;">🚀</span>
-        <span style="font-size:11px;font-weight:700;color:#92400e;">CI/CD Gate Governance</span>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:5px;">
-        <div style="display:flex;align-items:flex-start;gap:6px;">
-          <span style="color:#dc2626;font-size:10px;flex-shrink:0;margin-top:1px;">✗ Today</span>
-          <span style="font-size:9.5px;color:#64748b;">No deployment gate visualization, no pass/fail rules, no override workflow</span>
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:6px;">
-          <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓ Added</span>
-          <span style="font-size:9.5px;color:#334155;"><strong>3-tier gates</strong> (Prod/Staging/Dev) with auto-evaluated rules + <strong>override workflow</strong> (4 bypass types, approver, ticket, expiry, compensating controls)</span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-
-    <!-- PILLAR 4: Risk Prioritization -->
-    <div class="gap-pillar" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;border-top:3px solid #0d9488;">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-        <span style="font-size:16px;">🎯</span>
-        <span style="font-size:11px;font-weight:700;color:#0d9488;">Risk Prioritization &amp; Analytics</span>
-      </div>
-      <div style="display:grid;grid-template-columns:2fr 3fr;gap:10px;">
-        <div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#dc2626;font-size:10px;flex-shrink:0;margin-top:1px;">✗</span>
-            <span style="font-size:9.5px;color:#64748b;">No EPSS exploitability scores</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#dc2626;font-size:10px;flex-shrink:0;margin-top:1px;">✗</span>
-            <span style="font-size:9.5px;color:#64748b;">No hotspot analysis</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;">
-            <span style="color:#dc2626;font-size:10px;flex-shrink:0;margin-top:1px;">✗</span>
-            <span style="font-size:9.5px;color:#64748b;">No SLA aging badges</span>
-          </div>
-        </div>
-        <div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</span>
-            <span style="font-size:9.5px;color:#334155;"><strong>EPSS bubble chart</strong> + color-coded column</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</span>
-            <span style="font-size:9.5px;color:#334155;"><strong>Top 5 riskiest</strong> files + endpoints</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;">
-            <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</span>
-            <span style="font-size:9.5px;color:#334155;"><strong>SLA badges</strong>: Overdue / At Risk / OK</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PILLAR 5: Operational Metrics & Export -->
-    <div class="gap-pillar" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;border-top:3px solid #dc2626;">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px;">
-        <span style="font-size:16px;">📈</span>
-        <span style="font-size:11px;font-weight:700;color:#dc2626;">Operational Metrics &amp; Export</span>
-      </div>
-      <div style="display:grid;grid-template-columns:2fr 3fr;gap:10px;">
-        <div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#d97706;font-size:10px;flex-shrink:0;margin-top:1px;">~</span>
-            <span style="font-size:9.5px;color:#64748b;">KPIs at portfolio level only</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#dc2626;font-size:10px;flex-shrink:0;margin-top:1px;">✗</span>
-            <span style="font-size:9.5px;color:#64748b;">No remediation velocity chart</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;">
-            <span style="color:#d97706;font-size:10px;flex-shrink:0;margin-top:1px;">~</span>
-            <span style="font-size:9.5px;color:#64748b;">Export via reports only</span>
-          </div>
-        </div>
-        <div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</span>
-            <span style="font-size:9.5px;color:#334155;"><strong>Per-artifact KPIs</strong>: MTTR, Fix Rate, SLA %</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;margin-bottom:4px;">
-            <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</span>
-            <span style="font-size:9.5px;color:#334155;"><strong>Velocity chart</strong>: opened vs fixed + backlog</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:5px;">
-            <span style="color:#15803d;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px;">✓</span>
-            <span style="font-size:9.5px;color:#334155;"><strong>One-click</strong> CSV, JSON, Print/PDF</span>
-          </div>
-        </div>
-      </div>
+    <div style="background:#166534;color:#fff;border-radius:8px;padding:10px 14px;text-align:center;">
+      <div style="font-size:22px;font-weight:800;color:#bbf7d0;">11</div>
+      <div style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:rgba(255,255,255,0.8);">Gaps Closed by This Dashboard</div>
     </div>
   </div>
 
-  <!-- AI Backend Options -->
+  <!-- ── AI BACKEND OPTIONS ── -->
   <div class="callout callout-purple" style="margin-top:0">
     <strong>AI Backend Options (customer choice):</strong> &nbsp;
     <strong style="color:#1e40af">Claude API</strong> — best quality, $3-15/M tokens &nbsp;|&nbsp;
@@ -598,6 +521,7 @@
       <div class="arch-label">Data Sources</div>
       <div class="layer">
         <span class="arch-block ab-api">AppScan 360°<br>REST API v4</span>
+        <span class="arch-block ab-api">AppScan MCP<br>Server (v2.1)</span>
         <span class="arch-block ab-api">EPSS API<br>(first.org)</span>
         <span class="arch-block ab-api">OWASP / CWE<br>Mappings</span>
       </div>
@@ -606,9 +530,10 @@
       <!-- Row 2: Dashboard Core -->
       <div class="arch-label">Dashboard (Single HTML File)</div>
       <div class="layer">
-        <span class="arch-block ab-dash">Issue Aggregator<br>& Normalizer</span>
-        <span class="arch-block ab-dash">KPI / SLA<br>Engine</span>
+        <span class="arch-block ab-dash">Issue Aggregator<br>& Correlator</span>
+        <span class="arch-block ab-dash">KPI / SLA /<br>Debt Engine</span>
         <span class="arch-block ab-dash">CI/CD Gate<br>Evaluator</span>
+        <span class="arch-block ab-dash">Attack Path<br>Analyzer</span>
         <span class="arch-block ab-dash">Chart.js 4.4<br>Visualizations</span>
       </div>
       <div class="arch-arrow">▼ &nbsp; Context + Prompt &nbsp; ▼</div>
@@ -626,14 +551,35 @@
       <div class="arch-label">Deliverables</div>
       <div class="layer">
         <span class="arch-block ab-export">AI Code Fixes<br>& Explanations</span>
+        <span class="arch-block ab-export">Fix Simulation<br>& Impact</span>
         <span class="arch-block ab-export">CSV / JSON<br>Export</span>
-        <span class="arch-block ab-export">Print / PDF<br>Reports</span>
         <span class="arch-block ab-export">Gate Override<br>Audit Trail</span>
       </div>
     </div>
   </div>
   <div class="callout callout-amber" style="margin-top:0">
-    <strong>Zero Infrastructure:</strong> The entire dashboard is a single self-contained HTML file (~2,100 lines). No server, no database, no build step. It runs in any modern browser and connects directly to AppScan REST API v4 and the chosen AI backend via client-side <code style="font-family:'IBM Plex Mono';font-size:9px;background:#fff;padding:1px 4px;border-radius:3px;">fetch()</code> calls. Ideal for air-gapped demos, PoCs, and customer workshops.
+    <strong>Zero Cost. Zero Setup. Immediate Value — A New Consumption Model for AppScan Intelligence.</strong><br>
+    This is not just a dashboard — <mark>it's a capability layer on top of AppScan</mark>. Delivered as a <strong>single HTML file</strong>, it eliminates every traditional barrier to tooling adoption:
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0 6px;">
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">
+        <div style="font-size:9px;font-weight:700;color:#92400e;">No Infrastructure</div>
+        <div style="font-size:8.5px;color:#64748b;">No servers, databases, or deployment pipelines to provision</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">
+        <div style="font-size:9px;font-weight:700;color:#92400e;">No Operational Overhead</div>
+        <div style="font-size:8.5px;color:#64748b;">No maintenance, upgrades, or support dependencies to manage</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;">
+        <div style="font-size:9px;font-weight:700;color:#92400e;">No Procurement Delays</div>
+        <div style="font-size:8.5px;color:#64748b;">No licensing friction, vendor onboarding, or IT ticket queues</div>
+      </div>
+    </div>
+    Open it in any browser — and the platform is live. It connects directly to your existing AppScan 360° instance (v2.1.0 API key auth) and ingests real-time SAST, DAST, IAST &amp; SCA data, normalizes findings across tools, and enhances them with AI-driven prioritization. <mark>Time to Value: under 5 minutes</mark> — without IT involvement.
+    <div style="display:flex;gap:10px;margin-top:8px;">
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:3px 8px;">💻 <strong>Air-gapped</strong> → Local PoCs</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:3px 8px;">🏢 <strong>Enterprise</strong> → Intranet for AppSec teams</span>
+      <span style="font-size:8.5px;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:3px 8px;">🤝 <strong>Customer</strong> → Instant workshop/demo delivery</span>
+    </div>
   </div>
 </div>
 
@@ -648,34 +594,31 @@
   </div>
   <div class="two-col">
     <div>
-      <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">AppScan 360° REST API v4</div>
+      <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">AppScan 360° REST API v4 <span style="font-weight:400;color:#64748b;">(OData V4 · X-Api-Key auth)</span></div>
       <table>
         <tr><th style="width:15%">Method</th><th>Endpoint &amp; Purpose</th></tr>
         <tr>
           <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Apps</span><br>List all applications in the portfolio</td>
+          <td><span class="api-path">/api/v4/Issues</span><br>All issues across apps. <b>Primary data source for dashboard.</b></td>
         </tr>
         <tr>
           <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Apps/{appId}/Issues</span><br>Fetch all issues for an app (filter by scanType, severity, status)</td>
+          <td><span class="api-path">/api/v4/Apps</span><br>List all applications (e.g. <code>$filter=RiskRating eq 'High'</code>)</td>
         </tr>
         <tr>
           <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Scans?appId={appId}</span><br>List scan history (SAST/DAST/IAST/SCA) for trend data</td>
+          <td><span class="api-path">/api/v4/Scans</span><br>Scan history (e.g. <code>$orderby=CreatedAt desc</code>, <code>$expand=CreatedBy</code>)</td>
         </tr>
         <tr>
           <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Issues/{issueId}</span><br>Issue detail: CWE, OWASP, location, remediation, fix groups</td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/CorrelationGroups?appId={appId}</span><br>IAST-correlated cross-scan issue groups</td>
+          <td><span class="api-path">/api/v4/Policies</span><br>List compliance policies (e.g. <code>$skip=2</code>, <code>$top=5</code>)</td>
         </tr>
         <tr>
           <td><span class="api-method m-post">POST</span></td>
-          <td><span class="api-path">/api/v4/Issues/{issueId}/Status</span><br>Update issue status (Open → In Progress → Fixed)</td>
+          <td><span class="api-path">/api/v4/Account/ApiKeyLogin</span><br>Obtain session token via API key (KeyID + KeySecret)</td>
         </tr>
       </table>
+      <div style="font-size:8px;color:#64748b;margin-top:4px;line-height:1.4;">Auth: <code>X-Api-Key: {KeyID}:{KeySecret}</code> · OData V4: <code>$filter</code>, <code>$select</code>, <code>$orderby</code>, <code>$top</code>, <code>$skip</code>, <code>$expand</code>, <code>$apply</code> · Full catalog at <code>&lt;server&gt;/swagger/index.html</code></div>
     </div>
     <div>
       <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">AI Backend Endpoints</div>
@@ -732,7 +675,7 @@
       <div class="step">
         <div class="step-title">Step 2 — Connect to AppScan 360°</div>
         <div class="step-desc">
-          Enter your AppScan 360° base URL and API key in the dashboard config banner. The dashboard calls <span class="step-code">GET /api/v4/Apps/{appId}/Issues</span> to pull all SAST/DAST/IAST/SCA issues. Generate API key at: <em>Admin → API Keys → Create Token</em>.
+          Enter your AppScan 360° base URL and API key in the dashboard config banner. The dashboard calls <span class="step-code">GET /api/v4/Issues</span> to pull all SAST/DAST/IAST/SCA issues. <strong>v2.1.0 auth:</strong> header <span class="step-code">X-Api-Key: {KeyID}:{KeySecret}</span> — create at <em>Admin → API Keys → Create</em>. 30-min auto-refresh session. Service accounts also supported.
         </div>
       </div>
       <div class="step">
@@ -750,7 +693,7 @@
       <div class="step">
         <div class="step-title">Step 5 — Enrich with EPSS</div>
         <div class="step-desc">
-          Dashboard auto-queries <span class="step-code">api.first.org/data/v1/epss?cve=CVE-XXXX</span> for each SCA issue to overlay real-world exploitability scores. Bubble chart and table column display EPSS values for prioritization.
+          Dashboard auto-queries <span class="step-code">api.first.org/data/v1/epss?cve=CVE-XXXX</span> for issues with CVEs across all scan types (SAST/DAST/IAST/SCA) to overlay real-world exploitability scores. Bubble chart and table column display EPSS values for prioritization.
         </div>
       </div>
       <div class="step">
@@ -765,44 +708,44 @@
       <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;">Dashboard Feature Highlights</div>
       <div class="feature-grid">
         <div class="feat-card">
-          <div class="feat-icon">📊</div>
-          <div class="feat-name">KPI Cards</div>
-          <div class="feat-desc">MTTR, Fix Rate, SLA Compliance, Scan Coverage — all real-time per artifact</div>
+          <div class="feat-icon"> </div>
+          <div class="feat-name">Attack Path Graphs</div>
+          <div class="feat-desc">Dynamic CWE-based chains with clickable issue links — each step traces to its SAST/DAST/SCA/IAST finding</div>
         </div>
         <div class="feat-card">
           <div class="feat-icon">🚀</div>
           <div class="feat-name">CI/CD Gates</div>
-          <div class="feat-desc">Production / Staging / Dev gates with auto-evaluated pass/fail rules</div>
+          <div class="feat-desc">Production / Staging / Dev gates with override workflow &amp; audit trail</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">⚠️</div>
-          <div class="feat-name">Gate Override</div>
-          <div class="feat-desc">4 bypass types with approver, ticket #, justification, expiry &amp; controls checklist</div>
+          <div class="feat-icon">🧬</div>
+          <div class="feat-name">Cross-Scan CWE Clusters</div>
+          <div class="feat-desc">Groups all scan types by CWE family (no IAST required). Beyond native SAST-only fix groups</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">🔥</div>
-          <div class="feat-name">Hotspot Analysis</div>
-          <div class="feat-desc">Top 5 riskiest files (SAST+SCA) &amp; endpoints (DAST+IAST) by severity density</div>
+          <div class="feat-icon">🤖</div>
+          <div class="feat-name">Fix Simulation</div>
+          <div class="feat-desc">Preview impact before fixing: risk score ↓, gate status change, SLA %↑</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">📈</div>
-          <div class="feat-name">Remediation Velocity</div>
-          <div class="feat-desc">Monthly opened vs fixed bar chart with net backlog trend line</div>
+          <div class="feat-icon">🧠</div>
+          <div class="feat-name">Security Debt Score</div>
+          <div class="feat-desc">(Issues × Severity × Age) — single metric for leadership. 6-month trend</div>
         </div>
         <div class="feat-card">
           <div class="feat-icon">🎯</div>
-          <div class="feat-name">EPSS Exploitability</div>
-          <div class="feat-desc">Real-world exploit probability bubble chart + color-coded table column</div>
+          <div class="feat-name">Fix Today Panel</div>
+          <div class="feat-desc">Auto-prioritized top 5 issues by Severity + EPSS + exploitability + context</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">⏰</div>
-          <div class="feat-name">SLA Aging</div>
-          <div class="feat-desc">OVERDUE / AT RISK / OK badges. Thresholds: Crit 24h, High 7d, Med 30d, Low 90d</div>
+          <div class="feat-icon">🔁</div>
+          <div class="feat-name">Regression Tracking</div>
+          <div class="feat-desc">Detect reopened vulnerabilities — "fixed but came back" alerts</div>
         </div>
         <div class="feat-card">
-          <div class="feat-icon">💾</div>
-          <div class="feat-name">Data Export</div>
-          <div class="feat-desc">One-click CSV, JSON, and Print/PDF export of all filtered issues</div>
+          <div class="feat-icon">🌐</div>
+          <div class="feat-name">API Security View</div>
+          <div class="feat-desc">Endpoint-level risk scoring, auth issues, data exposure tracking</div>
         </div>
       </div>
     </div>
@@ -818,6 +761,30 @@
       <div class="section-subtitle">Who benefits and how — from CISO to developer</div>
     </div>
   </div>
+  <!-- Business Impact Strip -->
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+    <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border-radius:8px;padding:10px 12px;text-align:center;">
+      <div style="font-size:18px;font-weight:700;color:#fcd34d;">⚡</div>
+      <div style="font-size:10px;font-weight:700;margin:2px 0;">Immediate ROI</div>
+      <div style="font-size:8.5px;color:rgba(255,255,255,0.7);">Zero setup cost, instant usability — no procurement cycle</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border-radius:8px;padding:10px 12px;text-align:center;">
+      <div style="font-size:18px;font-weight:700;color:#4ade80;">📉</div>
+      <div style="font-size:10px;font-weight:700;margin:2px 0;">Reduced MTTR</div>
+      <div style="font-size:8.5px;color:rgba(255,255,255,0.7);">AI-prioritized issues + fix simulation = faster remediation</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border-radius:8px;padding:10px 12px;text-align:center;">
+      <div style="font-size:18px;font-weight:700;color:#93c5fd;">🔍</div>
+      <div style="font-size:10px;font-weight:700;margin:2px 0;">Risk Visibility</div>
+      <div style="font-size:8.5px;color:rgba(255,255,255,0.7);">Cross-tool analytics across the entire application portfolio</div>
+    </div>
+    <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border-radius:8px;padding:10px 12px;text-align:center;">
+      <div style="font-size:18px;font-weight:700;color:#fb923c;">🚀</div>
+      <div style="font-size:10px;font-weight:700;margin:2px 0;">Faster Adoption</div>
+      <div style="font-size:8.5px;color:rgba(255,255,255,0.7);">Accelerates AppSec program adoption across all teams</div>
+    </div>
+  </div>
+
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
     <div class="persona-card">
       <div class="persona-icon">🛡️</div>
@@ -840,8 +807,33 @@
       <div class="persona-value">Trend analysis reveals security posture trajectory. EPSS prioritization for real-world risk. Remediation velocity tracking. SCA supply-chain risk alongside code vulnerabilities. Gate override governance.</div>
     </div>
   </div>
-  <div class="callout callout-green" style="margin-top:0">
-    <strong>Competitive Edge:</strong> No single competitor — Snyk, Checkmarx, Veracode, or DefectDojo — offers all of these in a unified zero-infrastructure single-pane view. Snyk lacks CI/CD gate visualization. Checkmarx has no EPSS integration. Veracode has no local LLM option. DefectDojo lacks AI remediation. <mark>This dashboard combines the best of all platforms</mark> on top of AppScan 360°'s data engine.
+  <!-- Strategic Differentiation -->
+  <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);border-radius:10px;padding:14px 18px;color:#fff;margin-top:0;">
+    <div style="font-size:11px;font-weight:700;margin-bottom:8px;color:#fcd34d;">Strategic Differentiation — Why This Matters</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+      <div style="display:flex;align-items:flex-start;gap:6px;">
+        <span style="color:#93c5fd;font-size:12px;flex-shrink:0;">🔗</span>
+        <div><span style="font-size:9.5px;font-weight:600;">Cross-tool correlation</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— SAST+DAST+SCA findings unified. Identifies high-risk issues missed in siloed views</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:6px;">
+        <span style="color:#4ade80;font-size:12px;flex-shrink:0;">🎯</span>
+        <div><span style="font-size:9.5px;font-weight:600;">Intelligent prioritization</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— EPSS + aging + exploit intel + multi-source. Focus on what is actually exploitable</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:6px;">
+        <span style="color:#fb923c;font-size:12px;flex-shrink:0;">📊</span>
+        <div><span style="font-size:9.5px;font-weight:600;">Leadership-grade analytics</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— Risk heatmaps, trends, debt scoring, gates. Built for executive visibility, not just engineers</span></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:6px;">
+        <span style="color:#a78bfa;font-size:12px;flex-shrink:0;">🤖</span>
+        <div><span style="font-size:9.5px;font-weight:600;">AI-assisted remediation</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— Multi-LLM fix generation + simulation. Measurably reduces mean-time-to-fix (MTTR)</span></div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,0.15);padding-top:8px;text-align:center;">
+      <div style="font-size:10.5px;font-style:italic;color:rgba(255,255,255,0.85);line-height:1.5;">
+        "This solution reimagines how AppScan data is consumed — shifting from static scan results to<br><mark style="background:rgba(252,211,77,0.25);color:#fcd34d;padding:1px 4px;border-radius:2px;font-weight:600;">real-time, intelligence-driven decision making</mark>, delivered instantly with zero operational overhead."
+      </div>
+      <div style="font-size:8.5px;color:rgba(255,255,255,0.5);margin-top:4px;">Transforms AppScan from a scanning tool into a decision platform</div>
+    </div>
   </div>
 </div>
 
@@ -851,10 +843,10 @@
     AppScan 360° Unified Dashboard — Technical Writeup — April 2026 &nbsp;&nbsp;|&nbsp;&nbsp; Created by Sambit Mohanty
   </div>
   <div class="footer-right">
-    <span class="footer-tag">REST API v4</span>
+    <span class="footer-tag">v2.1.0 API</span>
+    <span class="footer-tag">MCP</span>
     <span class="footer-tag">Multi-LLM</span>
-    <span class="footer-tag">Chart.js</span>
-    <span class="footer-tag">EPSS</span>
+    <span class="footer-tag">Attack Paths</span>
     <span class="footer-tag">CI/CD Gates</span>
   </div>
 </div>
