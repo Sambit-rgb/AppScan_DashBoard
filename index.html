@@ -557,6 +557,323 @@
   .status-fail { color: var(--danger); font-size: 11px; font-weight: 600; }
   .status-warn { color: var(--warn); font-size: 11px; font-weight: 600; }
 
+  /* CICD GATE */
+  .gate-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .gate-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .gate-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .gate-pass::before { background: var(--info); }
+  .gate-fail::before { background: var(--danger); }
+  .gate-warn::before { background: var(--warn); }
+  .gate-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .gate-title { font-size: 13px; font-weight: 600; }
+  .gate-status {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .gs-pass { background: rgba(0,200,150,0.12); color: var(--info); border: 1px solid rgba(0,200,150,0.25); }
+  .gs-fail { background: rgba(232,69,69,0.12); color: var(--danger); border: 1px solid rgba(232,69,69,0.25); }
+  .gs-warn { background: rgba(245,166,35,0.12); color: var(--warn); border: 1px solid rgba(245,166,35,0.25); }
+  .gate-rule {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 0;
+    font-size: 11px;
+    color: var(--muted);
+  }
+  .gate-rule-status { font-weight: 600; }
+
+  /* GATE OVERRIDE */
+  .gate-override-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 7px 0;
+    background: rgba(245,166,35,0.1);
+    color: var(--warn);
+    border: 1px dashed rgba(245,166,35,0.4);
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .gate-override-btn:hover { background: rgba(245,166,35,0.2); border-style: solid; }
+  .override-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    z-index: 2000;
+    align-items: center;
+    justify-content: center;
+  }
+  .override-modal-overlay.visible { display: flex; }
+  .override-modal {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    width: 520px;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+  }
+  .override-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .override-modal-header h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--warn);
+  }
+  .override-modal-body { padding: 20px 22px; }
+  .override-field { margin-bottom: 14px; }
+  .override-field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 5px;
+  }
+  .override-field input,
+  .override-field select,
+  .override-field textarea {
+    width: 100%;
+    padding: 8px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 12px;
+    font-family: var(--sans);
+  }
+  .override-field textarea { resize: vertical; min-height: 60px; }
+  .override-field input:focus,
+  .override-field select:focus,
+  .override-field textarea:focus {
+    outline: none;
+    border-color: var(--warn);
+    box-shadow: 0 0 0 2px rgba(245,166,35,0.15);
+  }
+  .override-checks { margin-bottom: 14px; }
+  .override-checks label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
+  }
+  .override-check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 12px;
+    color: var(--text);
+  }
+  .override-check-item input[type='checkbox'] {
+    accent-color: var(--warn);
+    width: 15px;
+    height: 15px;
+  }
+  .override-modal-footer {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    padding: 14px 22px 18px;
+    border-top: 1px solid var(--border);
+  }
+  .override-cancel-btn {
+    padding: 8px 18px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .override-cancel-btn:hover { background: var(--bg); }
+  .override-submit-btn {
+    padding: 8px 22px;
+    background: var(--warn);
+    border: none;
+    border-radius: 6px;
+    color: #1a1a2e;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .override-submit-btn:hover { opacity: 0.85; }
+  .override-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .override-banner {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: rgba(245,166,35,0.1);
+    border: 1px solid rgba(245,166,35,0.25);
+    border-radius: 6px;
+    font-size: 10.5px;
+    color: var(--warn);
+    display: none;
+  }
+  .override-banner.visible { display: block; }
+
+  /* MTTR + KPI ROW */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+  }
+  .kpi-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .kpi-value {
+    font-size: 26px;
+    font-weight: 600;
+    font-family: var(--mono);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-detail {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* HOTSPOT TABLE */
+  .hotspot-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  .hotspot-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+  }
+  .hotspot-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .hotspot-row:last-child { border-bottom: none; }
+  .hotspot-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 12px;
+  }
+  .hotspot-count {
+    font-weight: 600;
+    font-family: var(--mono);
+    font-size: 13px;
+    min-width: 30px;
+    text-align: right;
+  }
+  .hotspot-bar {
+    width: 80px;
+    height: 5px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 3px;
+    margin-left: 10px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .hotspot-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+  }
+
+  /* SLA AGING */
+  .sla-badge {
+    font-size: 9px;
+    font-weight: 600;
+    padding: 2px 7px;
+    border-radius: 3px;
+    letter-spacing: 0.3px;
+  }
+  .sla-overdue { background: rgba(232,69,69,0.15); color: var(--danger); }
+  .sla-atrisk { background: rgba(245,166,35,0.15); color: var(--warn); }
+  .sla-ok { background: rgba(0,200,150,0.12); color: var(--info); }
+
+  /* EXPORT */
+  .export-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .export-btn {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--font);
+    font-size: 12px;
+    padding: 7px 16px;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .export-btn:hover { border-color: var(--border2); color: var(--text); }
+
   /* FOOTER */
   .footer {
     display: flex;
@@ -862,6 +1179,90 @@
     </div>
   </div>
 
+  <!-- KPI ROW: MTTR, SLA, Fix Rate, Scan Coverage -->
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Mean Time to Remediate</div>
+      <div class="kpi-value" style="color:var(--warn)">14.2<span style="font-size:14px;color:var(--muted)">d</span></div>
+      <div class="kpi-detail">↓ 3.1d from last quarter<br>Industry avg: 60+ days</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Fix Rate (30 days)</div>
+      <div class="kpi-value" style="color:var(--info)">67<span style="font-size:14px;color:var(--muted)"> %</span></div>
+      <div class="kpi-detail">194 fixed of 289 found<br>Target: 80% within SLA</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">SLA Compliance</div>
+      <div class="kpi-value" style="color:var(--danger)">58<span style="font-size:14px;color:var(--muted)"> %</span></div>
+      <div class="kpi-detail">12 critical overdue SLA<br>Crit: 24h · High: 7d · Med: 30d</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Scan Coverage</div>
+      <div class="kpi-value" style="color:var(--accent)">4/4</div>
+      <div class="kpi-detail">SAST ✓ DAST ✓ IAST ✓ SCA ✓<br>Last full scan: 6h ago</div>
+    </div>
+  </div>
+
+  <!-- CI/CD SECURITY GATES -->
+  <div class="gate-section">
+    <div class="gate-card gate-fail">
+      <div class="gate-header">
+        <div class="gate-title">🚀 Production Gate</div>
+        <span class="gate-status gs-fail">BLOCKED</span>
+      </div>
+      <div class="gate-rule">
+        <span>Zero critical issues</span>
+        <span class="gate-rule-status" style="color:var(--danger)">FAIL (22 critical)</span>
+      </div>
+      <div class="gate-rule">
+        <span>No CVSS ≥9.0 in SCA</span>
+        <span class="gate-rule-status" style="color:var(--danger)">FAIL (2 CVEs)</span>
+      </div>
+      <div class="gate-rule">
+        <span>OWASP Top 10 compliant</span>
+        <span class="gate-rule-status" style="color:var(--danger)">FAIL</span>
+      </div>
+      <button class="gate-override-btn" onclick="openOverrideModal()">⚠ Request Gate Override</button>
+      <div class="override-banner" id="override-banner"></div>
+    </div>
+    <div class="gate-card gate-warn">
+      <div class="gate-header">
+        <div class="gate-title">🧪 Staging Gate</div>
+        <span class="gate-status gs-warn">WARNING</span>
+      </div>
+      <div class="gate-rule">
+        <span>No critical SAST/DAST</span>
+        <span class="gate-rule-status" style="color:var(--danger)">FAIL (18)</span>
+      </div>
+      <div class="gate-rule">
+        <span>SCA licenses approved</span>
+        <span class="gate-rule-status" style="color:var(--warn)">WARN (GPL-3.0)</span>
+      </div>
+      <div class="gate-rule">
+        <span>IAST coverage ≥70%</span>
+        <span class="gate-rule-status" style="color:var(--info)">PASS (82%)</span>
+      </div>
+    </div>
+    <div class="gate-card gate-pass">
+      <div class="gate-header">
+        <div class="gate-title">🔧 Development Gate</div>
+        <span class="gate-status gs-pass">PASS</span>
+      </div>
+      <div class="gate-rule">
+        <span>No hardcoded secrets</span>
+        <span class="gate-rule-status" style="color:var(--danger)">FAIL (1 found)</span>
+      </div>
+      <div class="gate-rule">
+        <span>SAST configured</span>
+        <span class="gate-rule-status" style="color:var(--info)">PASS</span>
+      </div>
+      <div class="gate-rule">
+        <span>Dependency scan run</span>
+        <span class="gate-rule-status" style="color:var(--info)">PASS</span>
+      </div>
+    </div>
+  </div>
+
   <!-- BREAKDOWN PER SCAN TYPE -->
   <div class="breakdown-grid">
     <!-- SAST -->
@@ -1048,6 +1449,163 @@
     </div>
   </div>
 
+  <!-- HOTSPOT ANALYSIS: Top Riskiest Files + Endpoints -->
+  <div class="hotspot-section">
+    <div class="hotspot-card">
+      <div class="chart-title">🔥 Top Riskiest Files (SAST + SCA)</div>
+      <div class="chart-sub">Files with the highest concentration of vulnerabilities</div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">src/config/database.js</span>
+        <span class="hotspot-count" style="color:var(--crit)">8</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:100%;background:var(--crit)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">src/middleware/session.js</span>
+        <span class="hotspot-count" style="color:var(--high)">6</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:75%;background:var(--high)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">src/routes/auth.js</span>
+        <span class="hotspot-count" style="color:var(--high)">5</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:62%;background:var(--high)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">package.json (dependencies)</span>
+        <span class="hotspot-count" style="color:var(--warn)">12</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:100%;background:var(--sca)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">src/controllers/userController.js</span>
+        <span class="hotspot-count" style="color:var(--warn)">4</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:50%;background:var(--warn)"></div></div>
+      </div>
+    </div>
+    <div class="hotspot-card">
+      <div class="chart-title">🎯 Top Riskiest Endpoints (DAST + IAST)</div>
+      <div class="chart-sub">Endpoints with the most confirmed exploitable issues</div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">/api/users/search?q=</span>
+        <span class="hotspot-count" style="color:var(--crit)">5</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:100%;background:var(--crit)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">/api/invoice/parse</span>
+        <span class="hotspot-count" style="color:var(--crit)">4</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:80%;background:var(--crit)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">/auth/token/verify</span>
+        <span class="hotspot-count" style="color:var(--high)">3</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:60%;background:var(--high)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">/api/orders/{id}</span>
+        <span class="hotspot-count" style="color:var(--high)">3</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:60%;background:var(--high)"></div></div>
+      </div>
+      <div class="hotspot-row">
+        <span class="hotspot-name">/account/settings</span>
+        <span class="hotspot-count" style="color:var(--warn)">2</span>
+        <div class="hotspot-bar"><div class="hotspot-bar-fill" style="width:40%;background:var(--warn)"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REMEDIATION VELOCITY -->
+  <div class="charts-grid" style="grid-template-columns: 1fr 1fr;">
+    <div class="chart-card">
+      <div class="chart-title">Remediation Velocity — Opened vs Fixed</div>
+      <div class="chart-sub">Monthly issue count: new issues found vs issues remediated</div>
+      <div class="chart-wrap" style="height:200px">
+        <canvas id="velocityChart"></canvas>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--danger)"></div>Opened</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--info)"></div>Fixed</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--accent);opacity:0.4"></div>Net backlog</div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title">EPSS — Exploitability Prioritization (SCA)</div>
+      <div class="chart-sub">EPSS scores for open SCA vulnerabilities — higher = more likely to be exploited in the wild</div>
+      <div class="chart-wrap" style="height:200px">
+        <canvas id="epssChart"></canvas>
+      </div>
+      <div class="legend-row">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--danger)"></div>EPSS ≥ 0.5 (exploit likely)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--warn)"></div>EPSS 0.1–0.5</div>
+        <div class="legend-item"><div class="legend-dot" style="background:var(--accent)"></div>EPSS &lt; 0.1</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPORT BAR -->
+  <div class="export-bar">
+    <button class="export-btn" onclick="exportCSV()">📄 Export CSV</button>
+    <button class="export-btn" onclick="exportJSON()">{ } Export JSON</button>
+    <button class="export-btn" onclick="window.print()">🖨️ Print / PDF</button>
+    <span style="font-size:11px;color:var(--muted);margin-left:8px;">Export all issues with severity, OWASP, CWE, EPSS, SLA status</span>
+  </div>
+
+  <!-- GATE OVERRIDE MODAL -->
+  <div class="override-modal-overlay" id="override-overlay">
+    <div class="override-modal">
+      <div class="override-modal-header">
+        <h3>⚠ Production Gate Override Request</h3>
+        <button class="close-btn" onclick="closeOverrideModal()">&times;</button>
+      </div>
+      <div class="override-modal-body">
+        <div class="override-field">
+          <label>Override Type</label>
+          <select id="override-type">
+            <option value="risk-acceptance">Risk Acceptance — CISO/Security Lead formally accepts risk</option>
+            <option value="emergency">Emergency Change (Break-Glass) — Critical hotfix required</option>
+            <option value="compensating">Compensating Controls — WAF/RASP mitigation in place</option>
+            <option value="threshold">Severity Threshold Override — Allow Medium/Low to pass</option>
+          </select>
+        </div>
+        <div class="override-field">
+          <label>Approver</label>
+          <input type="text" id="override-approver" placeholder="e.g., Jane Smith (CISO)">
+        </div>
+        <div class="override-field">
+          <label>Ticket / Change Request #</label>
+          <input type="text" id="override-ticket" placeholder="e.g., JIRA-4521 or CHG0012345">
+        </div>
+        <div class="override-field">
+          <label>Business Justification</label>
+          <textarea id="override-justification" placeholder="Explain why this deployment must proceed despite failing gate checks..."></textarea>
+        </div>
+        <div class="override-field">
+          <label>Override Expiry</label>
+          <input type="date" id="override-expiry">
+        </div>
+        <div class="override-checks">
+          <label>Compensating Controls Checklist</label>
+          <div class="override-check-item">
+            <input type="checkbox" id="cc-waf"> <span>WAF rules deployed for affected endpoints</span>
+          </div>
+          <div class="override-check-item">
+            <input type="checkbox" id="cc-monitoring"> <span>Enhanced monitoring / alerting enabled</span>
+          </div>
+          <div class="override-check-item">
+            <input type="checkbox" id="cc-network"> <span>Network segmentation applied</span>
+          </div>
+          <div class="override-check-item">
+            <input type="checkbox" id="cc-rasp"> <span>RASP / runtime protection active</span>
+          </div>
+          <div class="override-check-item">
+            <input type="checkbox" id="cc-review"> <span>Post-deployment security review scheduled (within 48h)</span>
+          </div>
+        </div>
+      </div>
+      <div class="override-modal-footer">
+        <button class="override-cancel-btn" onclick="closeOverrideModal()">Cancel</button>
+        <button class="override-submit-btn" id="override-submit-btn" onclick="submitOverride()">Submit Override Request</button>
+      </div>
+    </div>
+  </div>
+
   <!-- AI ADVISOR PANEL -->
   <div class="ai-panel" id="ai-panel">
     <div class="ai-panel-header">
@@ -1094,6 +1652,8 @@
           <th>Scan Type</th>
           <th>Severity</th>
           <th>OWASP</th>
+          <th>EPSS</th>
+          <th>SLA</th>
           <th>Status</th>
           <th>AI Fix</th>
         </tr>
@@ -1103,7 +1663,7 @@
   </div>
 
   <div class="footer">
-    <span>HCL AppScan 360° Unified Dashboard (SAST · DAST · IAST · SCA) — AI-Powered by Claude</span>
+    <span>HCL AppScan 360° Unified Dashboard (SAST · DAST · IAST · SCA)</span>
     <span>Data pulled via AppScan 360 REST API v4 &nbsp;|&nbsp; <a href="https://help.hcl-software.com/appscan/360/2.0.0/index.html" style="color:var(--accent);text-decoration:none;">Docs ↗</a></span>
   </div>
 </div>
@@ -1113,28 +1673,28 @@
 //  MOCK DATA (replace with AppScan REST API calls)
 // ─────────────────────────────────────────────
 const ISSUES = [
-  { id:1, name:'SQL Injection', loc:'/api/users/search?q=', type:'DAST', sev:'critical', owasp:'A03:2021', status:'Open', cwe:'CWE-89', desc:'Unsanitized user input passed directly to SQL query via GET parameter. Attacker can exfiltrate entire database.' },
-  { id:2, name:'Hardcoded Credentials', loc:'src/config/database.js:42', type:'SAST', sev:'critical', owasp:'A07:2021', status:'Open', cwe:'CWE-798', desc:'AWS RDS password found hardcoded in source file. Exposed in version control history.' },
-  { id:3, name:'XXE — XML External Entities', loc:'/api/invoice/parse', type:'IAST', sev:'critical', owasp:'A05:2021', status:'Open', cwe:'CWE-611', desc:'XML parser accepts external entity references. Runtime IAST agent confirmed this is reachable and exploitable.' },
-  { id:4, name:'Broken Access Control — IDOR', loc:'/api/orders/{id}', type:'DAST', sev:'high', owasp:'A01:2021', status:'Open', cwe:'CWE-284', desc:'Authenticated users can access any order by changing the numeric ID parameter.' },
-  { id:5, name:'Reflected XSS', loc:'/search?term=', type:'DAST', sev:'high', owasp:'A03:2021', status:'In Review', cwe:'CWE-79', desc:'Search term reflected in HTML response without escaping. DOM-based XSS confirmed.' },
-  { id:6, name:'Insecure Deserialization', loc:'src/middleware/session.js:88', type:'SAST', sev:'high', owasp:'A08:2021', status:'Open', cwe:'CWE-502', desc:'Node.js deserialize() called with untrusted input — remote code execution risk.' },
-  { id:7, name:'JWT None Algorithm', loc:'/auth/token/verify', type:'IAST', sev:'high', owasp:'A02:2021', status:'Open', cwe:'CWE-327', desc:'IAST agent detected jwt.verify() accepts "none" algorithm, allowing signature bypass.' },
-  { id:8, name:'Sensitive Data in URL', loc:'/password/reset?token=', type:'DAST', sev:'medium', owasp:'A02:2021', status:'Fixed', cwe:'CWE-200', desc:'Password reset token transmitted in URL — appears in server access logs and browser history.' },
-  { id:9, name:'Missing CSRF Protection', loc:'/account/settings (POST)', type:'DAST', sev:'medium', owasp:'A01:2021', status:'Open', cwe:'CWE-352', desc:'State-changing endpoints lack CSRF tokens.' },
-  { id:10, name:'Unvalidated Redirect', loc:'src/routes/auth.js:201', type:'SAST', sev:'medium', owasp:'A10:2021', status:'In Review', cwe:'CWE-601', desc:'Redirect target derived from user-controlled "next" parameter without validation.' },
-  { id:11, name:'Insecure Cookie Flags', loc:'/api (all endpoints)', type:'DAST', sev:'medium', owasp:'A02:2021', status:'Open', cwe:'CWE-614', desc:'Session cookie missing Secure and HttpOnly flags.' },
-  { id:12, name:'Dependency: lodash 4.17.4', loc:'package.json', type:'SAST', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-1321', desc:'Prototype pollution vulnerability in lodash < 4.17.21.' },
-  { id:13, name:'CVE-2024-29041 — express', loc:'package.json → express@4.17.1', type:'SCA', sev:'critical', owasp:'A06:2021', status:'Open', cwe:'CWE-1035', desc:'Open redirect vulnerability in Express < 4.19.2. Attackers can craft URLs that redirect users to malicious sites.' },
-  { id:14, name:'CVE-2023-44270 — postcss', loc:'package-lock.json → postcss@8.4.21', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-74', desc:'PostCSS line return parsing vulnerability allows injection of malicious CSS via external input.' },
-  { id:15, name:'CVE-2023-26159 — follow-redirects', loc:'package-lock.json → follow-redirects@1.15.2', type:'SCA', sev:'high', owasp:'A06:2021', status:'In Review', cwe:'CWE-601', desc:'Improper URL handling in follow-redirects < 1.15.4 allows credential leakage to third-party hosts.' },
-  { id:16, name:'CVE-2024-4068 — braces', loc:'package-lock.json → braces@3.0.2', type:'SCA', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-1333', desc:'Uncontrolled resource consumption in braces < 3.0.3 via crafted glob patterns causes ReDoS.' },
-  { id:17, name:'CVE-2024-28849 — follow-redirects', loc:'package-lock.json → follow-redirects@1.15.2', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-200', desc:'Authorization header leak on cross-origin redirects in follow-redirects < 1.15.6.' },
-  { id:18, name:'License Risk — GPL-3.0', loc:'package.json → chart-utils@2.1.0', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'N/A', desc:'Dependency uses GPL-3.0 license which is copyleft — may conflict with proprietary licensing terms.' },
-  { id:19, name:'CVE-2023-45133 — @babel/traverse', loc:'package-lock.json → @babel/traverse@7.20.5', type:'SCA', sev:'critical', owasp:'A06:2021', status:'Open', cwe:'CWE-184', desc:'Incomplete blocklist in @babel/traverse < 7.23.2 allows arbitrary code execution during compilation.' },
-  { id:20, name:'CVE-2023-44487 — undici', loc:'package-lock.json → undici@5.22.0', type:'SCA', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-400', desc:'HTTP/2 Rapid Reset denial-of-service vulnerability in undici < 5.26.2.' },
-  { id:21, name:'Outdated: jsonwebtoken 8.5.1', loc:'package.json → jsonwebtoken@8.5.1', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-327', desc:'jsonwebtoken < 9.0.0 vulnerable to key confusion attacks when using asymmetric algorithms.' },
-  { id:22, name:'CVE-2024-21538 — cross-spawn', loc:'package-lock.json → cross-spawn@7.0.3', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-1333', desc:'Regular expression denial of service in cross-spawn < 7.0.5 via crafted command arguments.' },
+  { id:1, name:'SQL Injection', loc:'/api/users/search?q=', type:'DAST', sev:'critical', owasp:'A03:2021', status:'Open', cwe:'CWE-89', epss:0.89, daysOpen:18, desc:'Unsanitized user input passed directly to SQL query via GET parameter. Attacker can exfiltrate entire database.' },
+  { id:2, name:'Hardcoded Credentials', loc:'src/config/database.js:42', type:'SAST', sev:'critical', owasp:'A07:2021', status:'Open', cwe:'CWE-798', epss:null, daysOpen:32, desc:'AWS RDS password found hardcoded in source file. Exposed in version control history.' },
+  { id:3, name:'XXE — XML External Entities', loc:'/api/invoice/parse', type:'IAST', sev:'critical', owasp:'A05:2021', status:'Open', cwe:'CWE-611', epss:null, daysOpen:12, desc:'XML parser accepts external entity references. Runtime IAST agent confirmed this is reachable and exploitable.' },
+  { id:4, name:'Broken Access Control — IDOR', loc:'/api/orders/{id}', type:'DAST', sev:'high', owasp:'A01:2021', status:'Open', cwe:'CWE-284', epss:null, daysOpen:25, desc:'Authenticated users can access any order by changing the numeric ID parameter.' },
+  { id:5, name:'Reflected XSS', loc:'/search?term=', type:'DAST', sev:'high', owasp:'A03:2021', status:'In Review', cwe:'CWE-79', epss:null, daysOpen:9, desc:'Search term reflected in HTML response without escaping. DOM-based XSS confirmed.' },
+  { id:6, name:'Insecure Deserialization', loc:'src/middleware/session.js:88', type:'SAST', sev:'high', owasp:'A08:2021', status:'Open', cwe:'CWE-502', epss:null, daysOpen:41, desc:'Node.js deserialize() called with untrusted input — remote code execution risk.' },
+  { id:7, name:'JWT None Algorithm', loc:'/auth/token/verify', type:'IAST', sev:'high', owasp:'A02:2021', status:'Open', cwe:'CWE-327', epss:null, daysOpen:15, desc:'IAST agent detected jwt.verify() accepts "none" algorithm, allowing signature bypass.' },
+  { id:8, name:'Sensitive Data in URL', loc:'/password/reset?token=', type:'DAST', sev:'medium', owasp:'A02:2021', status:'Fixed', cwe:'CWE-200', epss:null, daysOpen:0, desc:'Password reset token transmitted in URL — appears in server access logs and browser history.' },
+  { id:9, name:'Missing CSRF Protection', loc:'/account/settings (POST)', type:'DAST', sev:'medium', owasp:'A01:2021', status:'Open', cwe:'CWE-352', epss:null, daysOpen:20, desc:'State-changing endpoints lack CSRF tokens.' },
+  { id:10, name:'Unvalidated Redirect', loc:'src/routes/auth.js:201', type:'SAST', sev:'medium', owasp:'A10:2021', status:'In Review', cwe:'CWE-601', epss:null, daysOpen:8, desc:'Redirect target derived from user-controlled "next" parameter without validation.' },
+  { id:11, name:'Insecure Cookie Flags', loc:'/api (all endpoints)', type:'DAST', sev:'medium', owasp:'A02:2021', status:'Open', cwe:'CWE-614', epss:null, daysOpen:45, desc:'Session cookie missing Secure and HttpOnly flags.' },
+  { id:12, name:'Dependency: lodash 4.17.4', loc:'package.json', type:'SAST', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-1321', epss:0.24, daysOpen:60, desc:'Prototype pollution vulnerability in lodash < 4.17.21.' },
+  { id:13, name:'CVE-2024-29041 — express', loc:'package.json → express@4.17.1', type:'SCA', sev:'critical', owasp:'A06:2021', status:'Open', cwe:'CWE-1035', epss:0.72, daysOpen:28, desc:'Open redirect vulnerability in Express < 4.19.2. Attackers can craft URLs that redirect users to malicious sites.' },
+  { id:14, name:'CVE-2023-44270 — postcss', loc:'package-lock.json → postcss@8.4.21', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-74', epss:0.07, daysOpen:90, desc:'PostCSS line return parsing vulnerability allows injection of malicious CSS via external input.' },
+  { id:15, name:'CVE-2023-26159 — follow-redirects', loc:'package-lock.json → follow-redirects@1.15.2', type:'SCA', sev:'high', owasp:'A06:2021', status:'In Review', cwe:'CWE-601', epss:0.38, daysOpen:14, desc:'Improper URL handling in follow-redirects < 1.15.4 allows credential leakage to third-party hosts.' },
+  { id:16, name:'CVE-2024-4068 — braces', loc:'package-lock.json → braces@3.0.2', type:'SCA', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-1333', epss:0.15, daysOpen:35, desc:'Uncontrolled resource consumption in braces < 3.0.3 via crafted glob patterns causes ReDoS.' },
+  { id:17, name:'CVE-2024-28849 — follow-redirects', loc:'package-lock.json → follow-redirects@1.15.2', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-200', epss:0.12, daysOpen:22, desc:'Authorization header leak on cross-origin redirects in follow-redirects < 1.15.6.' },
+  { id:18, name:'License Risk — GPL-3.0', loc:'package.json → chart-utils@2.1.0', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'N/A', epss:null, daysOpen:55, desc:'Dependency uses GPL-3.0 license which is copyleft — may conflict with proprietary licensing terms.' },
+  { id:19, name:'CVE-2023-45133 — @babel/traverse', loc:'package-lock.json → @babel/traverse@7.20.5', type:'SCA', sev:'critical', owasp:'A06:2021', status:'Open', cwe:'CWE-184', epss:0.91, daysOpen:42, desc:'Incomplete blocklist in @babel/traverse < 7.23.2 allows arbitrary code execution during compilation.' },
+  { id:20, name:'CVE-2023-44487 — undici', loc:'package-lock.json → undici@5.22.0', type:'SCA', sev:'high', owasp:'A06:2021', status:'Open', cwe:'CWE-400', epss:0.67, daysOpen:30, desc:'HTTP/2 Rapid Reset denial-of-service vulnerability in undici < 5.26.2.' },
+  { id:21, name:'Outdated: jsonwebtoken 8.5.1', loc:'package.json → jsonwebtoken@8.5.1', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-327', epss:0.09, daysOpen:70, desc:'jsonwebtoken < 9.0.0 vulnerable to key confusion attacks when using asymmetric algorithms.' },
+  { id:22, name:'CVE-2024-21538 — cross-spawn', loc:'package-lock.json → cross-spawn@7.0.3', type:'SCA', sev:'medium', owasp:'A06:2021', status:'Open', cwe:'CWE-1333', epss:0.04, daysOpen:18, desc:'Regular expression denial of service in cross-spawn < 7.0.5 via crafted command arguments.' },
 ];
 
 let currentIssues = [...ISSUES];
@@ -1209,18 +1769,122 @@ function initCharts() {
       }
     }
   });
+
+  // Remediation Velocity Chart
+  const velCtx = document.getElementById('velocityChart').getContext('2d');
+  new Chart(velCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Oct','Nov','Dec','Jan','Feb','Mar'],
+      datasets: [
+        { label:'Opened', data:[42,38,51,35,44,48], backgroundColor:'rgba(232,69,69,0.6)', borderRadius:4 },
+        { label:'Fixed', data:[28,35,30,40,38,32], backgroundColor:'rgba(0,200,150,0.6)', borderRadius:4 },
+        { label:'Net Backlog', data:[14,3,21,-5,6,16], type:'line', borderColor:'rgba(79,156,249,0.5)', backgroundColor:'rgba(79,156,249,0.08)', tension:0.4, borderWidth:2, pointRadius:4, pointBackgroundColor:'#4f9cf9', fill:true }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ grid:{display:false}, ticks:{color:'#7a7f94',font:{size:11}} },
+        y:{ grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#7a7f94',font:{size:11}} }
+      }
+    }
+  });
+
+  // EPSS Scatter Chart
+  const epssCtx = document.getElementById('epssChart').getContext('2d');
+  const epssIssues = ISSUES.filter(i => i.epss !== null);
+  const sevToY = { critical: 4, high: 3, medium: 2, low: 1 };
+  const epssData = epssIssues.map(i => ({
+    x: i.epss,
+    y: sevToY[i.sev] + (Math.random() * 0.4 - 0.2),
+    r: Math.max(6, i.daysOpen / 5),
+    label: i.name,
+    epss: i.epss,
+    sev: i.sev
+  }));
+  new Chart(epssCtx, {
+    type: 'bubble',
+    data: {
+      datasets: [{
+        data: epssData,
+        backgroundColor: epssData.map(d => d.epss >= 0.5 ? 'rgba(232,69,69,0.6)' : d.epss >= 0.1 ? 'rgba(245,166,35,0.5)' : 'rgba(79,156,249,0.5)'),
+        borderColor: epssData.map(d => d.epss >= 0.5 ? '#e84545' : d.epss >= 0.1 ? '#f5a623' : '#4f9cf9'),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          callbacks:{
+            label: ctx => {
+              const d = epssData[ctx.dataIndex];
+              return `${d.label} — EPSS: ${d.epss} (${d.sev})`;
+            }
+          }
+        }
+      },
+      scales:{
+        x:{ title:{display:true,text:'EPSS Score',color:'#7a7f94',font:{size:10}}, min:0,max:1, grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#7a7f94',font:{size:10}} },
+        y:{ title:{display:true,text:'Severity',color:'#7a7f94',font:{size:10}}, min:0.5,max:4.5, grid:{color:'rgba(255,255,255,0.04)'}, ticks:{color:'#7a7f94',font:{size:10}, callback: v => ({1:'Low',2:'Medium',3:'High',4:'Critical'}[Math.round(v)] || '')} }
+      }
+    }
+  });
 }
 
 // ─────────────────────────────────────────────
-//  ISSUES TABLE
+//  EXPORT FUNCTIONS
 // ─────────────────────────────────────────────
+function exportCSV() {
+  const SLA_LIMITS = { critical: 1, high: 7, medium: 30, low: 90 };
+  const header = 'ID,Issue,Location,ScanType,Severity,OWASP,CWE,EPSS,DaysOpen,SLAStatus,Status\n';
+  const rows = currentIssues.map(i => {
+    const slaLimit = SLA_LIMITS[i.sev] || 90;
+    const slaStatus = i.status === 'Fixed' ? 'Fixed' : i.daysOpen > slaLimit ? 'Overdue' : i.daysOpen > slaLimit * 0.7 ? 'At Risk' : 'OK';
+    return `${i.id},"${i.name}","${i.loc}",${i.type},${i.sev},${i.owasp},${i.cwe},${i.epss ?? ''},${i.daysOpen},${slaStatus},${i.status}`;
+  }).join('\n');
+  const blob = new Blob([header + rows], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'appscan_issues_' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function exportJSON() {
+  const blob = new Blob([JSON.stringify(currentIssues, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'appscan_issues_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
 function renderIssues(issues) {
   const tbody = document.getElementById('issues-table-body');
   tbody.innerHTML = '';
+  const SLA_LIMITS = { critical: 1, high: 7, medium: 30, low: 90 };
   issues.forEach(issue => {
     const sevClass = `sev-${issue.sev}`;
     const chipClass = `chip-${issue.type.toLowerCase()}`;
     const statusColor = issue.status === 'Fixed' ? 'var(--info)' : issue.status === 'In Review' ? 'var(--warn)' : 'var(--muted)';
+    // EPSS display
+    const epssVal = issue.epss !== null ? issue.epss.toFixed(2) : '—';
+    const epssColor = issue.epss >= 0.5 ? 'var(--danger)' : issue.epss >= 0.1 ? 'var(--warn)' : 'var(--muted)';
+    // SLA aging
+    const slaLimit = SLA_LIMITS[issue.sev] || 90;
+    let slaHtml = '';
+    if (issue.status === 'Fixed') {
+      slaHtml = '<span class="sla-badge sla-ok">FIXED</span>';
+    } else if (issue.daysOpen > slaLimit) {
+      slaHtml = `<span class="sla-badge sla-overdue">${issue.daysOpen}d ▲ OVERDUE</span>`;
+    } else if (issue.daysOpen > slaLimit * 0.7) {
+      slaHtml = `<span class="sla-badge sla-atrisk">${issue.daysOpen}d AT RISK</span>`;
+    } else {
+      slaHtml = `<span class="sla-badge sla-ok">${issue.daysOpen}d OK</span>`;
+    }
     const tr = document.createElement('tr');
     tr.className = 'issue-row';
     tr.dataset.id = issue.id;
@@ -1232,6 +1896,8 @@ function renderIssues(issues) {
       <td><span class="type-chip ${chipClass}">${issue.type}</span></td>
       <td><span class="sev-pill ${sevClass}">${issue.sev}</span></td>
       <td style="font-size:11px;font-family:var(--mono);color:var(--muted)">${issue.owasp}</td>
+      <td style="font-size:12px;font-family:var(--mono);color:${epssColor};font-weight:${issue.epss >= 0.5 ? '600' : '400'}">${epssVal}</td>
+      <td>${slaHtml}</td>
       <td style="font-size:12px;color:${statusColor}">${issue.status}</td>
       <td><button class="ai-fix-btn" onclick="openAIPanel(${issue.id}, event)">✦ AI Fix</button></td>
     `;
@@ -1536,6 +2202,103 @@ function syncData() {
 // ─────────────────────────────────────────────
 //  INIT
 // ─────────────────────────────────────────────
+// ─────────────────────────────────────────────
+//  GATE OVERRIDE LOGIC
+// ─────────────────────────────────────────────
+function openOverrideModal() {
+  // Set default expiry to 48 hours from now
+  const expiry = new Date();
+  expiry.setDate(expiry.getDate() + 2);
+  document.getElementById('override-expiry').value = expiry.toISOString().slice(0, 10);
+  document.getElementById('override-overlay').classList.add('visible');
+}
+
+function closeOverrideModal() {
+  document.getElementById('override-overlay').classList.remove('visible');
+}
+
+function submitOverride() {
+  const type = document.getElementById('override-type').value;
+  const approver = document.getElementById('override-approver').value.trim();
+  const ticket = document.getElementById('override-ticket').value.trim();
+  const justification = document.getElementById('override-justification').value.trim();
+  const expiry = document.getElementById('override-expiry').value;
+
+  // Validate required fields
+  if (!approver || !ticket || !justification || !expiry) {
+    alert('All fields are required: Approver, Ticket #, Justification, and Expiry date.');
+    return;
+  }
+
+  // Count compensating controls checked
+  const ccChecked = document.querySelectorAll('.override-check-item input:checked').length;
+  const ccTotal = document.querySelectorAll('.override-check-item input').length;
+
+  const typeLabels = {
+    'risk-acceptance': 'Risk Acceptance',
+    'emergency': 'Emergency Change (Break-Glass)',
+    'compensating': 'Compensating Controls',
+    'threshold': 'Severity Threshold Override'
+  };
+
+  // Update Production gate card
+  const gateCard = document.querySelector('.gate-card.gate-fail');
+  const statusSpan = gateCard.querySelector('.gate-status');
+  statusSpan.textContent = 'OVERRIDE';
+  statusSpan.className = 'gate-status gs-warn';
+  gateCard.classList.remove('gate-fail');
+  gateCard.classList.add('gate-warn');
+
+  // Show override banner
+  const banner = document.getElementById('override-banner');
+  banner.innerHTML = `<strong>${typeLabels[type]}</strong> approved by <strong>${approver}</strong><br>` +
+    `Ticket: ${ticket} &nbsp;|&nbsp; Expires: ${expiry} &nbsp;|&nbsp; Controls: ${ccChecked}/${ccTotal} active<br>` +
+    `<span style="font-size:9.5px;opacity:0.8">${justification}</span>`;
+  banner.classList.add('visible');
+
+  // Replace the override button with a revoke button
+  const overrideBtn = gateCard.querySelector('.gate-override-btn');
+  overrideBtn.textContent = '✕ Revoke Override';
+  overrideBtn.style.color = 'var(--danger)';
+  overrideBtn.style.borderColor = 'rgba(232,69,69,0.4)';
+  overrideBtn.style.background = 'rgba(232,69,69,0.1)';
+  overrideBtn.onclick = revokeOverride;
+
+  closeOverrideModal();
+}
+
+function revokeOverride() {
+  const gateCard = document.querySelector('.gate-card.gate-warn.gate-card:first-child, .gate-section .gate-card:first-child');
+  if (!gateCard) return;
+  const statusSpan = gateCard.querySelector('.gate-status');
+  statusSpan.textContent = 'BLOCKED';
+  statusSpan.className = 'gate-status gs-fail';
+  gateCard.classList.remove('gate-warn');
+  gateCard.classList.add('gate-fail');
+
+  // Hide banner
+  document.getElementById('override-banner').classList.remove('visible');
+
+  // Restore override button
+  const overrideBtn = gateCard.querySelector('.gate-override-btn');
+  overrideBtn.textContent = '⚠ Request Gate Override';
+  overrideBtn.style.color = '';
+  overrideBtn.style.borderColor = '';
+  overrideBtn.style.background = '';
+  overrideBtn.onclick = openOverrideModal;
+
+  // Reset form
+  document.getElementById('override-approver').value = '';
+  document.getElementById('override-ticket').value = '';
+  document.getElementById('override-justification').value = '';
+  document.querySelectorAll('.override-check-item input').forEach(cb => cb.checked = false);
+}
+
+// Close modal on overlay click
+document.getElementById('override-overlay')?.addEventListener('click', (e) => {
+  if (e.target === e.currentTarget) closeOverrideModal();
+});
+
 document.addEventListener('DOMContentLoaded', () => {
   initCharts();
   renderIssues(ISSUES);
