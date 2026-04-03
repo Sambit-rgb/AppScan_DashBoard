@@ -354,7 +354,7 @@
 <div class="header">
   <div class="header-content">
     <h1>AppScan 360° — Unified Security Dashboard</h1>
-    <div class="subtitle">AI-Powered Multi-Scan Aggregation, Remediation Intelligence &amp; CI/CD Gate Management</div>
+    <div class="subtitle">AI-Powered Per-Artifact Aggregation, Remediation Intelligence &amp; CI/CD Gate Management &nbsp;·&nbsp; Gap Analysis, Build Case &amp; Customer Value</div>
     <div class="scan-pills">
       <span class="scan-pill sp-sast">SAST</span>
       <span class="scan-pill sp-dast">DAST</span>
@@ -391,6 +391,68 @@
       <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">Compliance Reports</span>
       <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">API Key Auth</span>
       <span style="font-size:8.5px;background:#fff;border:1px solid #e0f2fe;border-radius:4px;padding:2px 8px;color:#0369a1;">Slack / Splunk / Cursor</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ SECTION 1B: IS IT ALREADY THERE? ═══════════════════ -->
+<div class="section" style="margin-bottom:18px;">
+  <div class="section-header">
+    <div class="section-num" style="background:linear-gradient(135deg,#b45309,#d97706);">?</div>
+    <div>
+      <div class="section-title">Is This Already There — Or Does HCL Need to Build It?</div>
+      <div class="section-subtitle">Verdict based on AppScan 360° v2.0.0 / v2.1.0 documentation and product research</div>
+    </div>
+  </div>
+
+  <!-- VERDICT STRIP -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+    <div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:12px 16px;">
+      <div style="font-size:10px;font-weight:700;color:#15803d;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Already exists in AppScan 360°</div>
+      <ul class="bullets" style="color:#166534;">
+        <li><strong>Org-level centralized dashboard</strong> — active issues, MTTR, risk rating, compliance charts across all applications and all scan types</li>
+        <li><strong>Scans &amp; Sessions page</strong> — lists DAST, SAST, IAST, SCA scans in a unified list (but navigated separately by category)</li>
+        <li><strong>Correlation engine (IAST-based)</strong> — analyzes IAST + DAST + SAST findings to identify common root causes and fix groups</li>
+        <li><strong>RapidFix / GenAI AutoFix</strong> — AI-generated fix recommendations with GenAI summaries (SAST only, paid add-on)</li>
+        <li><strong>IFA (Intelligent Findings Analytics)</strong> — groups and consolidates hundreds of findings into manageable categories</li>
+        <li><strong>MCP Server</strong> — IDE-based LLM triage access across all scan types via Model Context Protocol</li>
+        <li><strong>EPSS scores</strong> — real-world exploit probability shown in SCA issue details pane</li>
+        <li><strong>Compliance reports</strong> — PDF exports for OWASP, PCI-DSS, NIST standards at portfolio level</li>
+      </ul>
+    </div>
+    <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:10px;padding:12px 16px;">
+      <div style="font-size:10px;font-weight:700;color:#991b1b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Does NOT exist — HCL needs to build this</div>
+      <ul class="bullets" style="color:#7f1d1d;">
+        <li><strong>Per-artifact unified view</strong> — selecting <em>one project artifact</em> and seeing SAST + DAST + IAST findings side-by-side in a single graphical screen. The Scans page lists scan categories separately; no merged per-artifact view exists.</li>
+        <li><strong>Per-artifact severity donut + OWASP stacked chart + trend</strong> — visual breakdown scoped to a single artifact, not the whole portfolio</li>
+        <li><strong>AI Fix Advisor at issue-row level</strong> — conversational triage per issue across all scan types (DAST, IAST, SCA), not just SAST via RapidFix</li>
+        <li><strong>Per-artifact compliance gate</strong> — pass/warn/fail verdict for one artifact against PCI-DSS, NIST, OWASP with release gate enforcement</li>
+        <li><strong>Role-based artifact views</strong> — developer view, CISO view, AppSec view scoped to a single project artifact</li>
+        <li><strong>Cross-scan CWE clustering without IAST</strong> — correlation currently requires active IAST subscription; CWE-based grouping across SAST+DAST+SCA without IAST dependency does not exist</li>
+        <li><strong>Security debt score + fix simulation</strong> — unified debt metric (Issues × Severity × Age) and pre-fix impact preview across all scan types</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- NUANCED VERDICT BOX -->
+  <div style="background:linear-gradient(135deg,#1e3a5f,#0f172a);color:#fff;border-radius:10px;padding:14px 18px;">
+    <div style="font-size:11px;font-weight:700;color:#fcd34d;margin-bottom:8px;">Verdict: Partially Exists — The Engine Is There, the Experience Is Not</div>
+    <div style="font-size:10px;line-height:1.65;color:rgba(255,255,255,0.88);">
+      AppScan 360° has the <strong style="color:#7dd3fc;">data, the correlation engine, and the AI fix capability</strong> — but they are scattered across separate pages and limited to specific scan types (e.g. RapidFix is SAST-only; correlation requires IAST). What does <em>not</em> exist is a <strong style="color:#fcd34d;">per-project-artifact, unified graphical command center</strong> where a developer or security lead selects one artifact and sees every SAST, DAST, and IAST finding merged, ranked, and explained in a single view — with AI fix advice for each issue across all scan types, and a real-time release gate verdict. This is what needs to be developed by HCL.
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;">
+      <div style="background:rgba(255,255,255,0.07);border-radius:6px;padding:8px 10px;text-align:center;">
+        <div style="font-size:9px;font-weight:700;color:#7dd3fc;margin-bottom:2px;">Build Effort</div>
+        <div style="font-size:8.5px;color:rgba(255,255,255,0.7);">Medium — APIs &amp; correlation already exist; UI layer + AI integration is the new work</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.07);border-radius:6px;padding:8px 10px;text-align:center;">
+        <div style="font-size:9px;font-weight:700;color:#4ade80;margin-bottom:2px;">Risk Level</div>
+        <div style="font-size:8.5px;color:rgba(255,255,255,0.7);">Low — extends existing AppScan 360° REST API v4, no new scanning engine needed</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.07);border-radius:6px;padding:8px 10px;text-align:center;">
+        <div style="font-size:9px;font-weight:700;color:#fb923c;margin-bottom:2px;">Time to Value</div>
+        <div style="font-size:8.5px;color:rgba(255,255,255,0.7);">Dependent on scope, team availability, and integration complexity — to be defined during discovery</div>
+      </div>
     </div>
   </div>
 </div>
@@ -574,7 +636,7 @@
         <div style="font-size:8.5px;color:#64748b;">No licensing friction, vendor onboarding, or IT ticket queues</div>
       </div>
     </div>
-    Open it in any browser — and the platform is live. It connects directly to your existing AppScan 360° instance (v2.1.0 API key auth) and ingests real-time SAST, DAST, IAST &amp; SCA data, normalizes findings across tools, and enhances them with AI-driven prioritization. <mark>Time to Value: under 5 minutes</mark> — without IT involvement.
+    Open it in any browser — and the platform is live. It connects directly to your existing AppScan 360° instance (v2.1.0 API key auth) and ingests real-time SAST, DAST, IAST &amp; SCA data, normalizes findings across tools, and enhances them with AI-driven prioritization — without IT involvement.
     <div style="display:flex;gap:10px;margin-top:8px;">
       <span style="font-size:8.5px;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:3px 8px;">💻 <strong>Air-gapped</strong> → Local PoCs</span>
       <span style="font-size:8.5px;background:#fff;border:1px solid #e2e8f0;border-radius:4px;padding:3px 8px;">🏢 <strong>Enterprise</strong> → Intranet for AppSec teams</span>
@@ -757,10 +819,16 @@
   <div class="section-header">
     <div class="section-num sn-blue">6</div>
     <div>
-      <div class="section-title">Customer Value by Persona</div>
-      <div class="section-subtitle">Who benefits and how — from CISO to developer</div>
+      <div class="section-title">Customer Value &amp; Why HCL Should Build This</div>
+      <div class="section-subtitle">How this feature attracts new customers, retains existing ones, and extends HCL's Gartner leadership</div>
     </div>
   </div>
+
+  <!-- GARTNER ANCHOR CALLOUT -->
+  <div class="callout callout-blue" style="margin-bottom:10px;">
+    <strong>Competitive context:</strong> HCL AppScan is a <strong>2025 Gartner Magic Quadrant Leader for Application Security Testing</strong> — recognized for its comprehensive platform combining DAST, SAST, IAST, and SCA. Gartner's vision for Leaders is moving toward <em>per-project security posture management</em> — unified, artifact-scoped risk visibility. Building this dashboard directly extends that leadership position and gives sales teams a concrete, demonstrable differentiator over Veracode, SonarQube, and Snyk in competitive RFPs.
+  </div>
+
   <!-- Business Impact Strip -->
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
     <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);color:#fff;border-radius:8px;padding:10px 12px;text-align:center;">
@@ -785,54 +853,86 @@
     </div>
   </div>
 
+  <!-- HOW THIS ATTRACTS AND HELPS CUSTOMERS — PER PERSONA -->
+  <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">How This Attracts &amp; Helps Each Customer Persona</div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
-    <div class="persona-card">
-      <div class="persona-icon">🛡️</div>
-      <div class="persona-role">Security Lead / CISO</div>
-      <div class="persona-value">Single pane to triage all scan types per artifact. Risk score + OWASP/PCI-DSS/NIST/SOC 2 compliance at a glance. CI/CD gate status with override audit trail. No more context-switching across 4 tabs.</div>
-    </div>
     <div class="persona-card">
       <div class="persona-icon">👨‍💻</div>
       <div class="persona-role">Developer</div>
-      <div class="persona-value">One-click AI fix generation with before/after code diffs. Plain-English vulnerability explanations. Choose local LLM for zero data exposure. Reduces MTTR by 40-60% vs manual remediation.</div>
+      <div class="persona-value">
+        <strong>Pain today:</strong> Routed to 3–4 separate scan pages per artifact, no unified list, no AI fix for DAST/IAST issues.<br>
+        <strong>This feature gives them:</strong> One screen — all issues from every scan type ranked by severity. One click → AI-generated code fix with before/after diff. Plain-English explanation they can act on without security expertise. Keeps developers in flow, not jumping between tools.
+      </div>
+    </div>
+    <div class="persona-card">
+      <div class="persona-icon">🛡️</div>
+      <div class="persona-role">Security Lead / CISO</div>
+      <div class="persona-value">
+        <strong>Pain today:</strong> Must manually synthesize 3 separate scan reports to answer "Is this artifact safe to release?" — no single screen gives that answer.<br>
+        <strong>This feature gives them:</strong> Per-artifact risk score + OWASP/PCI-DSS/NIST/SOC 2 gate status in one view. CI/CD gate verdict (Pass / Warn / Fail) with override audit trail. A shareable, executive-ready snapshot with no manual report assembly. Clear go/no-go per release without context-switching across 4 tabs.
+      </div>
     </div>
     <div class="persona-card">
       <div class="persona-icon">📋</div>
       <div class="persona-role">Compliance / Audit</div>
-      <div class="persona-value">OWASP Top 10 breakdown across all scan types in one stacked chart. Regulatory risk assessment per issue. CSV/PDF evidence exports for audit reports without manual aggregation.</div>
+      <div class="persona-value">
+        <strong>Pain today:</strong> Manual aggregation of findings from multiple scan type reports into audit evidence — time-consuming, error-prone, and not repeatable.<br>
+        <strong>This feature gives them:</strong> OWASP Top 10 breakdown across all scan types in one stacked chart, scoped per artifact. Regulatory risk assessment per issue. One-click CSV/PDF exports that serve as audit evidence without manual aggregation. Demonstrably meets GDPR Article 32, PCI-DSS Req 6.3 documentation requirements.
+      </div>
     </div>
     <div class="persona-card">
       <div class="persona-icon">⚙️</div>
       <div class="persona-role">DevSecOps / AppSec Team</div>
-      <div class="persona-value">Trend analysis reveals security posture trajectory. EPSS prioritization for real-world risk. Remediation velocity tracking. SCA supply-chain risk alongside code vulnerabilities. Gate override governance.</div>
+      <div class="persona-value">
+        <strong>Pain today:</strong> Correlation requires active IAST subscription. No cross-scan CWE clustering. No unified velocity or remediation debt view per artifact.<br>
+        <strong>This feature gives them:</strong> CWE-based cross-tool clustering that works across SAST+DAST+SCA <em>without</em> IAST dependency. Remediation velocity tracking (opened vs fixed over time). Security debt score (Issues × Severity × Age) with 6-month trend. EPSS prioritization overlaid on all scan results. Gate override governance with full audit trail.
+      </div>
     </div>
   </div>
+
+  <!-- HOW THIS ATTRACTS NEW CUSTOMERS — SALES/MARKET ANGLE -->
+  <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">How This Attracts New Customers — Sales &amp; Market Angle</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+      <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:4px;">Demo Differentiator</div>
+      <div style="font-size:9px;color:#64748b;line-height:1.45;">In competitive evaluations vs Veracode or SonarQube, a live per-artifact unified dashboard with AI fix advice across all scan types is a <em>visible, tangible</em> proof point — not a slide. Sales engineers can demo it against a prospect's own AppScan data with no complex setup.</div>
+    </div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+      <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:4px;">Upsell Lever</div>
+      <div style="font-size:9px;color:#64748b;line-height:1.45;">Existing customers using only SAST or DAST can see the gap — issues their current scan type misses — which naturally drives adoption of IAST and SCA. The unified view makes the value of the full platform immediately obvious, accelerating cross-sell and license expansion.</div>
+    </div>
+    <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+      <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:4px;">Stickiness &amp; Retention</div>
+      <div style="font-size:9px;color:#64748b;line-height:1.45;">Once teams use a per-artifact unified view as their daily security command center — release gates, debt tracking, AI advisor — they become highly dependent on it. This raises switching costs and drives renewal. It transforms AppScan from a periodic scan tool into an always-on security platform.</div>
+    </div>
+  </div>
+
   <!-- Strategic Differentiation -->
   <div style="background:linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%);border-radius:10px;padding:14px 18px;color:#fff;margin-top:0;">
-    <div style="font-size:11px;font-weight:700;margin-bottom:8px;color:#fcd34d;">Strategic Differentiation — Why This Matters</div>
+    <div style="font-size:11px;font-weight:700;margin-bottom:8px;color:#fcd34d;">Strategic Differentiation — Why This Matters for HCL's Roadmap</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
       <div style="display:flex;align-items:flex-start;gap:6px;">
         <span style="color:#93c5fd;font-size:12px;flex-shrink:0;">🔗</span>
-        <div><span style="font-size:9.5px;font-weight:600;">Cross-tool correlation</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— SAST+DAST+SCA findings unified. Identifies high-risk issues missed in siloed views</span></div>
+        <div><span style="font-size:9.5px;font-weight:600;">Cross-tool correlation, visually surfaced</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— AppScan's correlation engine already links SAST+DAST+IAST findings. This feature turns that back-end logic into a front-end experience customers can see, share, and act on</span></div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:6px;">
         <span style="color:#4ade80;font-size:12px;flex-shrink:0;">🎯</span>
-        <div><span style="font-size:9.5px;font-weight:600;">Intelligent prioritization</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— EPSS + aging + exploit intel + multi-source. Focus on what is actually exploitable</span></div>
+        <div><span style="font-size:9.5px;font-weight:600;">AI that covers all scan types, not just SAST</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— RapidFix is SAST-only today. Extending AI fix advice to DAST, IAST, and SCA issues is a clear capability gap vs the market expectation for a unified AST platform</span></div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:6px;">
         <span style="color:#fb923c;font-size:12px;flex-shrink:0;">📊</span>
-        <div><span style="font-size:9.5px;font-weight:600;">Leadership-grade analytics</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— Risk heatmaps, trends, debt scoring, gates. Built for executive visibility, not just engineers</span></div>
+        <div><span style="font-size:9.5px;font-weight:600;">Leadership-grade analytics, scoped per artifact</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— The current dashboard is portfolio-wide. Per-artifact risk scores, velocity, debt trends, and release gate status answer the questions CISOs actually ask about individual products</span></div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:6px;">
         <span style="color:#a78bfa;font-size:12px;flex-shrink:0;">🤖</span>
-        <div><span style="font-size:9.5px;font-weight:600;">AI-assisted remediation</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— Multi-LLM fix generation + simulation. Measurably reduces mean-time-to-fix (MTTR)</span></div>
+        <div><span style="font-size:9.5px;font-weight:600;">Aligns with Gartner's AST evolution direction</span> <span style="font-size:8.5px;color:rgba(255,255,255,0.6);">— Gartner's AST Magic Quadrant increasingly evaluates unified risk management and developer experience. This feature directly strengthens both evaluation criteria</span></div>
       </div>
     </div>
     <div style="border-top:1px solid rgba(255,255,255,0.15);padding-top:8px;text-align:center;">
       <div style="font-size:10.5px;font-style:italic;color:rgba(255,255,255,0.85);line-height:1.5;">
-        "This solution reimagines how AppScan data is consumed — shifting from static scan results to<br><mark style="background:rgba(252,211,77,0.25);color:#fcd34d;padding:1px 4px;border-radius:2px;font-weight:600;">real-time, intelligence-driven decision making</mark>, delivered instantly with zero operational overhead."
+        "The data is in AppScan. The engine is in AppScan. What's missing is the<br><mark style="background:rgba(252,211,77,0.25);color:#fcd34d;padding:1px 4px;border-radius:2px;font-weight:600;">per-artifact graphical experience</mark> that turns scan results into a security decision platform — for every team, every role, every release."
       </div>
-      <div style="font-size:8.5px;color:rgba(255,255,255,0.5);margin-top:4px;">Transforms AppScan from a scanning tool into a decision platform</div>
+      <div style="font-size:8.5px;color:rgba(255,255,255,0.5);margin-top:4px;">Transforms AppScan from a scanning tool into a real-time, per-artifact security command center</div>
     </div>
   </div>
 </div>
@@ -843,6 +943,7 @@
     AppScan 360° Unified Dashboard — Technical Writeup — April 2026 &nbsp;&nbsp;|&nbsp;&nbsp; Created by Sambit Mohanty
   </div>
   <div class="footer-right">
+    <span class="footer-tag">Gap Analysis</span>
     <span class="footer-tag">v2.1.0 API</span>
     <span class="footer-tag">MCP</span>
     <span class="footer-tag">Multi-LLM</span>
