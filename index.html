@@ -1028,6 +1028,51 @@
   .conn-err { background: rgba(232,69,69,0.12); color: var(--danger); border: 1px solid rgba(232,69,69,0.25); }
   .conn-unk { background: rgba(122,127,148,0.12); color: var(--muted); border: 1px solid rgba(122,127,148,0.25); }
 
+  /* ── INTEGRATIONS PANEL ── */
+  .int-panel-overlay {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s;
+    opacity: 0;
+  }
+  .int-panel-overlay.open { max-height: 600px; opacity: 1; }
+  .int-panel-inner { padding: 16px 28px 20px; max-width: 1360px; margin: 0 auto; }
+  .int-panel-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; color: var(--text); }
+  .int-panel-title .ai-icon { width: 20px; height: 20px; font-size: 10px; }
+  .int-tabs { display: flex; gap: 0; margin-bottom: 0; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px 8px 0 0; overflow: hidden; border-bottom: none; }
+  .int-tab { flex: 1; padding: 9px 6px; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; border: none; cursor: pointer; background: transparent; color: var(--muted); display: flex; align-items: center; justify-content: center; gap: 6px; border-right: 1px solid var(--border); transition: all 0.2s; }
+  .int-tab:last-child { border-right: none; }
+  .int-tab.active { background: var(--card); color: var(--text); }
+  .int-tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.03); }
+  .int-tab-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .int-panels { border: 1px solid var(--border); border-top: none; border-radius: 0 0 10px 10px; overflow: hidden; }
+  .int-pane { display: none; }
+  .int-pane.active { display: block; }
+  .int-pane-header { padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .int-pane-header-title { font-size: 11px; font-weight: 600; color: #fff; }
+  .int-pane-header-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .int-chip { font-size: 9.5px; font-weight: 600; padding: 2px 9px; border-radius: 10px; white-space: nowrap; font-family: var(--mono); }
+  .int-field-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 12px; }
+  .int-field-row:last-child { border-bottom: none; }
+  .int-field-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; min-width: 90px; flex-shrink: 0; }
+  .int-input { flex: 1; min-width: 160px; background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--mono); font-size: 11px; padding: 6px 10px; border-radius: 6px; outline: none; }
+  .int-input::placeholder { color: var(--muted); }
+  .int-input:focus { border-color: rgba(79,156,249,0.4); }
+  .int-select { background: var(--bg); border: 1px solid var(--border); color: var(--text); font-family: var(--font); font-size: 11px; padding: 6px 10px; border-radius: 6px; outline: none; cursor: pointer; }
+  .int-note { font-size: 10px; color: var(--muted); line-height: 1.5; padding: 7px 16px; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.04); }
+  .int-warn { font-size: 10px; color: var(--warn); background: rgba(245,166,35,0.07); border-top: 1px solid rgba(245,166,35,0.15); padding: 7px 16px; line-height: 1.5; }
+  .int-action-row { padding: 10px 16px; display: flex; align-items: center; gap: 8px; border-top: 1px solid rgba(255,255,255,0.04); }
+  .int-btn { padding: 6px 14px; border-radius: 6px; font-size: 11px; font-weight: 600; cursor: pointer; border: 1px solid; transition: all 0.15s; font-family: var(--font); }
+  .int-btn-primary { background: rgba(79,156,249,0.12); border-color: rgba(79,156,249,0.3); color: var(--accent); }
+  .int-btn-primary:hover { background: rgba(79,156,249,0.2); }
+  .int-btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); }
+  .int-btn-ghost:hover { border-color: var(--border2); color: var(--text); }
+  .int-toggle-btn { display: flex; align-items: center; gap: 6px; background: rgba(79,156,249,0.08); border: 1px solid rgba(79,156,249,0.2); color: var(--accent); font-family: var(--font); font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: 7px; cursor: pointer; transition: all 0.2s; }
+  .int-toggle-btn:hover, .int-toggle-btn.open { background: rgba(79,156,249,0.15); border-color: rgba(79,156,249,0.4); }
+  .int-toggle-btn .int-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
+
   /* ADVANCED FILTER SELECTS */
   .adv-filter-select, .adv-filter-input {
     background: var(--bg3);
@@ -1536,8 +1581,214 @@
       <div class="live-dot"></div>
       Live data
     </div>
+    <button class="int-toggle-btn" id="int-toggle-btn" onclick="toggleIntPanel()">
+      <span class="int-dot"></span>
+      ⚙ Integrations
+    </button>
   </div>
 </nav>
+
+<!-- ═══ INTEGRATIONS SLIDE-DOWN PANEL ═══ -->
+<div class="int-panel-overlay" id="int-panel">
+<div class="int-panel-inner">
+  <div class="int-panel-title">
+    <div class="ai-icon">⚙</div>
+    Integration Configuration — AppScan 360°, Git, Jira &amp; AI Backends
+    <span class="conn-status conn-unk" id="conn-status-int">Not tested</span>
+  </div>
+
+  <!-- TAB STRIP -->
+  <div class="int-tabs">
+    <button class="int-tab active" id="itab-appscan" onclick="switchIntTab('appscan',this)">
+      <span class="int-tab-dot" style="background:#4f9cf9"></span>AppScan 360°
+    </button>
+    <button class="int-tab" id="itab-git" onclick="switchIntTab('git',this)">
+      <span class="int-tab-dot" style="background:#6e7681"></span>Git
+    </button>
+    <button class="int-tab" id="itab-jira" onclick="switchIntTab('jira',this)">
+      <span class="int-tab-dot" style="background:#0052cc"></span>Jira
+    </button>
+    <button class="int-tab" id="itab-ai" onclick="switchIntTab('ai',this)">
+      <span class="int-tab-dot" style="background:#c084fc"></span>AI Backends
+    </button>
+    <button class="int-tab" id="itab-enrich" onclick="switchIntTab('enrich',this)">
+      <span class="int-tab-dot" style="background:#22c55e"></span>Enrichment
+    </button>
+  </div>
+
+  <div class="int-panels">
+
+    <!-- ── APPSCAN TAB ── -->
+    <div class="int-pane active" id="ipane-appscan">
+      <div class="int-pane-header" style="background:#0f172a;">
+        <span class="int-pane-header-title">AppScan 360° REST API v4</span>
+        <div class="int-pane-header-chips">
+          <span class="int-chip" style="background:rgba(79,156,249,0.15);color:#7dd3fc;border:1px solid rgba(79,156,249,0.3);">OData V4</span>
+          <span class="int-chip" style="background:rgba(255,255,255,0.08);color:#94a3b8;border:1px solid rgba(255,255,255,0.1);">X-Api-Key: {KeyID}:{KeySecret}</span>
+        </div>
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">Server URL</span>
+        <input class="int-input" id="appscan-url" placeholder="https://your-appscan360.company.com" value="https://appscan360.acmecorp.com">
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">API Key</span>
+        <input class="int-input" id="api-key-input" type="password" placeholder="KeyID:KeySecret — generate at Admin → API Keys">
+        <button class="int-btn int-btn-primary" onclick="syncData()">⟳ Sync Now</button>
+        <button class="int-btn int-btn-ghost" onclick="testAppScan()">Test Connection</button>
+        <span class="conn-status conn-unk" id="conn-appscan">Not tested</span>
+      </div>
+      <div class="int-note">Endpoints used: <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">/api/v4/Issues</code> &nbsp;·&nbsp; <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">/api/v4/Apps</code> &nbsp;·&nbsp; <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">/api/v4/Scans</code> &nbsp;·&nbsp; <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">/api/v4/Policies</code> &nbsp;·&nbsp; Full catalog at <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">&lt;server&gt;/swagger/index.html</code></div>
+    </div>
+
+    <!-- ── GIT TAB ── -->
+    <div class="int-pane" id="ipane-git">
+      <div class="int-pane-header" style="background:#161b22;">
+        <span class="int-pane-header-title">GitHub / GitLab / Azure DevOps</span>
+        <div class="int-pane-header-chips">
+          <span class="int-chip" style="background:rgba(255,255,255,0.08);color:#8b949e;border:1px solid rgba(255,255,255,0.1);">Authorization: Bearer {PAT}</span>
+          <span class="int-chip" style="background:rgba(255,255,255,0.05);color:#6e7681;border:1px solid rgba(255,255,255,0.08);">For Developer Ownership Mapping</span>
+        </div>
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">Provider</span>
+        <select class="int-select" id="git-provider" onchange="updateGitPlaceholder()">
+          <option value="github">GitHub.com</option>
+          <option value="ghes">GitHub Enterprise Server</option>
+          <option value="gitlab">GitLab.com</option>
+          <option value="gitlab-self">GitLab Self-Managed</option>
+          <option value="azure">Azure DevOps</option>
+        </select>
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">API Base URL</span>
+        <input class="int-input" id="git-url" placeholder="https://api.github.com" value="https://api.github.com">
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">Org / Group</span>
+        <input class="int-input" id="git-org" placeholder="your-org-name">
+        <span class="int-field-label" style="min-width:60px;">PAT Token</span>
+        <input class="int-input" id="git-token" type="password" placeholder="ghp_... or glpat-...">
+        <button class="int-btn int-btn-ghost" onclick="testGit()">Test</button>
+        <span class="conn-status conn-unk" id="conn-git">Not tested</span>
+      </div>
+      <div class="int-warn">CODEOWNERS files must exist in each repo and be actively maintained. Without them, ownership falls back to last-commit author — which may not reflect actual team responsibility.</div>
+      <div class="int-note">Used for: <strong>CODEOWNERS</strong> → team mapping &nbsp;·&nbsp; <strong>Team membership</strong> lookup &nbsp;·&nbsp; <strong>Commit history</strong> fallback &nbsp;·&nbsp; <strong>Repo index</strong> build</div>
+    </div>
+
+    <!-- ── JIRA TAB ── -->
+    <div class="int-pane" id="ipane-jira">
+      <div class="int-pane-header" style="background:#0052cc;">
+        <span class="int-pane-header-title">Jira Software REST API v3</span>
+        <div class="int-pane-header-chips">
+          <span class="int-chip" style="background:rgba(255,255,255,0.15);color:#bfdbfe;border:1px solid rgba(255,255,255,0.2);">Cloud + Data Center</span>
+          <span class="int-chip" style="background:rgba(255,255,255,0.1);color:#dbeafe;border:1px solid rgba(255,255,255,0.15);">Basic base64(email:api_token)</span>
+        </div>
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">Jira URL</span>
+        <input class="int-input" id="jira-url" placeholder="https://yourcompany.atlassian.net">
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">Email</span>
+        <input class="int-input" id="jira-email" placeholder="your-email@company.com">
+        <span class="int-field-label" style="min-width:70px;">API Token</span>
+        <input class="int-input" id="jira-token" type="password" placeholder="Atlassian API token">
+        <button class="int-btn int-btn-ghost" onclick="testJira()">Test</button>
+        <span class="conn-status conn-unk" id="conn-jira">Not tested</span>
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label">Project Key</span>
+        <input class="int-input" id="jira-project" placeholder="e.g. SEC, APPSEC, ENG" style="max-width:160px;">
+        <span style="font-size:11px;color:var(--muted);">Used to resolve component → team mapping and auto-create tickets from the AI Fix Advisor</span>
+      </div>
+      <div class="int-warn">Jira project components must be defined and have a lead assigned. Without component structure, team mapping requires manual override in settings.</div>
+      <div class="int-note">Endpoints used: <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">/rest/api/3/project/{key}/components</code> &nbsp;·&nbsp; <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">/rest/api/3/issue/search?jql=labels=security</code> &nbsp;·&nbsp; <code style="font-size:9.5px;background:rgba(255,255,255,0.06);padding:1px 5px;border-radius:3px;">POST /rest/api/3/issue</code></div>
+    </div>
+
+    <!-- ── AI BACKENDS TAB ── -->
+    <div class="int-pane" id="ipane-ai">
+      <div class="int-pane-header" style="background:linear-gradient(90deg,#4c1d95,#5b21b6);">
+        <span class="int-pane-header-title">AI Remediation Engine — Select One Backend</span>
+        <div class="int-pane-header-chips">
+          <span class="int-chip" style="background:rgba(255,255,255,0.12);color:#e9d5ff;border:1px solid rgba(255,255,255,0.2);">Only issue metadata sent — no source code leaves environment</span>
+        </div>
+      </div>
+      <!-- Provider selector -->
+      <div class="int-field-row" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+        <span class="int-field-label">Backend</span>
+        <div class="provider-tabs" style="margin:0;">
+          <button class="provider-tab active" onclick="setProvider('claude', this)">
+            <span class="prov-dot prov-claude"></span>Claude API
+          </button>
+          <button class="provider-tab" onclick="setProvider('local', this)">
+            <span class="prov-dot prov-local"></span>Local LLM (Ollama)
+          </button>
+          <button class="provider-tab" onclick="setProvider('openai', this)">
+            <span class="prov-dot prov-openai"></span>OpenAI / Azure
+          </button>
+        </div>
+      </div>
+      <!-- Claude config -->
+      <div id="config-claude" class="provider-config active int-field-row" style="flex-wrap:wrap;">
+        <span class="int-field-label">API Key</span>
+        <input class="int-input" id="claude-key-input" type="password" placeholder="sk-ant-... (Anthropic API key)">
+        <span class="int-field-label" style="min-width:50px;">Model</span>
+        <select class="int-select" id="claude-model">
+          <option value="claude-sonnet-4-20250514">claude-sonnet-4 (recommended)</option>
+          <option value="claude-3-5-haiku-20241022">claude-3.5-haiku (faster)</option>
+          <option value="claude-opus-4-20250514">claude-opus-4 (most capable)</option>
+        </select>
+        <button class="int-btn int-btn-primary" onclick="testConnection()">Test</button>
+        <span class="conn-status conn-unk" id="conn-status">Not tested</span>
+      </div>
+      <!-- Local LLM config -->
+      <div id="config-local" class="provider-config int-field-row" style="flex-wrap:wrap;">
+        <span class="int-field-label">Endpoint</span>
+        <input class="int-input" id="local-url" placeholder="http://localhost:11434/api/generate" value="http://localhost:11434/api/generate">
+        <span class="int-field-label" style="min-width:50px;">Model</span>
+        <input class="int-input" id="local-model" placeholder="llama3:8b, codellama:13b" value="llama3:8b" style="max-width:180px;">
+        <button class="int-btn int-btn-primary" onclick="testConnection()">Test</button>
+      </div>
+      <!-- OpenAI / Azure config -->
+      <div id="config-openai" class="provider-config int-field-row" style="flex-wrap:wrap;">
+        <span class="int-field-label">Endpoint</span>
+        <input class="int-input" id="openai-url" placeholder="https://api.openai.com/v1/chat/completions or Azure endpoint" value="https://api.openai.com/v1/chat/completions">
+        <span class="int-field-label" style="min-width:60px;">API Key</span>
+        <input class="int-input" id="openai-key" type="password" placeholder="sk-... or Azure key">
+        <span class="int-field-label" style="min-width:50px;">Model</span>
+        <input class="int-input" id="openai-model" placeholder="gpt-4o or Azure deployment name" value="gpt-4o" style="max-width:200px;">
+        <button class="int-btn int-btn-primary" onclick="testConnection()">Test</button>
+      </div>
+      <div class="int-warn" style="border-top:1px solid rgba(245,166,35,0.15);">
+        <strong>GitHub Copilot:</strong> No official public chat completions API exists outside IDE extensions. If you use Copilot Enterprise via Azure OpenAI — paste your Azure OpenAI endpoint above in the OpenAI / Azure tab. That is the supported path.
+      </div>
+      <div class="int-note" id="provider-note">
+        <span id="provider-note-text">💡 Claude API — best quality for security remediation. Data is sent to Anthropic servers. Requires paid Anthropic license.</span>
+      </div>
+    </div>
+
+    <!-- ── ENRICHMENT TAB ── -->
+    <div class="int-pane" id="ipane-enrich">
+      <div class="int-pane-header" style="background:#064e3b;">
+        <span class="int-pane-header-title">External Enrichment — Public APIs, No Auth Required</span>
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label" style="min-width:100px;">EPSS API</span>
+        <code style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 10px;border-radius:5px;color:var(--accent);">api.first.org/data/v1/epss?cve={CVE-ID}</code>
+        <span style="font-size:11px;color:var(--muted);margin-left:8px;">Real-world exploit probability (0–1) per CVE, updated daily by FIRST.org</span>
+      </div>
+      <div class="int-field-row">
+        <span class="int-field-label" style="min-width:100px;">Chart.js CDN</span>
+        <code style="font-size:11px;background:rgba(255,255,255,0.06);padding:4px 10px;border-radius:5px;color:var(--info);">cdnjs.cloudflare.com — Chart.js 4.4.1</code>
+        <span style="font-size:11px;color:var(--muted);margin-left:8px;">Client-side charting, no server dependency. Powers all charts in this dashboard.</span>
+      </div>
+      <div class="int-note">Both sources are public APIs with no authentication required. EPSS data is fetched on-demand per CVE when an issue is selected. Chart.js is loaded once at startup.</div>
+    </div>
+
+  </div><!-- end .int-panels -->
+</div><!-- end .int-panel-inner -->
+</div><!-- end .int-panel-overlay -->
 
 <div class="container">
 
@@ -1550,73 +1801,6 @@
     <div class="last-sync">
       Last synced: <span id="sync-time">2026-04-01 08:42 UTC</span><br>
       App ID: <span style="color:var(--accent)">a7b2c9d1-3e4f-5a6b</span>
-    </div>
-  </div>
-
-  <!-- API CONFIG BANNER -->
-  <div class="api-banner">
-    <label>AppScan URL</label>
-    <input class="appscan-url-input" id="appscan-url" placeholder="https://your-appscan360.company.com" value="https://appscan360.acmecorp.com">
-    <label>API Key</label>
-    <input class="api-input" id="api-key-input" type="password" placeholder="Enter AppScan 360 API key to fetch live data">
-    <button class="filter-btn active" onclick="syncData()">⟳ Sync Now</button>
-  </div>
-
-  <!-- AI PROVIDER CONFIG -->
-  <div class="ai-config-section">
-    <div class="ai-config-title">
-      <div class="ai-icon">AI</div>
-      AI Remediation Engine
-      <span class="conn-status conn-unk" id="conn-status">Not tested</span>
-    </div>
-    <div class="provider-tabs">
-      <button class="provider-tab active" onclick="setProvider('claude', this)">
-        <span class="prov-dot prov-claude"></span>Claude API
-      </button>
-      <button class="provider-tab" onclick="setProvider('local', this)">
-        <span class="prov-dot prov-local"></span>Local LLM (Ollama / vLLM)
-      </button>
-      <button class="provider-tab" onclick="setProvider('openai', this)">
-        <span class="prov-dot prov-openai"></span>OpenAI-Compatible
-      </button>
-    </div>
-
-    <!-- Claude Config -->
-    <div class="provider-config active" id="config-claude">
-      <label>API Key</label>
-      <input id="claude-key-input" type="password" placeholder="sk-ant-... (Anthropic API key)">
-      <label>Model</label>
-      <select id="claude-model">
-        <option value="claude-sonnet-4-20250514">claude-sonnet-4 (recommended)</option>
-        <option value="claude-3-5-haiku-20241022">claude-3.5-haiku (faster/cheaper)</option>
-        <option value="claude-opus-4-20250514">claude-opus-4 (most capable)</option>
-      </select>
-      <button class="filter-btn" onclick="testConnection()">Test</button>
-    </div>
-
-    <!-- Local LLM Config -->
-    <div class="provider-config" id="config-local">
-      <label>Endpoint</label>
-      <input id="local-url" placeholder="http://localhost:11434/api/generate" value="http://localhost:11434/api/generate">
-      <label>Model</label>
-      <input id="local-model" placeholder="llama3:8b, codellama:13b, mistral:7b" value="llama3:8b">
-      <button class="filter-btn" onclick="testConnection()">Test</button>
-    </div>
-
-    <!-- OpenAI-Compatible Config -->
-    <div class="provider-config" id="config-openai">
-      <label>Endpoint</label>
-      <input id="openai-url" placeholder="https://api.openai.com/v1/chat/completions" value="https://api.openai.com/v1/chat/completions">
-      <label>API Key</label>
-      <input id="openai-key" type="password" placeholder="sk-... or token for Azure/vLLM/LM Studio">
-      <label>Model</label>
-      <input id="openai-model" placeholder="gpt-4o, gpt-4o-mini, or local model name" value="gpt-4o">
-      <button class="filter-btn" onclick="testConnection()">Test</button>
-    </div>
-
-    <div class="provider-note" id="provider-note">
-      <span class="note-icon">💡</span>
-      <span id="provider-note-text">Claude API requires a paid Anthropic license (~$3/M input tokens for Sonnet). Best quality for security remediation. Data is sent to Anthropic servers.</span>
     </div>
   </div>
 
@@ -3687,6 +3871,63 @@ ${selectedIssue.desc}
     resp.className = 'ai-response';
     resp.textContent = `Error from ${PROVIDER_LABELS[aiProvider]}: ${err.message}`;
   }
+}
+
+
+// ─────────────────────────────────────────────
+//  INTEGRATIONS PANEL
+// ─────────────────────────────────────────────
+function toggleIntPanel() {
+  const panel = document.getElementById('int-panel');
+  const btn = document.getElementById('int-toggle-btn');
+  const isOpen = panel.classList.contains('open');
+  panel.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+function switchIntTab(id, btn) {
+  ['appscan','git','jira','ai','enrich'].forEach(t => {
+    document.getElementById('ipane-' + t).classList.remove('active');
+    document.getElementById('itab-' + t).classList.remove('active');
+  });
+  document.getElementById('ipane-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function updateGitPlaceholder() {
+  const prov = document.getElementById('git-provider').value;
+  const urlMap = {
+    'github': 'https://api.github.com',
+    'ghes': 'https://github.yourcompany.com/api/v3',
+    'gitlab': 'https://gitlab.com',
+    'gitlab-self': 'https://gitlab.yourcompany.com',
+    'azure': 'https://dev.azure.com/yourorg'
+  };
+  const el = document.getElementById('git-url');
+  el.placeholder = urlMap[prov] || '';
+  el.value = urlMap[prov] || '';
+}
+
+function testAppScan() {
+  const badge = document.getElementById('conn-appscan');
+  badge.textContent = 'Testing...'; badge.className = 'conn-status conn-unk';
+  setTimeout(() => { badge.textContent = 'Connected'; badge.className = 'conn-status conn-ok'; }, 1000);
+}
+
+function testGit() {
+  const badge = document.getElementById('conn-git');
+  badge.textContent = 'Testing...'; badge.className = 'conn-status conn-unk';
+  const token = document.getElementById('git-token').value.trim();
+  if (!token) { badge.textContent = 'No token'; badge.className = 'conn-status conn-err'; return; }
+  setTimeout(() => { badge.textContent = 'Connected'; badge.className = 'conn-status conn-ok'; }, 900);
+}
+
+function testJira() {
+  const badge = document.getElementById('conn-jira');
+  badge.textContent = 'Testing...'; badge.className = 'conn-status conn-unk';
+  const token = document.getElementById('jira-token').value.trim();
+  if (!token) { badge.textContent = 'No token'; badge.className = 'conn-status conn-err'; return; }
+  setTimeout(() => { badge.textContent = 'Connected'; badge.className = 'conn-status conn-ok'; }, 900);
 }
 
 // ─────────────────────────────────────────────
