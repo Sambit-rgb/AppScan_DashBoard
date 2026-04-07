@@ -400,45 +400,287 @@
   <div class="section-header">
     <div class="section-num" style="background:linear-gradient(135deg,#b45309,#d97706);">?</div>
     <div>
-      <div class="section-title">Is This Already There — Or Does HCL Need to Build It?</div>
+      <div class="section-title">Built-in or Build Required?</div>
       <div class="section-subtitle">Verdict based on AppScan 360° v2.0.0 / v2.1.0 documentation and product research</div>
     </div>
   </div>
 
-  <!-- VERDICT STRIP -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-    <div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:10px;padding:12px 16px;">
-      <div style="font-size:10px;font-weight:700;color:#15803d;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Already exists in AppScan 360°</div>
-      <ul class="bullets" style="color:#166534;">
-        <li><strong>Org-level centralized dashboard</strong> — active issues, MTTR, risk rating, compliance charts across all applications and all scan types</li>
-        <li><strong>Scans &amp; Sessions page</strong> — lists DAST, SAST, IAST, SCA scans in a unified list (but navigated separately by category)</li>
-        <li><strong>Correlation engine (IAST-based)</strong> — analyzes IAST + DAST + SAST findings to identify common root causes and fix groups</li>
-        <li><strong>RapidFix / GenAI AutoFix</strong> — AI-generated fix recommendations with GenAI summaries (SAST only, paid add-on)</li>
-        <li><strong>IFA (Intelligent Findings Analytics)</strong> — groups and consolidates hundreds of findings into manageable categories</li>
-        <li><strong>MCP Server</strong> — IDE-based LLM triage access across all scan types via Model Context Protocol</li>
-        <li><strong>EPSS scores</strong> — real-world exploit probability shown in SCA issue details pane</li>
-        <li><strong>Compliance reports</strong> — PDF exports for OWASP, PCI-DSS, NIST standards at portfolio level</li>
-      </ul>
+  <!-- SCORECARD HEADER -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;margin-bottom:14px;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.08);">
+    <!-- EXISTS HEADER -->
+    <div style="background:linear-gradient(135deg,#14532d 0%,#166534 60%,#15803d 100%);padding:12px 18px;display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span style="font-size:18px;line-height:1;">✓</span>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#fff;letter-spacing:0.3px;">Already Exists in AppScan 360°</div>
+        <div style="font-size:8.5px;color:rgba(255,255,255,0.7);margin-top:1px;">Native capabilities confirmed in v2.1.0</div>
+      </div>
+      <div style="margin-left:auto;text-align:center;">
+        <div style="font-size:26px;font-weight:800;color:#4ade80;line-height:1;">8</div>
+        <div style="font-size:7.5px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.5px;">features</div>
+      </div>
     </div>
-    <div style="background:#fef2f2;border:2px solid #dc2626;border-radius:10px;padding:12px 16px;">
-      <div style="font-size:10px;font-weight:700;color:#991b1b;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Does NOT exist — HCL needs to build this</div>
-      <ul class="bullets" style="color:#7f1d1d;">
-        <li><strong>Per-artifact unified view</strong> — selecting <em>one project artifact</em> and seeing SAST + DAST + IAST findings side-by-side in a single graphical screen. The Scans page lists scan categories separately; no merged per-artifact view exists.</li>
-        <li><strong>Per-artifact severity donut + OWASP stacked chart + trend</strong> — visual breakdown scoped to a single artifact, not the whole portfolio</li>
-        <li><strong>AI Fix Advisor at issue-row level</strong> — conversational triage per issue across all scan types (DAST, IAST, SCA), not just SAST via RapidFix</li>
-        <li><strong>Per-artifact compliance gate</strong> — pass/warn/fail verdict for one artifact against PCI-DSS, NIST, OWASP with release gate enforcement</li>
-        <li><strong>Role-based artifact views</strong> — developer view, CISO view, AppSec view scoped to a single project artifact</li>
-        <li><strong>Cross-scan CWE clustering without IAST</strong> — correlation currently requires active IAST subscription; CWE-based grouping across SAST+DAST+SCA without IAST dependency does not exist</li>
-        <li><strong>Security debt score + fix simulation</strong> — unified debt metric (Issues × Severity × Age) and pre-fix impact preview across all scan types</li>
-      </ul>
+    <!-- MISSING HEADER -->
+    <div style="background:linear-gradient(135deg,#7f1d1d 0%,#991b1b 60%,#b91c1c 100%);padding:12px 18px;display:flex;align-items:center;gap:12px;">
+      <div style="width:36px;height:36px;background:rgba(255,255,255,0.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span style="font-size:18px;line-height:1;">✕</span>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#fff;letter-spacing:0.3px;">Does NOT Exist — HCL Must Build</div>
+        <div style="font-size:8.5px;color:rgba(255,255,255,0.7);margin-top:1px;">Confirmed gaps requiring new development</div>
+      </div>
+      <div style="margin-left:auto;text-align:center;">
+        <div style="font-size:26px;font-weight:800;color:#fca5a5;line-height:1;">7</div>
+        <div style="font-size:7.5px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.5px;">gaps</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURE ROWS — SIDE BY SIDE -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+
+    <!-- ── LEFT COLUMN: EXISTS ── -->
+    <div style="border-right:1px solid #e2e8f0;">
+
+      <!-- E1 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8f5e9;background:#ffffff;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;border-radius:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">Org-Level Centralized Dashboard</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">Active issues, MTTR, risk rating, compliance charts across all applications and all scan types</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E2 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8f5e9;background:#f9fefb;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">Scans &amp; Sessions Page</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">Lists DAST, SAST, IAST, SCA scans in a unified list — navigated separately by category</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E3 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8f5e9;background:#ffffff;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">Correlation Engine (IAST-Based)</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">Analyzes IAST + DAST + SAST findings to identify common root causes and fix groups</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E4 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8f5e9;background:#f9fefb;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">RapidFix / GenAI AutoFix</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">AI-generated fix recommendations with GenAI summaries <span style="background:#fef3c7;color:#92400e;padding:0 4px;border-radius:3px;font-size:7.5px;font-weight:600;">SAST only · paid add-on</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E5 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8f5e9;background:#ffffff;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">IFA (Intelligent Findings Analytics)</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">Groups and consolidates hundreds of findings into manageable categories</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E6 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8f5e9;background:#f9fefb;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">MCP Server</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">IDE-based LLM triage access across all scan types via Model Context Protocol</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E7 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #e8f5e9;background:#ffffff;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">EPSS Scores</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">Real-world exploit probability shown in SCA issue details pane</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- E8 -->
+      <div style="display:flex;gap:0;background:#f9fefb;">
+        <div style="width:4px;background:#16a34a;flex-shrink:0;border-radius:0 0 0 12px;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#15803d;font-weight:800;">✓</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#14532d;margin-bottom:2px;">Compliance Reports</div>
+            <div style="font-size:8.5px;color:#4b7c5a;line-height:1.4;">PDF exports for OWASP, PCI-DSS, NIST standards at portfolio level</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end left col -->
+
+    <!-- ── RIGHT COLUMN: GAPS ── -->
+    <div>
+
+      <!-- G1 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #fde8e8;background:#ffffff;">
+        <div style="width:4px;background:#dc2626;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#991b1b;font-weight:800;">✕</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#7f1d1d;margin-bottom:2px;">Per-Artifact Unified View</div>
+            <div style="font-size:8.5px;color:#9b4040;line-height:1.4;">Select one project artifact and see SAST + DAST + IAST findings side-by-side in a single graphical screen — no merged per-artifact view exists today</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- G2 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #fde8e8;background:#fff9f9;">
+        <div style="width:4px;background:#dc2626;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#991b1b;font-weight:800;">✕</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#7f1d1d;margin-bottom:2px;">Per-Artifact Severity Donut + OWASP Chart + Trend</div>
+            <div style="font-size:8.5px;color:#9b4040;line-height:1.4;">Visual breakdown scoped to a single artifact — not the whole portfolio</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- G3 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #fde8e8;background:#ffffff;">
+        <div style="width:4px;background:#dc2626;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#991b1b;font-weight:800;">✕</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#7f1d1d;margin-bottom:2px;">AI Fix Advisor at Issue-Row Level</div>
+            <div style="font-size:8.5px;color:#9b4040;line-height:1.4;">Conversational triage per issue across <em>all</em> scan types (DAST, IAST, SCA) — not just SAST via RapidFix</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- G4 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #fde8e8;background:#fff9f9;">
+        <div style="width:4px;background:#dc2626;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#991b1b;font-weight:800;">✕</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#7f1d1d;margin-bottom:2px;">Per-Artifact Compliance Gate</div>
+            <div style="font-size:8.5px;color:#9b4040;line-height:1.4;">Pass / Warn / Fail verdict for one artifact against PCI-DSS, NIST, OWASP with release gate enforcement</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- G5 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #fde8e8;background:#ffffff;">
+        <div style="width:4px;background:#dc2626;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#991b1b;font-weight:800;">✕</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#7f1d1d;margin-bottom:2px;">Role-Based Artifact Views</div>
+            <div style="font-size:8.5px;color:#9b4040;line-height:1.4;">Developer view, CISO view, AppSec view — each scoped to a single project artifact</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- G6 -->
+      <div style="display:flex;gap:0;border-bottom:1px solid #fde8e8;background:#fff9f9;">
+        <div style="width:4px;background:#dc2626;flex-shrink:0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#991b1b;font-weight:800;">✕</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#7f1d1d;margin-bottom:2px;">Cross-Scan CWE Clustering Without IAST</div>
+            <div style="font-size:8.5px;color:#9b4040;line-height:1.4;">Correlation requires active IAST subscription — CWE grouping across SAST+DAST+SCA without IAST does not exist</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- G7 — spans remaining height via min-height trick -->
+      <div style="display:flex;gap:0;background:#ffffff;min-height:52px;">
+        <div style="width:4px;background:#dc2626;flex-shrink:0;border-radius:0 0 12px 0;"></div>
+        <div style="padding:9px 12px 9px 10px;display:flex;gap:9px;align-items:flex-start;">
+          <div style="width:20px;height:20px;background:#fee2e2;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+            <span style="font-size:10px;color:#991b1b;font-weight:800;">✕</span>
+          </div>
+          <div>
+            <div style="font-size:9.5px;font-weight:700;color:#7f1d1d;margin-bottom:2px;">Security Debt Score + Fix Simulation</div>
+            <div style="font-size:8.5px;color:#9b4040;line-height:1.4;">Unified debt metric (Issues × Severity × Age) and pre-fix impact preview across all scan types</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end right col -->
+  </div><!-- end grid -->
+
+  <!-- VERDICT FOOTER BAR -->
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:0;margin-top:10px;border-radius:10px;overflow:hidden;border:1px solid #e2e8f0;">
+    <div style="background:#f0fdf4;padding:8px 14px;display:flex;align-items:center;gap:8px;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#16a34a;flex-shrink:0;"></div>
+      <div style="font-size:9px;color:#166534;font-weight:600;">8 capabilities confirmed native — no build effort required</div>
+    </div>
+    <div style="background:#0f172a;padding:8px 18px;display:flex;align-items:center;justify-content:center;">
+      <div style="font-size:9px;font-weight:800;color:#fcd34d;letter-spacing:0.5px;text-transform:uppercase;">Verdict</div>
+    </div>
+    <div style="background:#fef2f2;padding:8px 14px;display:flex;align-items:center;gap:8px;justify-content:flex-end;">
+      <div style="font-size:9px;color:#991b1b;font-weight:600;text-align:right;">7 critical gaps identified — new development required</div>
+      <div style="width:8px;height:8px;border-radius:50%;background:#dc2626;flex-shrink:0;"></div>
     </div>
   </div>
 
   <!-- NUANCED VERDICT BOX -->
   <div style="background:linear-gradient(135deg,#1e3a5f,#0f172a);color:#fff;border-radius:10px;padding:14px 18px;">
-    <div style="font-size:11px;font-weight:700;color:#fcd34d;margin-bottom:8px;">Verdict: Partially Exists — The Engine Is There, the Experience Is Not</div>
+    <div style="font-size:11px;font-weight:700;color:#fcd34d;margin-bottom:8px;">Verdict: Engine Exists. Experience Missing</div>
     <div style="font-size:10px;line-height:1.65;color:rgba(255,255,255,0.88);">
-      AppScan 360° has the <strong style="color:#7dd3fc;">data, the correlation engine, and the AI fix capability</strong> — but they are scattered across separate pages and limited to specific scan types (e.g. RapidFix is SAST-only; correlation requires IAST). What does <em>not</em> exist is a <strong style="color:#fcd34d;">per-project-artifact, unified graphical command center</strong> where a developer or security lead selects one artifact and sees every SAST, DAST, and IAST finding merged, ranked, and explained in a single view — with AI fix advice for each issue across all scan types, and a real-time release gate verdict. This is what needs to be developed by HCL.
+      AppScan 360° has the <strong style="color:#7dd3fc;">data, the correlation engine, and the AI fix capability</strong> — but they are scattered across separate pages and limited to specific scan types (e.g. RapidFix is SAST-only; correlation requires IAST). What does <em>not</em> exist is a <strong style="color:#fcd34d;">per-project-artifact, unified graphical command center</strong> where a developer or security lead selects one artifact and sees every SAST, DAST, SCA and IAST finding merged, ranked, and explained in a single view — with AI fix advice for each issue across all scan types, and a real-time release gate verdict. This is what needs to be developed .
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px;">
       <div style="background:rgba(255,255,255,0.07);border-radius:6px;padding:8px 10px;text-align:center;">
@@ -650,69 +892,375 @@
   <div class="section-header">
     <div class="section-num sn-teal">4</div>
     <div>
-      <div class="section-title">APIs Involved — Integration Reference</div>
-      <div class="section-subtitle">Endpoints consumed by the dashboard for live data and AI remediation</div>
+      <div class="section-title">Integration Reference — APIs &amp; Data Sources</div>
+      <div class="section-subtitle">All external systems the dashboard connects to, by integration type</div>
     </div>
   </div>
-  <div class="two-col">
-    <div>
-      <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">AppScan 360° REST API v4 <span style="font-weight:400;color:#64748b;">(OData V4 · X-Api-Key auth)</span></div>
-      <table>
-        <tr><th style="width:15%">Method</th><th>Endpoint &amp; Purpose</th></tr>
-        <tr>
-          <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Issues</span><br>All issues across apps. <b>Primary data source for dashboard.</b></td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Apps</span><br>List all applications (e.g. <code>$filter=RiskRating eq 'High'</code>)</td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Scans</span><br>Scan history (e.g. <code>$orderby=CreatedAt desc</code>, <code>$expand=CreatedBy</code>)</td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">/api/v4/Policies</span><br>List compliance policies (e.g. <code>$skip=2</code>, <code>$top=5</code>)</td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-post">POST</span></td>
-          <td><span class="api-path">/api/v4/Account/ApiKeyLogin</span><br>Obtain session token via API key (KeyID + KeySecret)</td>
-        </tr>
-      </table>
-      <div style="font-size:8px;color:#64748b;margin-top:4px;line-height:1.4;">Auth: <code>X-Api-Key: {KeyID}:{KeySecret}</code> · OData V4: <code>$filter</code>, <code>$select</code>, <code>$orderby</code>, <code>$top</code>, <code>$skip</code>, <code>$expand</code>, <code>$apply</code> · Full catalog at <code>&lt;server&gt;/swagger/index.html</code></div>
+
+  <!-- OWNERSHIP MAPPING EXPLAINER -->
+  <div style="background:linear-gradient(135deg,#faf5ff,#f5f3ff);border:1px solid #c4b5fd;border-radius:10px;padding:14px 16px;margin-bottom:16px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+      <div style="width:22px;height:22px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">⚡</div>
+      <div style="font-size:11px;font-weight:700;color:#6b21a8;">How Developer Ownership Mapping Is Fetched — Git + Jira Integration</div>
     </div>
-    <div>
-      <div style="font-size:10px;font-weight:700;color:#0f172a;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">AI Backend Endpoints</div>
-      <table>
-        <tr><th style="width:15%">Method</th><th>Endpoint &amp; Purpose</th></tr>
-        <tr>
-          <td><span class="api-method m-post">POST</span></td>
-          <td><span class="api-path">api.anthropic.com/v1/messages</span><br>Claude API — send vulnerability context, receive code fix + explanation</td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-post">POST</span></td>
-          <td><span class="api-path">localhost:11434/api/generate</span><br>Ollama local LLM — same prompt, zero data exposure</td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-post">POST</span></td>
-          <td><span class="api-path">{host}/v1/chat/completions</span><br>OpenAI-compatible — Azure OpenAI, vLLM, LM Studio</td>
-        </tr>
-      </table>
-      <div style="font-size:10px;font-weight:700;color:#0f172a;margin:10px 0 6px;text-transform:uppercase;letter-spacing:0.5px;">External Enrichment</div>
-      <table>
-        <tr><th style="width:15%">Method</th><th>Endpoint &amp; Purpose</th></tr>
-        <tr>
-          <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">api.first.org/data/v1/epss</span><br>EPSS scores — real-world exploit probability per CVE</td>
-        </tr>
-        <tr>
-          <td><span class="api-method m-get">GET</span></td>
-          <td><span class="api-path">Chart.js 4.4.1 CDN</span><br>Client-side charting library (no server dependency)</td>
-        </tr>
-      </table>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+      <div style="background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;position:relative;">
+        <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#7c3aed,#8b5cf6);border-radius:2px;"></div>
+        <div style="font-size:9px;font-weight:700;color:#6b21a8;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 1 — Git</div>
+        <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">Module → Repository mapping</div>
+        <div style="font-size:8.5px;color:#64748b;line-height:1.5;">Each AppScan issue carries a file <strong>location path</strong> (e.g. <code style="font-size:8px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">src/user-service/auth.js</code>). The dashboard reads the repo's <code style="font-size:8px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">CODEOWNERS</code> file via GitHub/GitLab API to match that path prefix to the owning team.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;position:relative;">
+        <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#0052cc,#2684ff);border-radius:2px;"></div>
+        <div style="font-size:9px;font-weight:700;color:#0052cc;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 2 — Jira</div>
+        <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">Module → Team name mapping</div>
+        <div style="font-size:8.5px;color:#64748b;line-height:1.5;">Jira project components each have a lead team. The dashboard calls <code style="font-size:8px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">/rest/api/3/project/{key}/components</code> to build a component → team index and optionally correlate open security tickets by CVE/CWE label.</div>
+      </div>
+      <div style="background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;position:relative;">
+        <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#0d9488,#14b8a6);border-radius:2px;"></div>
+        <div style="font-size:9px;font-weight:700;color:#0d9488;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 3 — AppScan</div>
+        <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">Issue → Module → Owner resolution</div>
+        <div style="font-size:8.5px;color:#64748b;line-height:1.5;"><strong>AppScan location path</strong> → matched against Git CODEOWNERS → resolved to <strong>team name</strong> from Jira component → aggregated as open issues, critical count, and avg age per module in the ownership table.</div>
+      </div>
+    </div>
+    <div style="background:#f3e8ff;border-radius:6px;padding:7px 10px;margin-top:8px;font-size:8.5px;color:#6b21a8;line-height:1.5;">
+      <strong>Prerequisite:</strong> Requires one-time admin configuration of the module → Git repo → Jira project → team mapping. Accuracy depends on CODEOWNERS files and Jira component leads being maintained. This is a <em>data quality dependency</em>, not a technical blocker.
     </div>
   </div>
+
+  <!-- TAB NAVIGATION -->
+  <div style="display:flex;gap:0;margin-bottom:0;border-radius:10px 10px 0 0;overflow:hidden;border:1px solid #e2e8f0;border-bottom:none;">
+    <button onclick="showTab('appscan',this)" id="tab-appscan"
+      style="flex:1;padding:9px 6px;font-size:9px;font-weight:700;letter-spacing:0.3px;border:none;cursor:pointer;border-right:1px solid #e2e8f0;background:#0f172a;color:#fff;display:flex;align-items:center;justify-content:center;gap:5px;">
+      <span style="width:16px;height:16px;background:#1e3a5f;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;">AS</span>
+      AppScan 360°
+    </button>
+    <button onclick="showTab('git',this)" id="tab-git"
+      style="flex:1;padding:9px 6px;font-size:9px;font-weight:700;letter-spacing:0.3px;border:none;cursor:pointer;border-right:1px solid #e2e8f0;background:#f8fafc;color:#475569;display:flex;align-items:center;justify-content:center;gap:5px;">
+      <span style="font-size:12px;">&#x2325;</span> Git
+    </button>
+    <button onclick="showTab('jira',this)" id="tab-jira"
+      style="flex:1;padding:9px 6px;font-size:9px;font-weight:700;letter-spacing:0.3px;border:none;cursor:pointer;border-right:1px solid #e2e8f0;background:#f8fafc;color:#475569;display:flex;align-items:center;justify-content:center;gap:5px;">
+      <span style="font-size:12px;">&#9632;</span> Jira
+    </button>
+    <button onclick="showTab('ai',this)" id="tab-ai"
+      style="flex:1;padding:9px 6px;font-size:9px;font-weight:700;letter-spacing:0.3px;border:none;cursor:pointer;border-right:1px solid #e2e8f0;background:#f8fafc;color:#475569;display:flex;align-items:center;justify-content:center;gap:5px;">
+      <span style="font-size:12px;">&#x2726;</span> AI Backends
+    </button>
+    <button onclick="showTab('enrich',this)" id="tab-enrich"
+      style="flex:1;padding:9px 6px;font-size:9px;font-weight:700;letter-spacing:0.3px;border:none;cursor:pointer;background:#f8fafc;color:#475569;display:flex;align-items:center;justify-content:center;gap:5px;">
+      <span style="font-size:12px;">&#x25CE;</span> Enrichment
+    </button>
+  </div>
+
+  <!-- TAB PANELS -->
+  <div style="border:1px solid #e2e8f0;border-radius:0 0 10px 10px;overflow:hidden;">
+
+    <!-- APPSCAN TAB -->
+    <div id="panel-appscan" style="display:block;">
+      <div style="background:#0f172a;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="font-size:10px;font-weight:700;color:#fff;">AppScan 360° REST API v4</div>
+          <span style="font-size:8px;background:#1e3a5f;color:#7dd3fc;padding:2px 8px;border-radius:10px;border:1px solid #2563eb;font-weight:600;">OData V4</span>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          <span style="font-size:8px;background:rgba(255,255,255,0.1);color:#e2e8f0;padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;">X-Api-Key: {KeyID}:{KeySecret}</span>
+          <span style="font-size:8px;background:rgba(255,255,255,0.1);color:#94a3b8;padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;">$filter $select $orderby $top $expand</span>
+        </div>
+      </div>
+      <table style="margin:0;border:none;">
+        <tr>
+          <th style="width:8%;background:#1e293b;color:#94a3b8;border:none;border-bottom:1px solid #334155;">Method</th>
+          <th style="width:32%;background:#1e293b;color:#94a3b8;border:none;border-bottom:1px solid #334155;">Endpoint</th>
+          <th style="background:#1e293b;color:#94a3b8;border:none;border-bottom:1px solid #334155;">Purpose</th>
+          <th style="width:22%;background:#1e293b;color:#94a3b8;border:none;border-bottom:1px solid #334155;">Used for</th>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/api/v4/Issues</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9.5px;color:#334155;">All issues across apps — primary source for all charts and tables. Filter by <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">AppId</code>, <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">ScanType</code>, <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">Severity</code></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">All charts, ownership table, issue list</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/api/v4/Apps</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9.5px;color:#334155;">List all applications. Use <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">$filter=RiskRating eq 'High'</code> to surface high-risk apps first</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Project selector, risk rating badges</td>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/api/v4/Scans</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9.5px;color:#334155;">Scan history ordered by date. Use <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">$orderby=CreatedAt desc</code> and <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">$expand=CreatedBy</code></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Trend charts, last scan timestamp</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/api/v4/Policies</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9.5px;color:#334155;">Active compliance policies. Paginate with <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">$skip</code> / <code style="font-size:8.5px;background:#f1f5f9;padding:1px 4px;border-radius:2px;">$top</code></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">CI/CD gate evaluator, compliance view</td>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;"><span class="api-method m-post">POST</span></td>
+          <td style="border:none;"><span class="api-path">/api/v4/Account/ApiKeyLogin</span></td>
+          <td style="border:none;font-size:9.5px;color:#334155;">Exchange KeyID + KeySecret for a session bearer token. Token valid for 30 minutes. Service accounts supported.</td>
+          <td style="border:none;font-size:9px;color:#64748b;">Auth flow, session management</td>
+        </tr>
+      </table>
+      <div style="background:#f8fafc;padding:7px 14px;border-top:1px solid #f1f5f9;font-size:8px;color:#64748b;">Full API catalog at <code style="background:#e2e8f0;padding:1px 4px;border-radius:2px;">&lt;server&gt;/swagger/index.html</code></div>
+    </div>
+
+    <!-- GIT TAB -->
+    <div id="panel-git" style="display:none;">
+      <div style="background:linear-gradient(90deg,#18181b,#27272a);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="font-size:10px;font-weight:700;color:#fff;">GitHub / GitLab / Azure DevOps</div>
+          <span style="font-size:8px;background:rgba(255,255,255,0.1);color:#d1d5db;padding:2px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);font-weight:600;">Git REST APIs</span>
+        </div>
+        <span style="font-size:8px;background:rgba(255,255,255,0.1);color:#9ca3af;padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;">Authorization: Bearer {PAT}</span>
+      </div>
+      <div style="background:#fffbeb;border-bottom:1px solid #fde68a;padding:7px 14px;font-size:8.5px;color:#92400e;display:flex;align-items:center;gap:6px;">
+        <span style="font-weight:700;">Prerequisite:</span> CODEOWNERS files must exist and be maintained in each repository. Without them, ownership falls back to last-commit author — which may not reflect actual team responsibility.
+      </div>
+      <table style="margin:0;border:none;">
+        <tr>
+          <th style="width:8%;background:#f9fafb;border:none;border-bottom:1px solid #e5e7eb;">Method</th>
+          <th style="width:42%;background:#f9fafb;border:none;border-bottom:1px solid #e5e7eb;">Endpoint</th>
+          <th style="background:#f9fafb;border:none;border-bottom:1px solid #e5e7eb;">Purpose &amp; notes</th>
+          <th style="width:18%;background:#f9fafb;border:none;border-bottom:1px solid #e5e7eb;">Used for</th>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/repos/{org}/{repo}/contents/CODEOWNERS</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#334155;">Reads the CODEOWNERS file to resolve file path prefix → owning team. Base64-decoded response parsed line by line.</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Path → team resolution</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/orgs/{org}/teams/{team}/members</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#334155;">Lists members of a team slug. Used to validate team existence and build the team directory shown in ownership table.</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Team membership list</td>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/repos/{org}/{repo}/commits?path={file}</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#334155;">Fallback when no CODEOWNERS entry matches. Returns the last committer for the file as a proxy owner.</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Fallback ownership</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;"><span class="api-path">/orgs/{org}/repos</span></td>
+          <td style="border:none;font-size:9px;color:#334155;">Builds the full module → repository index at startup. Cached locally to avoid repeated calls on each issue render.</td>
+          <td style="border:none;font-size:9px;color:#64748b;">Module → repo index</td>
+        </tr>
+      </table>
+      <div style="background:#f8fafc;padding:7px 14px;border-top:1px solid #f1f5f9;font-size:8px;color:#64748b;">Compatible with <strong>GitHub.com</strong>, <strong>GitHub Enterprise Server</strong>, <strong>GitLab.com</strong>, <strong>GitLab Self-Managed</strong>, and <strong>Azure DevOps</strong> (endpoint paths vary per provider).</div>
+    </div>
+
+    <!-- JIRA TAB -->
+    <div id="panel-jira" style="display:none;">
+      <div style="background:linear-gradient(90deg,#0052cc,#0065ff);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="font-size:10px;font-weight:700;color:#fff;">Jira Software REST API v3</div>
+          <span style="font-size:8px;background:rgba(255,255,255,0.15);color:#bfdbfe;padding:2px 8px;border-radius:10px;border:1px solid rgba(255,255,255,0.25);font-weight:600;">Cloud + Data Center</span>
+        </div>
+        <span style="font-size:8px;background:rgba(255,255,255,0.15);color:#dbeafe;padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace;">Authorization: Basic base64(email:api_token)</span>
+      </div>
+      <div style="background:#fffbeb;border-bottom:1px solid #fde68a;padding:7px 14px;font-size:8.5px;color:#92400e;display:flex;align-items:center;gap:6px;">
+        <span style="font-weight:700;">Prerequisite:</span> Jira project components must be defined and have a lead assigned per component. Without component structure, team mapping requires manual configuration in the dashboard's integration settings.
+      </div>
+      <table style="margin:0;border:none;">
+        <tr>
+          <th style="width:8%;background:#f0f4ff;border:none;border-bottom:1px solid #e2e8f0;">Method</th>
+          <th style="width:42%;background:#f0f4ff;border:none;border-bottom:1px solid #e2e8f0;">Endpoint</th>
+          <th style="background:#f0f4ff;border:none;border-bottom:1px solid #e2e8f0;">Purpose &amp; notes</th>
+          <th style="width:18%;background:#f0f4ff;border:none;border-bottom:1px solid #e2e8f0;">Used for</th>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/rest/api/3/project/{key}/components</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#334155;">Lists all components for a project, each with a <code style="font-size:8.5px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">lead</code> object containing the team name. Primary source for module → team mapping.</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Component → team index</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/rest/api/3/issue/search?jql=labels=security</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#334155;">JQL search for open tickets tagged with security labels. Correlated against AppScan findings by CVE ID or CWE number to show ticket status in the issue table.</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Ticket correlation, open count</td>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">/rest/api/3/project</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#334155;">Retrieves all accessible projects to build the full project → team directory. Paginated, supports <code style="font-size:8.5px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">maxResults</code> and <code style="font-size:8.5px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">startAt</code>.</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Project → team index</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;"><span class="api-method m-post">POST</span></td>
+          <td style="border:none;"><span class="api-path">/rest/api/3/issue</span></td>
+          <td style="border:none;font-size:9px;color:#334155;">Auto-creates a Jira ticket directly from the AI Fix Advisor panel when a developer clicks "Create Ticket". Pre-fills summary, description, CWE, severity, and assignee from AppScan issue data.</td>
+          <td style="border:none;font-size:9px;color:#64748b;">Ticket creation from AI advisor</td>
+        </tr>
+      </table>
+    </div>
+
+    <!-- AI BACKENDS TAB -->
+    <div id="panel-ai" style="display:none;">
+      <div style="background:linear-gradient(90deg,#4c1d95,#6d28d9);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#fff;">AI Remediation Backends — Customer Selects One</div>
+        <span style="font-size:8px;background:rgba(255,255,255,0.15);color:#e9d5ff;padding:2px 8px;border-radius:10px;">Only issue metadata sent — no source code ever leaves the environment</span>
+      </div>
+
+      <!-- ⚡ AI FLOW EXPLAINER -->
+      <div style="background:linear-gradient(135deg,#faf5ff,#f5f3ff);border-bottom:1px solid #e9d5ff;padding:12px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="width:22px;height:22px;background:linear-gradient(135deg,#7c3aed,#8b5cf6);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">⚡</div>
+          <div style="font-size:11px;font-weight:700;color:#6b21a8;">How AI Fix Advisor Routes Your Request — Per-Issue, Per-Scan-Type</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+          <div style="background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;position:relative;">
+            <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#7c3aed,#8b5cf6);border-radius:2px;"></div>
+            <div style="font-size:9px;font-weight:700;color:#6b21a8;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 1 — Context Extraction</div>
+            <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">Issue → Structured Prompt</div>
+            <div style="font-size:8.5px;color:#64748b;line-height:1.5;">The dashboard reads the selected AppScan issue: scan type (SAST/DAST/IAST/SCA), CWE ID, severity, location path, and finding description. These are assembled into a structured prompt payload — <strong>no raw source code is included.</strong></div>
+          </div>
+          <div style="background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;position:relative;">
+            <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#0ea5e9,#38bdf8);border-radius:2px;"></div>
+            <div style="font-size:9px;font-weight:700;color:#0369a1;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 2 — Backend Routing</div>
+            <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">Prompt → Selected LLM Endpoint</div>
+            <div style="font-size:8.5px;color:#64748b;line-height:1.5;">The prompt is dispatched to the customer-configured backend:
+              <span style="display:block;margin-top:3px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;background:#f1f5f9;padding:2px 5px;border-radius:3px;color:#334155;">Claude → api.anthropic.com/v1/messages</span>
+              <span style="display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;background:#f1f5f9;padding:2px 5px;border-radius:3px;color:#334155;">Ollama → localhost:11434/api/generate</span>
+              <span style="display:block;margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:7.5px;background:#f1f5f9;padding:2px 5px;border-radius:3px;color:#334155;">OpenAI-compat → {host}/v1/chat/completions</span>
+            </div>
+          </div>
+          <div style="background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;position:relative;">
+            <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#059669,#10b981);border-radius:2px;"></div>
+            <div style="font-size:9px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 3 — Response Rendering</div>
+            <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">LLM Output → Fix Advisor Panel</div>
+            <div style="font-size:8.5px;color:#64748b;line-height:1.5;">The LLM response is parsed and rendered as: plain-English vulnerability explanation, code fix with before/after diff, business impact summary, CWE reference, and a one-click "Create Jira Ticket" action — across <strong>all scan types.</strong></div>
+          </div>
+          <div style="background:#fff;border:1px solid #e9d5ff;border-radius:8px;padding:10px 12px;position:relative;">
+            <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#f59e0b,#fbbf24);border-radius:2px;"></div>
+            <div style="font-size:9px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 4 — Fix Simulation</div>
+            <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">Pre-Fix → Risk Score Preview</div>
+            <div style="font-size:8.5px;color:#64748b;line-height:1.5;">After AI generates the fix, the dashboard re-evaluates the security debt score with the issue resolved — showing the <strong>predicted drop in risk score</strong> before any code is committed. Helps teams prioritise fixes by impact.</div>
+          </div>
+        </div>
+        <div style="background:#f3e8ff;border-radius:6px;padding:7px 10px;margin-top:8px;font-size:8.5px;color:#6b21a8;line-height:1.5;">
+          <strong>Data privacy guarantee:</strong> Only issue metadata (CWE ID, scan type, severity, location path, description) is sent to the AI backend. No source code, no credentials, no customer PII ever leaves the environment. For Ollama deployments, <em>all inference runs fully local</em> — zero external data transmission.
+        </div>
+      </div>
+
+      <table style="margin:0;border:none;">
+        <tr>
+          <th style="width:18%;background:#f5f3ff;border:none;border-bottom:1px solid #e2e8f0;">Backend</th>
+          <th style="width:8%;background:#f5f3ff;border:none;border-bottom:1px solid #e2e8f0;">Method</th>
+          <th style="width:36%;background:#f5f3ff;border:none;border-bottom:1px solid #e2e8f0;">Endpoint</th>
+          <th style="background:#f5f3ff;border:none;border-bottom:1px solid #e2e8f0;">Best suited for</th>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9.5px;font-weight:700;color:#0f172a;">Claude (Anthropic)</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-post">POST</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">api.anthropic.com/v1/messages</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Highest fix quality; official, stable API with clear data handling policy</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9.5px;font-weight:700;color:#0f172a;">Ollama (Local LLM)</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-post">POST</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">localhost:11434/api/generate</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Air-gapped / zero data exposure environments. Runs llama3, mistral, codellama locally.</td>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9.5px;font-weight:700;color:#0f172a;">OpenAI-compatible</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-post">POST</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">{host}/v1/chat/completions</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Azure OpenAI, vLLM, LM Studio, or any OpenAI-compatible endpoint</td>
+        </tr>
+      </table>
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:0 0 8px 8px;padding:9px 14px;margin-top:0;">
+        <div style="font-size:9px;font-weight:700;color:#92400e;margin-bottom:3px;">GitHub Copilot — not a standalone backend option</div>
+        <div style="font-size:8.5px;color:#78350f;line-height:1.5;">GitHub Copilot has no official public chat completions API outside of IDE extensions. Adding it as a first-class backend like Claude or Ollama is not viable without unofficial reverse-engineered proxies (which carry ToS risk and no stability guarantees). <strong>If your org uses Copilot Enterprise via Azure OpenAI</strong> — your Azure OpenAI endpoint is already fully compatible with the OpenAI-compatible slot above. That is the supported path for Copilot Enterprise customers.</div>
+      </div>
+    </div>
+
+    <!-- ENRICHMENT TAB -->
+    <div id="panel-enrich" style="display:none;">
+      <div style="background:linear-gradient(90deg,#064e3b,#065f46);padding:10px 14px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+        <div style="font-size:10px;font-weight:700;color:#fff;">External Enrichment Sources</div>
+        <span style="font-size:8px;background:rgba(255,255,255,0.15);color:#a7f3d0;padding:2px 8px;border-radius:10px;">No auth required — public APIs</span>
+      </div>
+
+      <!-- ⚡ ENRICHMENT FLOW EXPLAINER -->
+      <div style="background:linear-gradient(135deg,#f0fdf4,#ecfdf5);border-bottom:1px solid #a7f3d0;padding:12px 14px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+          <div style="width:22px;height:22px;background:linear-gradient(135deg,#059669,#10b981);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:11px;color:#fff;font-weight:700;flex-shrink:0;">⚡</div>
+          <div style="font-size:11px;font-weight:700;color:#065f46;">How External Enrichment Data Is Applied — EPSS + CVE Intel Pipeline</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+          <div style="background:#fff;border:1px solid #a7f3d0;border-radius:8px;padding:10px 12px;position:relative;">
+            <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#059669,#10b981);border-radius:2px;"></div>
+            <div style="font-size:9px;font-weight:700;color:#065f46;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 1 — CVE Extraction</div>
+            <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">AppScan SCA Issue → CVE ID</div>
+            <div style="font-size:8.5px;color:#64748b;line-height:1.5;">For each SCA finding, the dashboard extracts the CVE identifier from the AppScan issue payload (e.g. <code style="font-size:8px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">CVE-2024-23917</code>). SAST and DAST findings without a CVE are enriched via their <strong>CWE ID</strong> for classification and clustering instead.</div>
+          </div>
+          <div style="background:#fff;border:1px solid #a7f3d0;border-radius:8px;padding:10px 12px;position:relative;">
+            <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#0284c7,#0ea5e9);border-radius:2px;"></div>
+            <div style="font-size:9px;font-weight:700;color:#0369a1;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 2 — EPSS Lookup</div>
+            <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">CVE → Exploit Probability Score</div>
+            <div style="font-size:8.5px;color:#64748b;line-height:1.5;">The dashboard calls <code style="font-size:8px;background:#f1f5f9;padding:1px 3px;border-radius:2px;">api.first.org/data/v1/epss?cve={id}</code> to fetch the EPSS score (0–1 probability) and percentile, updated daily by FIRST.org. Results are cached per session to avoid redundant calls for repeated CVEs across multiple findings.</div>
+          </div>
+          <div style="background:#fff;border:1px solid #a7f3d0;border-radius:8px;padding:10px 12px;position:relative;">
+            <div style="position:absolute;top:-1px;left:16px;right:16px;height:2px;background:linear-gradient(90deg,#d97706,#f59e0b);border-radius:2px;"></div>
+            <div style="font-size:9px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:0.4px;margin-bottom:5px;">Step 3 — Priority Score Overlay</div>
+            <div style="font-size:9px;font-weight:600;color:#0f172a;margin-bottom:3px;">EPSS → 5-Factor Risk Score</div>
+            <div style="font-size:8.5px;color:#64748b;line-height:1.5;">EPSS score feeds into the <strong>5-factor priority formula</strong>:<br>
+              <span style="font-family:'IBM Plex Mono',monospace;font-size:7.5px;background:#f1f5f9;padding:2px 5px;border-radius:3px;display:block;margin-top:3px;color:#334155;">Severity×40% + EPSS×25% + Asset×20% + Exposure×10% + Data×5%</span>
+              <span style="display:block;margin-top:3px;">The weighted score drives bubble chart placement, issue table sort order, and AI fix advisor prioritization across <strong>all scan types.</strong></span>
+            </div>
+          </div>
+        </div>
+        <div style="background:#dcfce7;border-radius:6px;padding:7px 10px;margin-top:8px;font-size:8.5px;color:#166534;line-height:1.5;">
+          <strong>No authentication required:</strong> Both FIRST.org EPSS API and the Chart.js CDN are fully public. The enrichment pipeline adds zero credential management overhead. EPSS data is fetched client-side on demand — no backend proxy needed, no data stored server-side.
+        </div>
+      </div>
+
+      <table style="margin:0;border:none;">
+        <tr>
+          <th style="width:8%;background:#ecfdf5;border:none;border-bottom:1px solid #e2e8f0;">Method</th>
+          <th style="width:42%;background:#ecfdf5;border:none;border-bottom:1px solid #e2e8f0;">Endpoint</th>
+          <th style="background:#ecfdf5;border:none;border-bottom:1px solid #e2e8f0;">Data provided</th>
+          <th style="width:20%;background:#ecfdf5;border:none;border-bottom:1px solid #e2e8f0;">Used for</th>
+        </tr>
+        <tr style="background:#fff;">
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;"><span class="api-path">api.first.org/data/v1/epss?cve=CVE-XXXX</span></td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#334155;">EPSS score (0–1) and percentile for a given CVE — the probability it will be exploited in the wild within 30 days. Updated daily by FIRST.org.</td>
+          <td style="border:none;border-bottom:1px solid #f1f5f9;font-size:9px;color:#64748b;">Priority scoring, bubble chart, issue table column</td>
+        </tr>
+        <tr style="background:#f8fafc;">
+          <td style="border:none;"><span class="api-method m-get">GET</span></td>
+          <td style="border:none;"><span class="api-path">cdnjs.cloudflare.com — Chart.js 4.4.1</span></td>
+          <td style="border:none;font-size:9px;color:#334155;">Client-side charting library loaded via CDN. Powers all bar, donut, line, and bubble charts in the dashboard. No server dependency.</td>
+          <td style="border:none;font-size:9px;color:#64748b;">All dashboard charts and visualizations</td>
+        </tr>
+      </table>
+    </div>
+
+  </div><!-- end tab panels -->
+
+  <script>
+  function showTab(id, btn) {
+    ['appscan','git','jira','ai','enrich'].forEach(function(t) {
+      document.getElementById('panel-'+t).style.display = 'none';
+      var b = document.getElementById('tab-'+t);
+      b.style.background = '#f8fafc';
+      b.style.color = '#475569';
+    });
+    document.getElementById('panel-'+id).style.display = 'block';
+    btn.style.background = '#0f172a';
+    btn.style.color = '#ffffff';
+  }
+  </script>
+
 </div>
 
 <div class="page-break"></div>
